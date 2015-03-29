@@ -14,6 +14,8 @@ Skeleton for web application with a java server.
 
 hostname: localhost:8080
 
+application path: /rest
+
 ### /users or /usersdb (choice between a simple map or a database)
 
 - GET		/			return all users
@@ -22,3 +24,5 @@ hostname: localhost:8080
 - POST		/login		same as GET /login with password encryption
 - PUT		/login		modify a user if exists
 - DELETE	/login		delete a user if exists
+
+example: http://localhost:8080/rest/usersdb/LordRski
