@@ -12,7 +12,7 @@ Skeleton for web application with a java server.
 
 ## Paths
 
-hostname: localhost:8080
+hostname: {host}:{port}
 
 application path: /rest
 
