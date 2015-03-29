@@ -14,9 +14,11 @@ Skeleton for web applications using java server
 
 hostname: {host}:{port}
 
+### REST
+
 application path: /rest
 
-### /users or /usersdb (choice between a simple map or a database)
+#### /users or /usersdb (choice between a simple map or a database)
 
 - GET		/			return all users
 - GET		/login		return the user with the same login if exists
@@ -26,3 +28,9 @@ application path: /rest
 - DELETE	/login		delete a user if exists
 
 example: http://localhost:8080/rest/usersdb/LordRski
+
+### Servlets
+
+servlet path: check urlPatterns in servlet classes.
+
+example: http://localhost:8080/helloworld
