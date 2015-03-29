@@ -9,7 +9,7 @@
 	<name>webapp-skeleton</name>
 
 	<build>
-		<finalName>maze</finalName>
+		<finalName>webapp-skeleton</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
