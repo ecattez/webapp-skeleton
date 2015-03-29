@@ -9,6 +9,9 @@ import javax.ws.rs.core.Application;
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.skife.jdbi.v2.DBI;
 
+import fr.lordrski.resources.UserDBResource;
+import fr.lordrski.resources.UserResource;
+
 @ApplicationPath("/")
 public class App extends Application {
 	
