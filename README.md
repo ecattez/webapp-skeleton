@@ -1,5 +1,5 @@
 # webapp-skeleton
-Skeleton for web application with a java server.
+Skeleton for web applications using java server
 
 ## Tools:
 
