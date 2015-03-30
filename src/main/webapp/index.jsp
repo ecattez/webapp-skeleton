@@ -15,8 +15,8 @@
 		<div>
 			<h2>Connexion</h2>
 			<form id="login">
-				<input type="text" placeHolder="Login" />
-				<input type="password" placeHolder="Password" />
+				<input type="text" placeHolder="Login" required />
+				<input type="password" placeHolder="Password" required />
 				<input type="submit" value="Connexion" />
 			</form>
 		</div>
@@ -24,12 +24,12 @@
 		<div>
 			<h2>Inscription</h2>
 			<form id="subscribe">
-				<input type="text" placeHolder="Login" />
-				<input type="password" placeHolder="Password" />
-				<input type="text" placeHolder="Prénom" />
-				<input type="text" placeHolder="Nom" />
-				<input type="text" placeHolder="Date de naissance" />
-				<input type="email" placeHolder="E-mail" />
+				<input type="text" placeHolder="Login" required />
+				<input type="password" placeHolder="Password"required />
+				<input type="text" placeHolder="Prénom" required />
+				<input type="text" placeHolder="Nom" required />
+				<input type="text" placeHolder="Date de naissance" required />
+				<input type="email" placeHolder="E-mail" required />
 				<input type="submit" value="Inscription" />
 			</form>
 		</div>
