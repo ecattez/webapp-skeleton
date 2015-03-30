@@ -18,6 +18,7 @@ function login(e) {
 		success: function(data, textStatus, jqXHR) {
 			alert("Login success");
 			localStorage["id"] = JSON.stringify(data);
+			$("#login").find("input[type!=submit]").val("")
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			alert("Login error");
@@ -35,6 +36,7 @@ function subscribe(e) {
 		data: { "login" : form(0), "password" : form(1), "firstname" : form(2), "lastname" : form(3), "birthday" : form(4), "email" : form(5) },
 		success: function(data, textStatus, jqXHR) {
 			alert("Suscribe success");
+			$("#subscribe").find("input[type!=submit]").val("")
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			alert("Suscribe error");
