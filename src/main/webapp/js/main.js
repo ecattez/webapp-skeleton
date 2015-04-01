@@ -16,13 +16,10 @@ function login(e) {
 		url: "/rest/usersdb/" + form(0),
 		data: { "password" : form(1) },
 		success: function(data, textStatus, jqXHR) {
-			alert("Login success");
-			localStorage["id"] = JSON.stringify(data);
-			$("#login").find("input[type!=submit]").val("")
+			store(data);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 			alert("Login error");
-			localStorage["id"] = undefined;
 		}
 	});
 }
@@ -42,4 +39,12 @@ function subscribe(e) {
 			alert("Suscribe error");
 		}
 	});
+}
+
+function store(data) {
+	// On crée un formulaire le temps de l'envoie des données
+	var form = "<form id='sendto' action='index.jsp' method='post'><input name='user' type='text' value='" + data.login + "'><input type='submit'></form>";
+	document.body.innerHTML = form;
+	$("#sendto").submit();
+	console.log("stored");
 }
