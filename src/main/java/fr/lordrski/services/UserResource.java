@@ -1,10 +1,7 @@
-package fr.lordrski.resources;
+package fr.lordrski.services;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -21,7 +18,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import fr.lordrski.User;
+import fr.lordrski.App;
+import fr.lordrski.dao.UserDAO;
+import fr.lordrski.entity.User;
 
 /**
 * Ressource User (accessible avec le chemin "/users")
@@ -29,23 +28,22 @@ import fr.lordrski.User;
 @Path("/users")
 public class UserResource {
 	
-	/*
-	 * Note:
-	 * @see UserDBResource utilise une base de données plutôt qu'une Map.
-	 */
-	
-	private static Map<String, User> users = new HashMap<>();
-
 	// L'annotation @Context permet de récupérer des informations sur le contexte d'exécution de la ressource.
 	// Ici, on récupère les informations concernant l'URI de la requête HTTP, ce qui nous permettra de manipuler
 	// les URI de manière générique.
 	@Context
 	public UriInfo uriInfo;
+	
+	// La userDao permet de manipuler la base de données comme on manipule un objet java,
+	// c'est à dire au travers de méthodes qui sont associées à des requêtes SQL.
+	private UserDAO userDao;
 
 	/**
 	* Une ressource doit avoir un contructeur (éventuellement sans arguments)
 	*/
-	public UserResource() {}
+	public UserResource() {
+		this.userDao = App.dbi.onDemand(UserDAO.class);
+	}
 
 	/**
 	* Méthode de création d'un utilisateur qui prend en charge les requêtes HTTP POST
@@ -58,11 +56,11 @@ public class UserResource {
 	@POST
 	public Response createUser(User user) {
 		// Si l'utilisateur existe déjà, renvoyer 409
-		if (users.containsKey(user.getLogin()) ) {
+		if (userDao.findByLogin(user.getLogin()) != null) {
 			return Response.status(Response.Status.CONFLICT).build();
 		}
 		else {
-			users.put(user.getLogin(), user);
+			userDao.addUser(user);
 			// On renvoie 201 et l'instance de la ressource dans le Header HTTP 'Location'
 			URI instanceURI = uriInfo.getAbsolutePathBuilder().path(user.getLogin()).build();
 			return Response.created(instanceURI).build();
@@ -75,8 +73,13 @@ public class UserResource {
 	* @return Une liste d'utilisateurs
 	*/
 	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public List<User> getUsers() {
-		return new ArrayList<User>(users.values());
+		List<User> users = userDao.getAllUsers();
+		for (User user : users) {
+			user.setPassword("protected");
+		}
+		return users;
 	}
 
 	/** 
@@ -86,32 +89,35 @@ public class UserResource {
 	*/
 	@GET
 	@Path("{login}")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces("application/json,application/xml")
 	public User getUser(@PathParam("login") String login) {
+		User user = userDao.findByLogin(login);
 		// Si l'utilisateur est inconnu, on renvoie 404
-		if (!users.containsKey(login)) {
+		if (user == null) {
 			throw new NotFoundException();
 		}
 		else {
-			return users.get(login);
+			user.setPassword("protected");
+			return user;
 		}
 	}
 
 	@DELETE
 	@Path("{login}")
 	public Response deleteUser(@PathParam("login") String login) {
+		User user = userDao.findByLogin(login);
 		// Si l'utilisateur est inconnu, on renvoie 404
-		if (!users.containsKey(login)) {
+		if (user == null) {
 			throw new NotFoundException();
 		}
 		else {
-			users.remove(login);
+			userDao.removeUser(user);
 			return Response.status(Response.Status.NO_CONTENT).build();
 		}
 	}
 
 	/** 
-	* Méthode prenant en charge les requêtes HTTP DELETE sur /users/{login}
+	* Méthode prenant en charge les requêtes HTTP PUT sur /users/{login}
 	*
 	* @param login le login de l'utilisateur à modifier
 	* @param user l'entité correspondant à la nouvelle instance
@@ -121,11 +127,11 @@ public class UserResource {
 	@Path("{login}")
 	public Response modifyUser(@PathParam("login") String login, User user) {
 		// Si l'utilisateur est inconnu, on renvoie 404
-		if (!users.containsKey(user.getLogin())) {
+		if (userDao.findByLogin(login) == null) {
 			throw new NotFoundException();
 		}
 		else {
-			users.put(user.getLogin(), user);
+			userDao.updateUser(user);
 			return Response.status(Response.Status.NO_CONTENT).build();
 		}
 	}
@@ -149,11 +155,11 @@ public class UserResource {
 			@FormParam("firstname") String firstname, @FormParam("lastname") String lastname,
 			@FormParam("birthday") String birthday, @FormParam("email") String email) {
 		// Si l'utilisateur existe déjà, renvoyer 409
-		if (users.containsKey(login)) {
+		if (userDao.findByLogin(login) != null) {
 			return Response.status(Response.Status.CONFLICT).build();
 		}
 		else {
-			users.put(login, new User(login, password, firstname, birthday, lastname, email));
+			userDao.addUser(new User(login, password, firstname, lastname, birthday, email));
 			// On renvoie 201 et l'instance de la ressource dans le Header HTTP 'Location'
 			URI instanceURI = uriInfo.getAbsolutePathBuilder().path(login).build();
 			return Response.created(instanceURI).build();
@@ -173,12 +179,12 @@ public class UserResource {
 	@Consumes("application/x-www-form-urlencoded")
 	@Produces("application/json, application/xml")
 	public User getUser(@PathParam("login") String login, @FormParam("password") String password) {
+		User user = userDao.findByLogin(login, password);
 		// Si l'utilisateur est inconnu, on renvoie 404
-		if (!users.containsKey(login) || (users.containsKey(login) && !users.get(login).getPassword().equals(password))) {
+		if (user == null) {
 			throw new NotFoundException();
 		}
 		else {
-			User user = users.get(login);
 			user.setPassword("protected");
 			return user;
 		}

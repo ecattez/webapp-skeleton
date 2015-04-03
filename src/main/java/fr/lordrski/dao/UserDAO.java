@@ -1,4 +1,4 @@
-package fr.lordrski;
+package fr.lordrski.dao;
 
 import java.util.List;
 
@@ -7,6 +7,9 @@ import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
+
+import fr.lordrski.entity.User;
+import fr.lordrski.mapper.UserMapper;
 
 @RegisterMapper(UserMapper.class)
 public interface UserDAO {

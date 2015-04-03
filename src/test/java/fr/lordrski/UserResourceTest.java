@@ -19,11 +19,13 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import fr.lordrski.dao.UserDAO;
+import fr.lordrski.entity.User;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserResourceTest extends JerseyTest {
 	
-	// @see UserResource et UserDBResource pour choisir le chemin à tester
-	private final String USER_PATH = "/usersdb";
+	private static final String USER_PATH = "/users";
 	
 	/**
 	* Il est obligatoire de redéfinir cette méthode qui permet de configurer le contexte de Jersey

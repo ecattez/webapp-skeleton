@@ -1,4 +1,4 @@
-package fr.lordrski;
+package fr.lordrski.entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement

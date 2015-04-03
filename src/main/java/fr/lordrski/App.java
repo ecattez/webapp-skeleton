@@ -9,10 +9,10 @@ import javax.ws.rs.core.Application;
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.skife.jdbi.v2.DBI;
 
-import fr.lordrski.resources.UserDBResource;
-import fr.lordrski.resources.UserResource;
+import fr.lordrski.dao.UserDAO;
+import fr.lordrski.services.UserResource;
 
-@ApplicationPath("/")
+@ApplicationPath("/rest")
 public class App extends Application {
 	
 	public static String DEFAULT_DRIVER = "jdbc:sqlite:";
@@ -31,7 +31,7 @@ public class App extends Application {
 		Set<Class<?>> s = new HashSet<Class<?>>();
 		s.add(LoggingFilter.class);
 		s.add(UserResource.class);
-		s.add(UserDBResource.class);
+		s.add(UserResource.class);
 		return s;
 	}
 

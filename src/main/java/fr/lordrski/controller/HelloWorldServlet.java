@@ -1,4 +1,4 @@
-package fr.lordrski.servlets;
+package fr.lordrski.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
