@@ -31,7 +31,6 @@ public class App extends Application {
 		Set<Class<?>> s = new HashSet<Class<?>>();
 		s.add(LoggingFilter.class);
 		s.add(UserResource.class);
-		s.add(UserResource.class);
 		return s;
 	}
 
