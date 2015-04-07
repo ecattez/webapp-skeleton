@@ -18,7 +18,7 @@ hostname: {host}:{port}
 
 application path: /rest
 
-#### /users or /usersdb (choice between a simple map or a database)
+#### /users
 
 - GET		/			return all users
 - GET		/login		return the user with the same login if exists
@@ -27,10 +27,10 @@ application path: /rest
 - PUT		/login		modify a user if exists
 - DELETE	/login		delete a user if exists
 
-example: http://localhost:8080/rest/usersdb/LordRski
+example: http://localhost:8080/rest/users/LordRski
 
-### Servlets
+### Servlets (currently not recommended)
 
-servlet path: check urlPatterns in servlet classes.
+servlet path: can be everything, check urlPatterns in servlet classes.
 
 example: http://localhost:8080/helloworld
