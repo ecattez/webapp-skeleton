@@ -10,6 +10,7 @@ import org.glassfish.jersey.filter.LoggingFilter;
 import org.skife.jdbi.v2.DBI;
 
 import fr.lordrski.dao.UserDAO;
+import fr.lordrski.services.HelloResource;
 import fr.lordrski.services.UserResource;
 
 @ApplicationPath("/rest")
@@ -31,6 +32,7 @@ public class App extends Application {
 		Set<Class<?>> s = new HashSet<Class<?>>();
 		s.add(LoggingFilter.class);
 		s.add(UserResource.class);
+		s.add(HelloResource.class);
 		return s;
 	}
 
