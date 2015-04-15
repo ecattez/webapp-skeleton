@@ -10,44 +10,48 @@ public class Items extends HashMap<String, Object> {
 	
 	public Items() {}
 	
-	public Items(Map<String, Object> items) {
-		this.putAll(items);
+	public boolean isNull(String key) {
+		return get(key) == null;
 	}
 	
 	public boolean isByte(String key) {
-		return containsKey(key) && get(key) instanceof Byte;
+		return get(key) instanceof Byte;
 	}
 	
 	public boolean isShort(String key) {
-		return containsKey(key) && get(key) instanceof Short;
+		return get(key) instanceof Short;
 	}
 	
 	public boolean isInteger(String key) {
-		return containsKey(key) && get(key) instanceof Integer;
+		return get(key) instanceof Integer;
 	}
 	
 	public boolean isDouble(String key) {
-		return containsKey(key) && get(key) instanceof Double;
+		return get(key) instanceof Double;
 	}
 	
 	public boolean isFloat(String key) {
-		return containsKey(key) && get(key) instanceof Float;
+		return get(key) instanceof Float;
+	}
+	
+	public boolean isLong(String key) {
+		return get(key) instanceof Long;
 	}
 	
 	public boolean isString(String key) {
-		return containsKey(key) && get(key) instanceof String;
+		return get(key) instanceof String;
 	}
 	
 	public boolean isArray(String key) {
-		return containsKey(key) && get(key) instanceof Object[];
+		return get(key) instanceof Object[];
 	}
 	
 	public boolean isList(String key) {
-		return containsKey(key) && get(key) instanceof List;
+		return get(key) instanceof List;
 	}
 	
 	public boolean isMap(String key) {
-		return containsKey(key) && get(key) instanceof Map;
+		return get(key) instanceof Map;
 	}
 
 }

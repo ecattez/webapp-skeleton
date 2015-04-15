@@ -10,6 +10,8 @@ public interface AbstractDAO<T> {
 	
 	public void dropTable();
 	
+	public void findById(@Bind("id") Integer id);
+	
 	public void findByName(@Bind("name") String name);
 	
 	/**

@@ -1,4 +1,4 @@
-package fr.lordrski.services;
+package fr.lordrski.resources;
 
 import java.net.URI;
 import java.util.List;
@@ -14,7 +14,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -42,7 +41,7 @@ public class UserResource {
 	* Une ressource doit avoir un contructeur (éventuellement sans arguments)
 	*/
 	public UserResource() {
-		this.userDao = App.dbi.onDemand(UserDAO.class);
+		this.userDao = App.getDBI().onDemand(UserDAO.class);
 	}
 
 	/**
@@ -73,13 +72,9 @@ public class UserResource {
 	* @return Une liste d'utilisateurs
 	*/
 	@GET
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces("application/json, application/xml")
 	public List<User> getUsers() {
-		List<User> users = userDao.getAllUsers();
-		for (User user : users) {
-			user.setPassword("protected");
-		}
-		return users;
+		return userDao.getAllUsers();
 	}
 
 	/** 
@@ -97,7 +92,6 @@ public class UserResource {
 			throw new NotFoundException();
 		}
 		else {
-			user.setPassword("protected");
 			return user;
 		}
 	}
@@ -185,7 +179,6 @@ public class UserResource {
 			throw new NotFoundException();
 		}
 		else {
-			user.setPassword("protected");
 			return user;
 		}
 	}

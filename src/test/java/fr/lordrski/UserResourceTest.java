@@ -40,7 +40,7 @@ public class UserResourceTest extends JerseyTest {
 	 */
 	@BeforeClass
 	public static void setup() {
-		UserDAO userDao = App.dbi.open(UserDAO.class);
+		UserDAO userDao = App.getDBI().open(UserDAO.class);
 		userDao.dropTable();
 		userDao.createTable();
 		userDao.close();

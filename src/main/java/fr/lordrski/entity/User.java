@@ -30,6 +30,8 @@ public class User {
 		this.login = login;
 	}
 
+//	@JsonIgnore
+//	@XmlTransient
 	public String getPassword() {
 		return password;
 	}
@@ -70,14 +72,16 @@ public class User {
 		this.email = email;
 	}
 
-	public String toString(){
-		return String.format("[%s] %s %s : %s", login, lastname, firstname, email);
+	@Override
+	public boolean equals(Object o){
+		return (o instanceof User) && login.equals(((User)o).login);
 	}
-
-	public boolean equals(Object u){
-		return login.equals(((User) u).login) 
-				|| (firstname.equals(((User) u).firstname) && lastname.equals(((User) u).lastname))
-				|| email.equals(((User) u).email);
+	
+	@Override
+	public String toString() {
+		return "User [login=" + login + ", password=" + password
+				+ ", firstname=" + firstname + ", lastname=" + lastname
+				+ ", birthday=" + birthday + ", email=" + email + "]";
 	}
 }
 	

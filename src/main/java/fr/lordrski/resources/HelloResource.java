@@ -1,4 +1,4 @@
-package fr.lordrski.services;
+package fr.lordrski.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
