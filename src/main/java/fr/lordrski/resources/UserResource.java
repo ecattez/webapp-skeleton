@@ -17,12 +17,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import fr.lordrski.App;
 import fr.lordrski.dao.UserDAO;
 import fr.lordrski.entity.User;
+import fr.lordrski.util.DBIProvider;
 
 /**
 * Ressource User (accessible avec le chemin "/users")
+* 
+* @author Edouard CATTEZ (la7production)
 */
 @Path("/users")
 public class UserResource {
@@ -41,7 +43,7 @@ public class UserResource {
 	* Une ressource doit avoir un contructeur (éventuellement sans arguments)
 	*/
 	public UserResource() {
-		this.userDao = App.getDBI().onDemand(UserDAO.class);
+		this.userDao = DBIProvider.getDAO(UserDAO.class);
 	}
 
 	/**

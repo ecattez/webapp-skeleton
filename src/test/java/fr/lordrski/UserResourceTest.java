@@ -21,6 +21,7 @@ import org.junit.runners.MethodSorters;
 
 import fr.lordrski.dao.UserDAO;
 import fr.lordrski.entity.User;
+import fr.lordrski.util.DBIProvider;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserResourceTest extends JerseyTest {
@@ -35,20 +36,18 @@ public class UserResourceTest extends JerseyTest {
 		return new App();
 	}
 	
-	/**
-	 * Prépare les tests avant qu'ils ne soient exécutés
-	 */
 	@BeforeClass
 	public static void setup() {
-		UserDAO userDao = App.getDBI().open(UserDAO.class);
+		DBIProvider.initializeDefault();
+		UserDAO userDao = DBIProvider.getDAO(UserDAO.class);
 		userDao.dropTable();
 		userDao.createTable();
-		userDao.close();
 	}
 
 	/**
 	* Vérifie qu'initialement on a une liste d'utilisateurs vide
 	*/
+	@Test
 	public void test_A_GetEmptyListofUsers() {
 		List<User> list = target(USER_PATH).request().get(new GenericType<List<User>>(){});
 		assertTrue(list.isEmpty());

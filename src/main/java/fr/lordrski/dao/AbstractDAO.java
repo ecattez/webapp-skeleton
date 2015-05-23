@@ -1,22 +1,43 @@
 package fr.lordrski.dao;
 
-import org.skife.jdbi.v2.sqlobject.Bind;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
-public interface AbstractDAO<T> {
+import fr.lordrski.entity.User;
+
+public class AbstractDAO<T> {
 	
-	public void createTable();
+	private Class<T> entity;
+	private String[] attributes;
 	
-	public void clearTable();
+	public AbstractDAO(Class<T> entity) {
+		Field[] fields = entity.getDeclaredFields();
+		this.entity = entity;
+		this.attributes = new String[fields.length];
+		
+		for (int i = 0; i < fields.length; i++) {
+			attributes[i] = fields[i].getName();
+		}
+	}
 	
-	public void dropTable();
+	public void create() {}
 	
-	public void findById(@Bind("id") Integer id);
+	public void delete(){}
 	
-	public void findByName(@Bind("name") String name);
+	public void insert(){}
+	
+	public void drop(){}
 	
 	/**
 	 * close with no args is used to close the connection
 	 */
-	public void close();
+	public void close() {}
+	
+	
+	public static void main(String[] args) {
+		AbstractDAO<User> a = new AbstractDAO<User>(User.class);
+		for (String str : a.attributes)
+			System.out.println(str);
+	}
 
 }

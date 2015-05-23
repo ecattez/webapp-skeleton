@@ -4,10 +4,12 @@ Skeleton for web applications using java server
 ## Tools:
 
 - Maven
+- Javax Servlet 3.0
 - Jersey
 - Jetty
 - Jackson
 - JDBI
+- Thymeleaf
 - SQlite (for the moment)
 
 ## Paths
@@ -16,7 +18,7 @@ hostname: {host}:{port}
 
 ### REST
 
-application path: /rest
+application path: /
 
 #### /users
 
@@ -28,9 +30,3 @@ application path: /rest
 - DELETE	/login		delete a user if exists
 
 example: http://localhost:8080/rest/users/LordRski
-
-### Servlets (currently not recommended)
-
-servlet path: can be everything, check urlPatterns in servlet classes.
-
-example: http://localhost:8080/helloworld

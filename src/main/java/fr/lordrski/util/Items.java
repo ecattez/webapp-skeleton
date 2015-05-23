@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * {@link HashMap} with string keys and object values used to send data throw a {@link org.glassfish.jersey.server.mvc.Viewable}
+ * 
+ * @author Edouard CATTEZ (la7production)
+ */
 public class Items extends HashMap<String, Object> {
 
 	private static final long serialVersionUID = -2809324595272091239L;

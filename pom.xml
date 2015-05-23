@@ -45,6 +45,17 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<!-- Servlet 3.0 -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>${javaxservlet.version}</version>
+		</dependency>
+		<!-- Jersey MVC for Viewable-->
+		<dependency>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-mvc</artifactId>
+		</dependency>
 		<!-- Jersey - Dependencies for tests -->
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
@@ -54,26 +65,6 @@
 			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
 			<artifactId>jersey-test-framework-provider-jetty</artifactId>
 		</dependency>
-		<!-- Jersey MVC for Viewable-->
-		<dependency>
-			<groupId>org.glassfish.jersey.ext</groupId>
-			<artifactId>jersey-mvc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.ext</groupId>
-			<artifactId>jersey-mvc-jsp</artifactId>
-		</dependency>
-		<!-- Taglibs & Jstl support -->
-		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-			<version>${taglibs.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
-			<artifactId>jstl-api</artifactId>
-			<version>${jstl.version}</version>
-		</dependency>	
 		<!-- Jetty Websocket - Enable full-duplex communications channel between server and client -->
 		<!-- Uncomment to enable websocket system
 		<dependency>
@@ -87,6 +78,12 @@
 			<version>${jetty.version}</version>
 		</dependency>
 		-->
+		<!-- Thymeleaf to kick Jsp'ass -->
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf</artifactId>
+			<version>${thymeleaf.version}</version>
+		</dependency>
 		<!-- Jackson - standard JSON Library -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -118,13 +115,13 @@
 	</dependencies>
 	
 	<properties>
+		<javaxservlet.version>3.1.0</javaxservlet.version>
 		<jackson.version>2.5.1</jackson.version>
 		<jersey.version>2.17</jersey.version>
-		<jetty.version>9.2.10.v20150310</jetty.version>
-		<jdbi.version>2.59</jdbi.version>
-		<jstl.version>1.2</jstl.version>
+		<jetty.version>9.3.0.RC0</jetty.version>
+		<jdbi.version>2.62</jdbi.version>
 		<sql.version>3.8.7</sql.version>
-		<taglibs.version>1.1.2</taglibs.version>
+		<thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
