@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 
 import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import fr.lordrski.mvc.ThymeleafMvcFeature;
@@ -20,6 +21,7 @@ public class App extends ResourceConfig {
 		DBIProvider.initializeDefault();
 		register(LoggingFilter.class);
 		register(ThymeleafMvcFeature.class);
+		register(MultiPartFeature.class);
 		packages("fr.lordrski.resources");
 	}
 	
