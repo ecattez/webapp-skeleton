@@ -22,7 +22,7 @@ import fr.lordrski.entity.User;
 import fr.lordrski.util.DBIProvider;
 
 /**
-* Ressource User (accessible avec le chemin "/users")
+* Ressource User
 * 
 * @author Edouard CATTEZ (la7production)
 */
@@ -33,7 +33,7 @@ public class UserResource {
 	// Ici, on récupère les informations concernant l'URI de la requête HTTP, ce qui nous permettra de manipuler
 	// les URI de manière générique.
 	@Context
-	public UriInfo uriInfo;
+	private UriInfo uriInfo;
 	
 	// La userDao permet de manipuler la base de données comme on manipule un objet java,
 	// c'est à dire au travers de méthodes qui sont associées à des requêtes SQL.
@@ -98,6 +98,12 @@ public class UserResource {
 		}
 	}
 
+	/** 
+	* Méthode prenant en charge les requêtes HTTP DELETE sur /users/{login}
+	*
+	* @param login le nom de l'utilisateur
+	* @return La réponse de suppresion
+	*/
 	@DELETE
 	@Path("{login}")
 	public Response deleteUser(@PathParam("login") String login) {

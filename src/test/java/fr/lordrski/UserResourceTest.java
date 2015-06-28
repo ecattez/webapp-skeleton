@@ -19,9 +19,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import fr.lordrski.dao.UserDAO;
 import fr.lordrski.entity.User;
-import fr.lordrski.util.DBIProvider;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserResourceTest extends JerseyTest {
@@ -38,10 +36,7 @@ public class UserResourceTest extends JerseyTest {
 	
 	@BeforeClass
 	public static void setup() {
-		DBIProvider.initializeDefault();
-		UserDAO userDao = DBIProvider.getDAO(UserDAO.class);
-		userDao.dropTable();
-		userDao.createTable();
+		// TODO
 	}
 
 	/**

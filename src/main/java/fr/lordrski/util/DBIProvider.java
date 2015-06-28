@@ -10,22 +10,19 @@ import org.skife.jdbi.v2.DBI;
 public class DBIProvider {
 	
 	private static DBI dbi;
-	
-	public static void initializeDefault() {
-		if (dbi == null) {
-			PropertyFile config = new PropertyFile("config.properties", true);
-			dbi = new DBI(config.getProperty("driver") + ":" + config.getProperty("database"));
-		}
-	}
 
 	public static DBI getDBI() {
 		return dbi;
 	}
 	
-	public static void setDBI(DBI _dbi) {
-		if (dbi == null) {
-			dbi = _dbi;
+	public static void setDBI(DBI dbi) {
+		if (DBIProvider.dbi == null) {
+			DBIProvider.dbi = dbi;
 		}
+	}
+	
+	public static void setDBI(String uri, String username, String password) {
+		setDBI(new DBI(uri, username, password));
 	}
 	
 	public static <SqlObjectType> SqlObjectType getDAO(Class<SqlObjectType> dao) {

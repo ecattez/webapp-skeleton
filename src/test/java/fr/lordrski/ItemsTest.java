@@ -9,11 +9,11 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import fr.lordrski.util.Items;
+import fr.lordrski.util.Model;
 
 public class ItemsTest {
 	
-	private static Items items = new Items();
+	private static Model items = new Model();
 	
 	@Test
 	public void test_isNull() {

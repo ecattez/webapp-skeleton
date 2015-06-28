@@ -9,11 +9,11 @@ import java.util.Map;
  * 
  * @author Edouard CATTEZ (la7production)
  */
-public class Items extends HashMap<String, Object> {
+public class Model extends HashMap<String, Object> {
 
 	private static final long serialVersionUID = -2809324595272091239L;
 	
-	public Items() {}
+	public Model() {}
 	
 	public boolean isNull(String key) {
 		return get(key) == null;

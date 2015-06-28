@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Simple Upload / Download</title>
+	<link rel="stylesheet" type="text/css" href="#" th:href="${application.css} + @{style.css}"/>
+</head>
+<body>
+	<h1>Upload a File</h1>
+	<form action="/files/upload" method="post" enctype="multipart/form-data">
+		<p>Select a file : <input type="file" name="test" size="50" /></p>
+		<input type="submit" value="Upload It" />
+	</form>
+	
+	<h1>Download a File</h1>
+	<form action="/files/download" method="get">
+		<p>Select a file : <input type="text" name="filename" size="50" /></p>
+		<input type="submit" value="Download It" />
+	</form>
+	
+	<h1>Upload multiple files</h1>
+	<form action="/files/upload" method="post" enctype="multipart/form-data">
+	   <fieldset>
+	       <legend>Multiple inputs with the same name</legend>
+	       <input type="file" name="test1" multiple="multiple"/>
+	       <input type="file" name="test2" />
+	       <input type="file" name="test3" />
+	   </fieldset>
+	   <input type="submit" value="Upload It" />
+	</form>
+</body>
+</html>

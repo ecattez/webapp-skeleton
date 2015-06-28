@@ -4,7 +4,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.server.mvc.Viewable;
 
@@ -16,10 +15,14 @@ import org.glassfish.jersey.server.mvc.Viewable;
 @Path("/")
 public class MiscResource {
 	
+	/**
+	 * Accède à la page d'index de l'application
+	 * @return La vue de la page d'index
+	 */
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public Response index() {
-		return Response.ok(new Viewable("index", "Hi dude!")).build();
+	public Viewable index() {
+		return new Viewable("index", "Hi dude!");
 	}
 
 }
