@@ -1,11 +1,10 @@
 package fr.lordrski.resources;
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
+import java.nio.channels.FileChannel;
 import java.util.Collection;
 import java.util.List;
 
@@ -81,11 +80,11 @@ public class FileResource {
 		Model successAndFails = new Model();
 		Collection<List<FormDataBodyPart>> allFields = multiPart.getFields().values();
 		for (List<FormDataBodyPart> fields : allFields) {
-			for (FormDataBodyPart field : fields) {		
+			for (FormDataBodyPart field : fields) {
 				filename = field.getFormDataContentDisposition().getFileName();
 				if (filename == null || filename.length() == 0)
 					continue;
-				successAndFails.put(filename, upload(field.getValueAs(InputStream.class), folder, filename));
+				successAndFails.put(filename, upload(field.getValueAs(File.class), folder, filename));
 			}
 		}
 		return Response.ok(successAndFails).build();
@@ -105,26 +104,24 @@ public class FileResource {
 	
 	/**
 	 * Copie un fichier dans un emplacement du disque
-	 * @param in le flux de données
+	 * @param tmp le fichier à copier stocké dans la zone temporaire du disque
 	 * @param folder le dossier
 	 * @param filename le nom du fichier
 	 * @return vrai si la copie s'est bien déroulée
+	 * @throws IOException 
 	 */
-	private boolean upload(InputStream in, String folder, String filename) {
-		try {
-			Files.copy(in, new File(folder + File.separator + filename).toPath(), REPLACE_EXISTING);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			try {
-			in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-				return false;
-			}
+	private boolean upload(File tmp, String folder, String filename) {
+		try (FileInputStream fin = new FileInputStream(tmp);
+				FileOutputStream fout = new FileOutputStream(folder + File.separator + filename)) {
+			FileChannel fchin = fin.getChannel();
+			FileChannel fchout = fout.getChannel();
+			fchin.transferTo(0, fchin.size(), fchout);
+			return true;
 		}
-		return true;
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }
