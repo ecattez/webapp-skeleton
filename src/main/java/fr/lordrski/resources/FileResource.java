@@ -1,34 +1,51 @@
+/**
+ * This file is part of webapp-skeleton.
+ *
+ * webapp-skeleton is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * webapp-skeleton is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.				 
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with webapp-skeleton.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
+ */
 package fr.lordrski.resources;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Singleton;
 import javax.servlet.ServletContext;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.server.mvc.Viewable;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import fr.lordrski.util.FileTool;
 import fr.lordrski.util.Model;
 
 /**
-* Ressource File
-* 
-* @author Edouard CATTEZ (la7production)
+* Ressource associée aux fichiers
 */
 @Singleton
 @Path("files")
@@ -38,30 +55,31 @@ public class FileResource {
 	private ServletContext context;
 	
 	/**
-	 * Accède à l'index de la ressource
-	 * @return La vue de la page d'index de la ressource
-	 */
-	@GET
-	@Produces("text/html")
-	public Viewable index() {
-		return new Viewable("files");
-	}
-	
-	/**
 	 * Télécharge un fichier depuis le serveur vers le client
-	 * @param folder le dossier qui contient le fichier
-	 * @param filename le nom du fichier
-	 * @return La réponse avec le fichier dans l'entête ou l'erreur NOT FOUND
+	 * @param folder le dossier qui contient le fichier à télécharger
+	 * @param filename le nom du fichier à télécharger
+	 * @return La réponse avec le fichier dans l'entête ou NOT FOUND
 	 */
 	@GET
-	@Path("download")
-	public Response download(@QueryParam("folder") String folder, @QueryParam("filename") String filename) {
+	@Path("download/{folder}/{filename}")
+	public Response download(@PathParam("folder") String folder, @PathParam("filename") String filename) {
 		folder = toRealFolder(folder);
-		File file = new File(folder + File.separator + filename);
+		File file = new File(folder, filename);
 		if (file.exists()) {
 			return Response.ok(file).header("Content-Disposition", "attachment; filename=\"" + filename + "\"").build();			
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
+	}
+	
+	/**
+	 * Télécharge un fichier depuis le serveur vers le client
+	 * @param filename le nom du fichier à télécharger
+	 * @return La réponse avec le fichier dans l'entête ou NOT FOUND
+	 */
+	@GET
+	@Path("download/{filename}")
+	public Response download(@PathParam("filename") String filename) {
+		return download(null, filename);
 	}
 	
 	/**
@@ -71,23 +89,63 @@ public class FileResource {
 	 * @return La réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
 	 */
 	@POST
-	@Path("upload")
+	@Path("upload/{folder}")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response upload(FormDataMultiPart multiPart, @QueryParam("folder") String folder) {
+	public Response upload(FormDataMultiPart multiPart, @PathParam("folder") String folder) {
 		folder = toRealFolder(folder);
 		new File(folder).mkdirs();
 		String filename;
-		Model successAndFails = new Model();
+		Model result = new Model();
 		Collection<List<FormDataBodyPart>> allFields = multiPart.getFields().values();
 		for (List<FormDataBodyPart> fields : allFields) {
 			for (FormDataBodyPart field : fields) {
 				filename = field.getFormDataContentDisposition().getFileName();
 				if (filename == null || filename.length() == 0)
 					continue;
-				successAndFails.put(filename, upload(field.getValueAs(File.class), folder, filename));
+				result.put(filename, FileTool.upload(field.getValueAs(File.class), folder, filename));
 			}
 		}
-		return Response.ok(successAndFails).build();
+		return Response.ok(result).build();
+	}
+	
+	/**
+	 * Télécharge un ou plusieurs fichiers depuis le client vers le serveur
+	 * @param multiPart L'objet qui contient toutes les informations du formulaire de type multipart
+	 * @return La réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
+	 */
+	@POST
+	@Path("upload")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response upload(FormDataMultiPart multiPart) {
+		return upload(multiPart, null);
+	}
+	
+	/**
+	 * Télécharge un document json depusi le client vers le serveur
+	 * @param folder le dossier de destination
+	 * @param filename le nom du fichier de destination
+	 * @param json le document json
+	 * @return La réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
+	 */
+	@POST
+	@Path("uploadJSON/{folder}/{filename}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response upload(@PathParam("folder") String folder, @PathParam("filename") String filename, String json) {
+		folder = toRealFolder(folder);
+		new File(folder).mkdirs();
+		Model result = new Model();
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			JsonNode tree = mapper.readTree(json);
+			mapper.writeValue(new File(folder, filename), tree);
+			result.put(filename, true);
+		} catch (IOException e) {
+			e.printStackTrace();
+			result.put(filename, false);
+		}
+		return Response.ok(result).build();
 	}
 	
 	/**
@@ -100,28 +158,6 @@ public class FileResource {
 		if (folder == null || folder.length() == 0)
 			return exchange;
 		return exchange + folder;
-	}
-	
-	/**
-	 * Copie un fichier dans un emplacement du disque
-	 * @param tmp le fichier à copier stocké dans la zone temporaire du disque
-	 * @param folder le dossier
-	 * @param filename le nom du fichier
-	 * @return vrai si la copie s'est bien déroulée
-	 * @throws IOException 
-	 */
-	private boolean upload(File tmp, String folder, String filename) {
-		try (FileInputStream fin = new FileInputStream(tmp);
-				FileOutputStream fout = new FileOutputStream(folder + File.separator + filename)) {
-			FileChannel fchin = fin.getChannel();
-			FileChannel fchout = fout.getChannel();
-			fchin.transferTo(0, fchin.size(), fchout);
-			return true;
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 
 }

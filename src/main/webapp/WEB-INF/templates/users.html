@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Welcome</title>
+	<script type="text/javascript" src="#" th:src="${application.jQuery}"></script>
+	<link rel="stylesheet" type="text/css" href="#" th:href="${application.default_css}" />
+	<script type="text/javascript">
+		function createUser() {
+			$.ajax({
+				url: "/users",
+				type: "POST",
+				data: {
+					'login' : $("#login").val(),
+					'password' : $("#password").val(),
+					'firstname' : $("#firstname").val(),
+					'lastname' : $("#lastname").val(),
+					'birthday' : $("#birthday").val(),
+					'email' : $("#email").val()
+				},
+				success: function (data, textStatus, jqXHR) {
+					alert(JSON.stringify(data));
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert("error");
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<h1 id="helloworld">Hello World</h1>
+	Login: <input type="text" id="login" />
+	Password: <input type="password" id="password" />
+	Firstname: <input type="text" id="firstname" />
+	Lastname: <input type="text" id="lastname" />
+	Birthday: <input type="date" id="birthday" />
+	Email: <input type="email" id="email" />
+	<button onclick="createUser()">CREER</button>
+</body>
+</html>

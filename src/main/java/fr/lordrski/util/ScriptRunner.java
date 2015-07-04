@@ -1,3 +1,21 @@
+/**
+ * This file is part of webapp-skeleton.
+ *
+ * webapp-skeleton is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * webapp-skeleton is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.				 
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with webapp-skeleton.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
+ */
 package fr.lordrski.util;
 
 import java.io.IOException;
@@ -6,19 +24,15 @@ import java.io.Reader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 /**
  * Tool to run database scripts based on com.ibatis.common.jdbc.ScriptRunner class
  * from the iBATIS Apache project.
- * 
- * @author Edouard CATTEZ (la7production)
  */
 public class ScriptRunner {
 
 	private static final String DEFAULT_DELIMITER = ";";
-	private static final String LOG_FILENAME = "script.log";
 	
 	private final Logger log = Logger.getLogger("SCRIPT RUNNER");
 
@@ -54,7 +68,6 @@ public class ScriptRunner {
 		try {
 			boolean originalAutoCommit = connection.getAutoCommit();
 			try {
-				this.log.addHandler(new FileHandler(LOG_FILENAME));
 				if (originalAutoCommit != this.autoCommit) {
 					connection.setAutoCommit(this.autoCommit);
 				}
@@ -123,9 +136,7 @@ public class ScriptRunner {
 					command.setLength(0);
 					try {
 						statement.close();
-					} catch (Exception e) {
-						// Ignore to workaround a bug in Jakarta DBCP
-					}
+					} catch (Exception e) {}
 					Thread.yield();
 				} else {
 					command.append(line).append(" ");

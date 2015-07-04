@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.test.JerseyTest;
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -32,11 +31,6 @@ public class UserResourceTest extends JerseyTest {
 	@Override
 	protected Application configure() {
 		return new App();
-	}
-	
-	@BeforeClass
-	public static void setup() {
-		// TODO
 	}
 
 	/**

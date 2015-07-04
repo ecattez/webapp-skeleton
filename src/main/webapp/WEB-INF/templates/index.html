@@ -2,9 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Welcome</title>
-	<link rel="stylesheet" type="text/css" href="#" th:href="${application.css} + @{style.css}"/>
+	<script type="text/javascript" src="#" th:src="${application.jQuery}"></script>
+	<script type="text/javascript" src="#" th:src="${application.js} + @{jsonml-dom.js}"></script>
+	<script type="text/javascript" src="#" th:src="${application.js} + @{jsonml-html.js}"></script>
+	<link rel="stylesheet" type="text/css" href="#" th:href="${application.default_css}" />
 </head>
 <body>
+	<h1 id="helloworld">Hello World</h1>
 	<p th:text="${it}">message</p>
 </body>
 </html>

@@ -2,30 +2,50 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Simple Upload / Download</title>
-	<link rel="stylesheet" type="text/css" href="#" th:href="${application.css} + @{style.css}"/>
+	<script type="text/javascript" src="#" th:src="${application.jQuery}"></script>
+	<link rel="stylesheet" type="text/css" href="#" th:href="${application.default_css}" />
+	<script type="text/javascript">
+		function upload() {
+			var url = "/files/upload/";
+			var folder = $("#form_upload #folder").val();
+			
+			if (!(folder == null || folder.length == 0)) {
+				url += folder + "/";
+			}
+			
+			$("#form_upload").attr("action", url).submit();
+		}
+		
+		function download() {
+			var url = "/files/download/";
+			var folder = $("#form_download #folder").val();
+			var filename = $("#form_download #filename").val();
+			
+			if (!(folder == null || folder.length == 0)) {
+				url += folder + "/";
+			}
+			if (!(filename == null || filename.length == 0)) {
+				url += filename;
+			}
+			
+			$("#form_download").attr("action", url).submit();
+		}
+	
+	</script>
 </head>
 <body>
 	<h1>Upload a File</h1>
-	<form action="/files/upload" method="post" enctype="multipart/form-data">
-		<p>Select a file : <input type="file" name="test" size="50" /></p>
-		<input type="submit" value="Upload It" />
+	<form id="form_upload" method="post" enctype="multipart/form-data">
+		Dossier: <input type="text" id="folder" size="50" />
+		<p>Select a file : <input type="file" name="files" size="50" multiple="multiple" /></p>
+		<input type="button" value="Upload It" onclick="javascript:upload();" />
 	</form>
 	
 	<h1>Download a File</h1>
-	<form action="/files/download" method="get">
-		<p>Select a file : <input type="text" name="filename" size="50" /></p>
-		<input type="submit" value="Download It" />
-	</form>
-	
-	<h1>Upload multiple files</h1>
-	<form action="/files/upload" method="post" enctype="multipart/form-data">
-	   <fieldset>
-	       <legend>Multiple inputs with the same name</legend>
-	       <input type="file" name="test1" multiple="multiple"/>
-	       <input type="file" name="test2" />
-	       <input type="file" name="test3" />
-	   </fieldset>
-	   <input type="submit" value="Upload It" />
+	<form id="form_download" method="get">
+		Dossier: <input type="text" id="folder" size="50" />
+		Nom du fichier: <input type="text" id="filename" size="50" />
+		<input type="button" value="Download It" onclick="javascript:download();" />
 	</form>
 </body>
 </html>

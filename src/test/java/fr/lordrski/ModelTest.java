@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import fr.lordrski.util.Model;
 
-public class ItemsTest {
+public class ModelTest {
 	
 	private static Model items = new Model();
 	

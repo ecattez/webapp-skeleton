@@ -1,12 +1,27 @@
+/**
+ * This file is part of webapp-skeleton.
+ *
+ * webapp-skeleton is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * webapp-skeleton is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.				 
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with webapp-skeleton.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
+ */
 package fr.lordrski;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
@@ -16,60 +31,48 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import fr.lordrski.mvc.ThymeleafMvcFeature;
-import fr.lordrski.util.DBIProvider;
-import fr.lordrski.util.DBProvider;
+import fr.lordrski.util.JdbiTool;
 import fr.lordrski.util.ScriptRunner;
 
 /**
- * {@link javax.ws.rs.core.Application} is the resources loader class
- * 
- * @author Edouard CATTEZ (la7production)
+ * {@link javax.ws.rs.core.Application} is the resources loader class.
  */
 public class App extends ResourceConfig {
+	
+	private static boolean initialized = false;
 	
 	public App() {
 		register(LoggingFilter.class);
 		register(ThymeleafMvcFeature.class);
 		register(MultiPartFeature.class);
 		packages("fr.lordrski.resources");
+		initializeScript();
 	}
 	
 	public App(@Context ServletContext context) {
 		this();
 		initializeContext(context);
-		initializeDB(context);
 	}
 	
 	private void initializeContext(ServletContext context) {
 		final String root = context.getContextPath();
 		final String real = context.getRealPath(File.separator);
 		context.setAttribute("css", root + "/css/");
+		context.setAttribute("default_css", root + "/css/style.css");
 		context.setAttribute("js", root + "/js/");
+		context.setAttribute("jQuery", root + "/js/jquery-2.1.4.min.js");
 		context.setAttribute("exchange", real  + "/exchange/");
 	}
 	
-	private void initializeDB(ServletContext context) {
-		Properties prop = new Properties();
-		try {
-			prop.load(context.getResourceAsStream("/WEB-INF/config.properties"));
-			String uri = prop.getProperty("db.uri");
-			String username = prop.getProperty("db.username");
-			String password = prop.getProperty("db.password");
-			DBProvider.initialize(uri, username, password);
-			DBIProvider.setDBI(uri, username, password);
-			ScriptRunner script = null;
-			try (Connection c = DBProvider.getInstance()) {
-				script = new ScriptRunner(c, false, true);
-				try (Reader reader = new InputStreamReader(context.getResourceAsStream("/WEB-INF/config.sql"))) {
-					script.runScript(reader);
-				} catch (IOException ie) {
-					ie.printStackTrace();
-				}
-			} catch (SQLException e) {
+	private void initializeScript() {
+		if (!initialized) {
+			ScriptRunner script = new ScriptRunner(JdbiTool.getDBI().open().getConnection(), false ,false);
+			try {
+				script.runScript(new FileReader(new File("config.sql")));
+			} catch (IOException | SQLException e) {
 				e.printStackTrace();
-			} 
-		} catch (IOException e) {
-			e.printStackTrace();
+			}
+			initialized = true;
 		}
 	}
 

@@ -1,3 +1,21 @@
+/**
+ * This file is part of webapp-skeleton.
+ *
+ * webapp-skeleton is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * webapp-skeleton is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.				 
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with webapp-skeleton.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
+ */
 package fr.lordrski.resources;
 
 import java.net.URI;
@@ -19,12 +37,10 @@ import javax.ws.rs.core.UriInfo;
 
 import fr.lordrski.dao.UserDAO;
 import fr.lordrski.entity.User;
-import fr.lordrski.util.DBIProvider;
+import fr.lordrski.util.JdbiTool;
 
 /**
-* Ressource User
-* 
-* @author Edouard CATTEZ (la7production)
+* Ressource associée à l'entité {@link fr.lordrski.entity.User}
 */
 @Path("/users")
 public class UserResource {
@@ -43,7 +59,7 @@ public class UserResource {
 	* Une ressource doit avoir un contructeur (éventuellement sans arguments)
 	*/
 	public UserResource() {
-		this.userDao = DBIProvider.getDAO(UserDAO.class);
+		this.userDao = JdbiTool.getDAO(UserDAO.class);
 	}
 
 	/**
@@ -57,11 +73,11 @@ public class UserResource {
 	@POST
 	public Response createUser(User user) {
 		// Si l'utilisateur existe déjà, renvoyer 409
-		if (userDao.findByLogin(user.getLogin()) != null) {
+		if (userDao.find(user.getLogin()) != null) {
 			return Response.status(Response.Status.CONFLICT).build();
 		}
 		else {
-			userDao.addUser(user);
+			userDao.insert(user);
 			// On renvoie 201 et l'instance de la ressource dans le Header HTTP 'Location'
 			URI instanceURI = uriInfo.getAbsolutePathBuilder().path(user.getLogin()).build();
 			return Response.created(instanceURI).build();
@@ -76,7 +92,7 @@ public class UserResource {
 	@GET
 	@Produces("application/json, application/xml")
 	public List<User> getUsers() {
-		return userDao.getAllUsers();
+		return userDao.getAll();
 	}
 
 	/** 
@@ -88,7 +104,7 @@ public class UserResource {
 	@Path("{login}")
 	@Produces("application/json,application/xml")
 	public User getUser(@PathParam("login") String login) {
-		User user = userDao.findByLogin(login);
+		User user = userDao.find(login);
 		// Si l'utilisateur est inconnu, on renvoie 404
 		if (user == null) {
 			throw new NotFoundException();
@@ -107,13 +123,13 @@ public class UserResource {
 	@DELETE
 	@Path("{login}")
 	public Response deleteUser(@PathParam("login") String login) {
-		User user = userDao.findByLogin(login);
+		User user = userDao.find(login);
 		// Si l'utilisateur est inconnu, on renvoie 404
 		if (user == null) {
 			throw new NotFoundException();
 		}
 		else {
-			userDao.removeUser(user);
+			userDao.delete(login);
 			return Response.status(Response.Status.NO_CONTENT).build();
 		}
 	}
@@ -129,11 +145,11 @@ public class UserResource {
 	@Path("{login}")
 	public Response modifyUser(@PathParam("login") String login, User user) {
 		// Si l'utilisateur est inconnu, on renvoie 404
-		if (userDao.findByLogin(login) == null) {
+		if (userDao.find(login) == null) {
 			throw new NotFoundException();
 		}
 		else {
-			userDao.updateUser(user);
+			userDao.update(user);
 			return Response.status(Response.Status.NO_CONTENT).build();
 		}
 	}
@@ -157,11 +173,11 @@ public class UserResource {
 			@FormParam("firstname") String firstname, @FormParam("lastname") String lastname,
 			@FormParam("birthday") String birthday, @FormParam("email") String email) {
 		// Si l'utilisateur existe déjà, renvoyer 409
-		if (userDao.findByLogin(login) != null) {
+		if (userDao.find(login) != null) {
 			return Response.status(Response.Status.CONFLICT).build();
 		}
 		else {
-			userDao.addUser(new User(login, password, firstname, lastname, birthday, email));
+			userDao.insert(new User(login, password, firstname, lastname, birthday, email));
 			// On renvoie 201 et l'instance de la ressource dans le Header HTTP 'Location'
 			URI instanceURI = uriInfo.getAbsolutePathBuilder().path(login).build();
 			return Response.created(instanceURI).build();
