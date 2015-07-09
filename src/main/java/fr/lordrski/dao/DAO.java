@@ -18,8 +18,10 @@
  */
 package fr.lordrski.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
+import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.Transaction;
 
 
@@ -29,7 +31,7 @@ import org.skife.jdbi.v2.sqlobject.Transaction;
  * @param <E> L'objet associé à une table en base de données
  * @param <PK> Le type de la clé primaire de la table
  */
-public interface DAO<PK, E> {
+public interface DAO<PK extends Serializable, E> {
 	
 	/**
 	 * Trouve l'objet stocké en base de données via sa clé primaire
@@ -50,7 +52,7 @@ public interface DAO<PK, E> {
 	 * @return l'objet inséré en base de données
 	 */
 	@Transaction
-	public int insert(E e);
+	public int insert(@BindBean E e);
 	
 	/**
 	 * Supprime l'objet en base de données
@@ -67,7 +69,7 @@ public interface DAO<PK, E> {
 	 * @return l'objet mis à jour en base de données
 	 */
 	@Transaction
-	public int update(E e);
+	public int update(@BindBean E e);
 	
 	/**
 	 * Détecte si un objet est présent en base de données

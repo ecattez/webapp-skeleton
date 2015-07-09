@@ -3,8 +3,16 @@
 <head>
 	<title>Welcome</title>
 	<script type="text/javascript" src="#" th:src="${application.jQuery}"></script>
+	<script type="text/javascript" src="#" th:src="${application.js} + @{jquery.dynatable.js}"></script>
 	<link rel="stylesheet" type="text/css" href="#" th:href="${application.default_css}" />
+	<link rel="stylesheet" type="text/css" href="#" th:href="${application.css} + @{jquery.dynatable.css}" />
 	<script type="text/javascript">
+		var userTable;
+		$(document).ready(function() {
+			userTable = $("#table-users");
+		});
+	
+	
 		function createUser() {
 			$.ajax({
 				url: "/users",
@@ -18,7 +26,29 @@
 					'email' : $("#email").val()
 				},
 				success: function (data, textStatus, jqXHR) {
-					alert(JSON.stringify(data));
+					alert("success");
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert("error");
+				}
+			});
+		}
+		
+		function getUsers() {
+			$.ajax({
+				url: "/users/",
+				type: "GET",
+				data: {},
+				success: function (data, textStatus, jqXHR) {
+					$("#table-container").children().remove();
+					$("#table-container").append(userTable);
+					var dynatable = $('#table-users').dynatable({
+						dataset: {
+							records: data
+						}
+					}).data('dynatable');
+					dynatable.sorts.clear();
+					dynatable.process();
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 					alert("error");
@@ -36,5 +66,22 @@
 	Birthday: <input type="date" id="birthday" />
 	Email: <input type="email" id="email" />
 	<button onclick="createUser()">CREER</button>
+	<br/><br/>
+	<button onclick="getUsers()">Afficher tous les utilisateurs</button>
+	
+	<div id="table-container">
+		<table id="table-users">
+			<thead>
+				<th>Login</th>
+				<th>Password</th>
+				<th>Firstname</th>
+				<th>Lastname</th>
+				<th>Birthday</th>
+				<th>E-mail</th>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
