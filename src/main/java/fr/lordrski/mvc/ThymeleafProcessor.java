@@ -40,7 +40,7 @@ import org.thymeleaf.templatemode.StandardTemplateModeHandlers;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 /**
- * {@link TemplateProcessor} used to add support for Thymeleaf templates
+ * {@link TemplateProcessor} used to add support for Thymeleaf templates.
  */
 @Provider
 public class ThymeleafProcessor implements TemplateProcessor<String> {

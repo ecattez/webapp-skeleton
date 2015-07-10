@@ -27,7 +27,7 @@ import org.skife.jdbi.v2.tweak.ResultSetMapper;
 import fr.lordrski.entity.User;
 
 /**
- * A JDBI mapper class for {@link fr.lordrski.entity.User} instances
+ * Une classe de mapping JDBI pour les instances de {@link fr.lordrski.entity.User}.
  */
 public class UserMapper implements ResultSetMapper<User> {
 

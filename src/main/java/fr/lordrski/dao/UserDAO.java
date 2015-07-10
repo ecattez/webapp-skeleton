@@ -30,7 +30,7 @@ import fr.lordrski.entity.User;
 import fr.lordrski.mapper.UserMapper;
 
 /**
- * DAO associé à l'entité {@link fr.lordrski.entity.User}
+ * DAO associé à l'entité {@link fr.lordrski.entity.User}.
  */
 @RegisterMapper(UserMapper.class)
 public interface UserDAO extends DAO<String, User> {

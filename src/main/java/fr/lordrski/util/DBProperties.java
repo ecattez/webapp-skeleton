@@ -21,11 +21,14 @@ package fr.lordrski.util;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Properties;
 
+import org.skife.jdbi.v2.Handle;
+
 /**
- * Loads properties from the config.properties file.
- * Properties in the file should correspond to the enums.
+ * Charge les propriétés du fichier de configuration.
+ * Les propriétés doivent correspondrent à l'énumération.
  */
 public enum DBProperties {
 	
@@ -35,23 +38,40 @@ public enum DBProperties {
 	DB_PASSWORD("db.password");
 	
 	private static final Properties properties = new Properties();
-	private static final String filename = "config.properties";
+	private static final String configPath = DBProperties.class.getClassLoader().getResource("config.properties").getPath();
+	private static final String scriptPath = DBProperties.class.getClassLoader().getResource("config.sql").getPath();
+	private static boolean initialized = false;
 	
-	static {
-		try {
-			properties.load(new FileReader(new File(filename)));
-		} catch (IOException e) {
-			e.printStackTrace();
+	/**
+	 * Initialise la classe si ce n'est pas déjà fait
+	 */
+	public static final void initialize() {
+		if (!initialized) {
+			try {
+				properties.load(new FileReader(new File(configPath)));
+				Handle handle = JdbiTool.getDBI().open();
+				ScriptRunner script = new ScriptRunner(handle.getConnection(), false ,false);
+				script.runScript(new FileReader(new File(scriptPath)));
+				handle.close();
+			} catch (IOException | SQLException e) {
+				e.printStackTrace();
+			}
+			initialized = true;
 		}
 	}
 	
 	private final String key;
 	
-	private DBProperties(String key) {
+	private DBProperties(final String key) {
 		this.key = key;
 	}
 	
-	public String val() {
+	/**
+	 * Retourne la valeur des propriétés associées à l'énumération
+	 * 
+	 * @return la valeur des propriétés contenues dans le fichier de configuration
+	 */
+	public final String val() {
 		return properties.getProperty(key);
 	}
 

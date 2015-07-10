@@ -26,15 +26,16 @@ import org.skife.jdbi.v2.sqlobject.Transaction;
 
 
 /**
- * Implémentation du pattern DAO
+ * Implémentation du pattern DAO.
  *
- * @param <E> L'objet associé à une table en base de données
  * @param <PK> Le type de la clé primaire de la table
+ * @param <E> L'objet associé à une table en base de données
  */
 public interface DAO<PK extends Serializable, E> {
 	
 	/**
 	 * Trouve l'objet stocké en base de données via sa clé primaire
+	 * 
 	 * @param pk la clé primaire
 	 * @return l'objet en base de données
 	 */
@@ -42,12 +43,14 @@ public interface DAO<PK extends Serializable, E> {
 	
 	/**
 	 * Trouve tous les objets stockés en base de données
+	 * 
 	 * @return tous les objets de la table voulue
 	 */
 	public List<E> getAll();
 	
 	/**
 	 * Insert l'objet en base de données
+	 * 
 	 * @param e l'objet à insérer en base de données
 	 * @return l'objet inséré en base de données
 	 */
@@ -56,6 +59,7 @@ public interface DAO<PK extends Serializable, E> {
 	
 	/**
 	 * Supprime l'objet en base de données
+	 * 
 	 * @param e l'objet à supprimer de la base de données
 	 * @return l'objet supprimé de la base de données
 	 */
@@ -64,6 +68,7 @@ public interface DAO<PK extends Serializable, E> {
 	
 	/**
 	 * Met à jour l'objet en base de données
+	 * 
 	 * @param pk la clé primaire de l'objet à mettre à jour
 	 * @param e l'objet à mettre à jour
 	 * @return l'objet mis à jour en base de données
@@ -73,6 +78,7 @@ public interface DAO<PK extends Serializable, E> {
 	
 	/**
 	 * Détecte si un objet est présent en base de données
+	 * 
 	 * @param pk la clé primaire de l'objet à trouver
 	 * @return vrai si l'objet a été trouvé
 	 */
@@ -80,6 +86,7 @@ public interface DAO<PK extends Serializable, E> {
 	
 	/**
 	 * Compte le nombre d'objets présents en base de données
+	 * 
 	 * @return le nombre d'objets dans la table voulue
 	 */
 	public int count();

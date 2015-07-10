@@ -19,9 +19,6 @@
 package fr.lordrski;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
@@ -31,22 +28,19 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import fr.lordrski.mvc.ThymeleafMvcFeature;
-import fr.lordrski.util.JdbiTool;
-import fr.lordrski.util.ScriptRunner;
+import fr.lordrski.util.DBProperties;
 
 /**
- * {@link javax.ws.rs.core.Application} is the resources loader class.
+ * {@link javax.ws.rs.core.Application} charge toutes les ressources de l'application.
  */
 public class App extends ResourceConfig {
 	
-	private static boolean initialized = false;
-	
 	public App() {
+		DBProperties.initialize();
 		register(LoggingFilter.class);
 		register(ThymeleafMvcFeature.class);
 		register(MultiPartFeature.class);
 		packages("fr.lordrski.resources");
-		initializeScript();
 	}
 	
 	public App(@Context ServletContext context) {
@@ -62,18 +56,6 @@ public class App extends ResourceConfig {
 		context.setAttribute("js", root + "/js/");
 		context.setAttribute("jQuery", root + "/js/jquery-2.1.4.min.js");
 		context.setAttribute("exchange", real  + "/exchange/");
-	}
-	
-	private void initializeScript() {
-		if (!initialized) {
-			ScriptRunner script = new ScriptRunner(JdbiTool.getDBI().open().getConnection(), false ,false);
-			try {
-				script.runScript(new FileReader(new File("config.sql")));
-			} catch (IOException | SQLException e) {
-				e.printStackTrace();
-			}
-			initialized = true;
-		}
 	}
 
 }

@@ -19,12 +19,18 @@
 package fr.lordrski.util;
 
 /**
- * StringTool offre quelques fonctionnalités pour manipuler les chaînes de caractères
+ * StringTool offre quelques fonctionnalités pour manipuler les chaînes de caractères.
  */
 public class StringTool {
 	
 	/**
+	 * Empêche l'instanciation de la classe.
+	 */
+	private StringTool() {}
+	
+	/**
 	 * Test si une chaîne est null
+	 * 
 	 * @param str la chaîne à tester
 	 * @return vrai si la chaîne est null
 	 */
@@ -34,6 +40,7 @@ public class StringTool {
 	
 	/**
 	 * Test si une chaîne est vide
+	 * 
 	 * @param str la chaîne à tester
 	 * @return vrai si la chaîne est vide
 	 */

@@ -33,6 +33,7 @@ public class MiscResource {
 	
 	/**
 	 * Accède à la page d'index de l'application
+	 * 
 	 * @return La vue de la page d'index de l'application
 	 */
 	@GET
@@ -43,6 +44,7 @@ public class MiscResource {
 	
 	/**
 	 * Accède à l'index de la ressource UserResource
+	 * 
 	 * @return La vue de la page d'index de UserResource
 	 */
 	@GET
@@ -53,6 +55,7 @@ public class MiscResource {
 	
 	/**
 	 * Accède à l'index de la ressource FileResource
+	 * 
 	 * @return La vue de la page d'index de FileResource
 	 */
 	@GET

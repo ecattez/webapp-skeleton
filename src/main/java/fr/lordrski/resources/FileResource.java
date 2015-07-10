@@ -56,6 +56,7 @@ public class FileResource {
 	
 	/**
 	 * Télécharge un fichier depuis le serveur vers le client
+	 * 
 	 * @param folder le dossier qui contient le fichier à télécharger
 	 * @param filename le nom du fichier à télécharger
 	 * @return La réponse avec le fichier dans l'entête ou NOT FOUND
@@ -73,6 +74,7 @@ public class FileResource {
 	
 	/**
 	 * Télécharge un fichier depuis le serveur vers le client
+	 * 
 	 * @param filename le nom du fichier à télécharger
 	 * @return La réponse avec le fichier dans l'entête ou NOT FOUND
 	 */
@@ -84,6 +86,7 @@ public class FileResource {
 	
 	/**
 	 * Télécharge un ou plusieurs fichiers depuis le client vers le serveur
+	 * 
 	 * @param multiPart L'objet qui contient toutes les informations du formulaire de type multipart
 	 * @param folder le dossier de destination
 	 * @return La réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
@@ -111,6 +114,7 @@ public class FileResource {
 	
 	/**
 	 * Télécharge un ou plusieurs fichiers depuis le client vers le serveur
+	 * 
 	 * @param multiPart L'objet qui contient toutes les informations du formulaire de type multipart
 	 * @return La réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
 	 */
@@ -124,6 +128,7 @@ public class FileResource {
 	
 	/**
 	 * Télécharge un document json depusi le client vers le serveur
+	 * 
 	 * @param folder le dossier de destination
 	 * @param filename le nom du fichier de destination
 	 * @param json le document json
@@ -150,6 +155,7 @@ public class FileResource {
 	
 	/**
 	 * Associe le dossier passé en paramètre à son emplacement réel sur le disque
+	 * 
 	 * @param folder le dossier
 	 * @return l'emplacement réel du dossier le disque sous forme de chaîne de caractères
 	 */

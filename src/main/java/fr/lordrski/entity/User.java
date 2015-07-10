@@ -44,50 +44,110 @@ public class User {
 		this.email = email;
 	}
 
+	/**
+	 * Retourne le pseudo du User
+	 * 
+	 * @return le pseudo du User
+	 */
 	public String getLogin() {
-		return login;
+		return this.login;
 	}
 
+	/**
+	 * Saisi le pseudo du User
+	 * 
+	 * @param login le pseudo du User
+	 */
 	public void setLogin(String login) {
 		this.login = login;
 	}
 
+	/**
+	 * Retourne le mot de passe du User
+	 * 
+	 * @return le mot de passe du User
+	 */
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
+	/**
+	 * Saisie le mot de passe du User
+	 * 
+	 * @param password le mot de passe du User
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	/**
+	 * Retourne le prénom du User
+	 * 
+	 * @return le prénom du User
+	 */
 	public String getFirstname() {
-		return firstname;
+		return this.firstname;
 	}
 
+	/**
+	 * Saisie le prénom du User
+	 * 
+	 * @param firstname le prénom du User
+	 */
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
 
+	/**
+	 * Retourne le nom de famille du User
+	 * 
+	 * @return le nom de famille du User
+	 */
 	public String getLastname() {
-		return lastname;
+		return this.lastname;
 	}
 
+	/**
+	 * Saisie le nom de famille du User
+	 * 
+	 * @param lastname le nom de famille du User
+	 */
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
 
+	/**
+	 * Retourne la date de naissance du User
+	 * 
+	 * @return la date de naissance du User
+	 */
 	public String getBirthday() {
-		return birthday;
+		return this.birthday;
 	}
 
+	/**
+	 * Saisie la date de naissance du User
+	 * 
+	 * @param birthday la date de naissance du User
+	 */
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 
+	/**
+	 * Retourne l'adresse email du User
+	 * 
+	 * @return l'adresse email du User
+	 */
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
+	/**
+	 * Saisie l'adresse email du User
+	 * 
+	 * @param email l'adresse email du User
+	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}

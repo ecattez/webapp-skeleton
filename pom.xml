@@ -30,6 +30,12 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<!-- Référence les dossiers de ressources du projet -->
+		<resources>
+			<resource>
+				<directory>src/resources</directory>
+			</resource>
+		</resources>
 	</build>
 
 	<dependencyManagement>

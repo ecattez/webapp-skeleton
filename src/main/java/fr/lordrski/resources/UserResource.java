@@ -90,7 +90,7 @@ public class UserResource {
 	* @return Une liste d'utilisateurs
 	*/
 	@GET
-	@Produces("application/json, application/xml")
+	@Produces("application/json")
 	public List<User> getUsers() {
 		return userDao.getAll();
 	}
@@ -102,7 +102,7 @@ public class UserResource {
 	*/
 	@GET
 	@Path("{login}")
-	@Produces("application/json,application/xml")
+	@Produces("application/json")
 	public User getUser(@PathParam("login") String login) {
 		User user = userDao.find(login);
 		// Si l'utilisateur est inconnu, on renvoie 404
@@ -195,7 +195,7 @@ public class UserResource {
 	@POST
 	@Path("{login}")
 	@Consumes("application/x-www-form-urlencoded")
-	@Produces("application/json, application/xml")
+	@Produces("application/json")
 	public User getUser(@PathParam("login") String login, @FormParam("password") String password) {
 		User user = userDao.findByLogin(login, password);
 		// Si l'utilisateur est inconnu, on renvoie 404

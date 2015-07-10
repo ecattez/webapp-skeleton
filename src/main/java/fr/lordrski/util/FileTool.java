@@ -30,7 +30,13 @@ import java.nio.channels.FileChannel;
 public class FileTool {
 	
 	/**
+	 * Empêche l'instanciation de la classe.
+	 */
+	private FileTool() {}
+	
+	/**
 	 * Copie un fichier dans un emplacement du disque
+	 * 
 	 * @param tmp le fichier à copier stocké dans la zone temporaire du disque
 	 * @param folder le dossier
 	 * @param filename le nom du fichier

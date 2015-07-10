@@ -21,14 +21,20 @@ package fr.lordrski.util;
 import org.skife.jdbi.v2.DBI;
 
 /**
- * Allows access to all DAO Classes thanks to a static {@link DBI}
+ * Permet l'accès à toutes les classes de DAO via un {@link DBI} static.
  */
 public class JdbiTool {
 	
 	private static DBI dbi;
+	
+	/**
+	 * Empêche l'instanciation de la classe.
+	 */
+	private JdbiTool() {}
 
 	/**
 	 * Donne accès à la base de données via un objet DBI
+	 * 
 	 * @return un objet DBI
 	 */
 	public static DBI getDBI() {
@@ -45,6 +51,7 @@ public class JdbiTool {
 	
 	/**
 	 * Récupère n'importe quel DAO via l'objet DBI
+	 * 
 	 * @param dao le DAO voulu
 	 * @return le dao voulu
 	 */

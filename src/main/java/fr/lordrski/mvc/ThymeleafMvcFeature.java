@@ -27,7 +27,7 @@ import javax.ws.rs.core.FeatureContext;
 import org.glassfish.jersey.server.mvc.MvcFeature;
 
 /**
- * {@link Feature} used to add support for {@link MvcFeature MVC} and Thymeleaf templates
+ * {@link Feature} used to add support for {@link MvcFeature MVC} and Thymeleaf templates.
  * 
  * Note: This feature also registers {@link MvcFeature}.
  */

@@ -27,8 +27,8 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 
 /**
- * Tool to run database scripts based on com.ibatis.common.jdbc.ScriptRunner class
- * from the iBATIS Apache project.
+ * Outil basé sur la classe com.ibatis.common.jdbc.ScriptRunner du projet iBATIS Apache.
+ * Il permet d'exécuter des scripts SQL.
  */
 public class ScriptRunner {
 
@@ -59,10 +59,9 @@ public class ScriptRunner {
 	}
 
 	/**
-	 * Runs an SQL script (read in using the Reader parameter)
+	 * Exécute un script SQL
 	 * 
-	 * @param reader
-	 *            - the source of the script
+	 * @param reader the source of the script
 	 */
 	public void runScript(Reader reader) throws IOException, SQLException {
 		try {
@@ -83,19 +82,14 @@ public class ScriptRunner {
 	}
 
 	/**
-	 * Runs an SQL script (read in using the Reader parameter) using the
-	 * connection passed in
+	 * Exécute un script SQL en utilisant la connexion passé en paramètre
 	 * 
-	 * @param conn
-	 *            - the connection to use for the script
-	 * @param reader
-	 *            - the source of the script
-	 * @throws SQLException
-	 *             if any SQL errors occur
-	 * @throws IOException
-	 *             if there is an error reading from the Reader
+	 * @param con la connexion utilisée pour l'exécution du script
+	 * @param reader la source du script
+	 * @throws SQLException si une erreur SQL se produit
+	 * @throws IOException si une erreur se produit pendant la lecture du Reader
 	 */
-	private void runScript(Connection conn, Reader reader) throws IOException, SQLException {
+	private void runScript(Connection con, Reader reader) throws IOException, SQLException {
 		StringBuffer command = null;
 		try {
 			LineNumberReader lineReader = new LineNumberReader(reader);
@@ -113,7 +107,7 @@ public class ScriptRunner {
 				
 				if (!fullLineDelimiter && trimmedLine.endsWith(delimiter) || fullLineDelimiter && trimmedLine.equals(delimiter)) {
 					command.append(line.substring(0, line.lastIndexOf(delimiter))).append(" ");
-					statement = conn.createStatement();
+					statement = con.createStatement();
 
 					info(command);
 
@@ -129,8 +123,8 @@ public class ScriptRunner {
 						}
 					}
 
-					if (autoCommit && !conn.getAutoCommit()) {
-						conn.commit();
+					if (autoCommit && !con.getAutoCommit()) {
+						con.commit();
 					}
 					
 					command.setLength(0);
@@ -143,7 +137,7 @@ public class ScriptRunner {
 				}
 			}
 			if (!autoCommit) {
-				conn.commit();
+				con.commit();
 			}
 		} catch (SQLException | IOException e) {
 			e.fillInStackTrace();
@@ -151,7 +145,7 @@ public class ScriptRunner {
 			error(e);
 			throw e;
 		} finally {
-			conn.rollback();
+			con.rollback();
 		}
 	}
 	
