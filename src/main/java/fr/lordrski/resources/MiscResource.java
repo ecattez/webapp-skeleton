@@ -60,7 +60,7 @@ public class MiscResource {
 	 */
 	@GET
 	@Path("index_files")
-	@Produces("text/html")
+	@Produces(MediaType.TEXT_HTML)
 	public Viewable index_files() {
 		return new Viewable("files");
 	}

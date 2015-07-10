@@ -32,6 +32,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -90,7 +91,7 @@ public class UserResource {
 	* @return Une liste d'utilisateurs
 	*/
 	@GET
-	@Produces("application/json")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public List<User> getUsers() {
 		return userDao.getAll();
 	}
@@ -102,7 +103,7 @@ public class UserResource {
 	*/
 	@GET
 	@Path("{login}")
-	@Produces("application/json")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public User getUser(@PathParam("login") String login) {
 		User user = userDao.find(login);
 		// Si l'utilisateur est inconnu, on renvoie 404
@@ -168,7 +169,7 @@ public class UserResource {
 	*         L'en-tête contient un champs Location avec l'URI de la nouvelle ressource
 	*/
 	@POST
-	@Consumes("application/x-www-form-urlencoded")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response createUser(@FormParam("login") String login, @FormParam("password") String password,
 			@FormParam("firstname") String firstname, @FormParam("lastname") String lastname,
 			@FormParam("birthday") String birthday, @FormParam("email") String email) {
@@ -194,8 +195,8 @@ public class UserResource {
 	*/
 	@POST
 	@Path("{login}")
-	@Consumes("application/x-www-form-urlencoded")
-	@Produces("application/json")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public User getUser(@PathParam("login") String login, @FormParam("password") String password) {
 		User user = userDao.findByLogin(login, password);
 		// Si l'utilisateur est inconnu, on renvoie 404
