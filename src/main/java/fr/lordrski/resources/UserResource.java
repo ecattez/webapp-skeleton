@@ -38,7 +38,7 @@ import javax.ws.rs.core.UriInfo;
 
 import fr.lordrski.dao.UserDAO;
 import fr.lordrski.entity.User;
-import fr.lordrski.util.JdbiTool;
+import fr.lordrski.tool.JdbiTool;
 
 /**
 * Ressource associée à l'entité {@link fr.lordrski.entity.User}

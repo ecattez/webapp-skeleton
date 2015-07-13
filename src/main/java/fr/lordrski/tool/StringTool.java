@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.util;
+package fr.lordrski.tool;
 
 /**
  * StringTool offre quelques fonctionnalités pour manipuler les chaînes de caractères.

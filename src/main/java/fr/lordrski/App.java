@@ -28,6 +28,7 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import fr.lordrski.mvc.ThymeleafMvcFeature;
+import fr.lordrski.util.CORSResponseFilter;
 import fr.lordrski.util.DBProperties;
 
 /**
@@ -40,6 +41,7 @@ public class App extends ResourceConfig {
 		register(LoggingFilter.class);
 		register(ThymeleafMvcFeature.class);
 		register(MultiPartFeature.class);
+		register(CORSResponseFilter.class);
 		packages("fr.lordrski.resources");
 	}
 	

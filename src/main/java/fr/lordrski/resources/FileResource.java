@@ -42,8 +42,8 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.lordrski.util.FileTool;
-import fr.lordrski.util.Model;
+import fr.lordrski.mvc.Model;
+import fr.lordrski.tool.FileTool;
 
 /**
 * Ressource associée aux fichiers

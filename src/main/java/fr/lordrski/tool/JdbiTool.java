@@ -16,9 +16,11 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.util;
+package fr.lordrski.tool;
 
 import org.skife.jdbi.v2.DBI;
+
+import fr.lordrski.util.DBProperties;
 
 /**
  * Permet l'accès à toutes les classes de DAO via un {@link DBI} static.

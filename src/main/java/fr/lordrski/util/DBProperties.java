@@ -26,6 +26,8 @@ import java.util.Properties;
 
 import org.skife.jdbi.v2.Handle;
 
+import fr.lordrski.tool.JdbiTool;
+
 /**
  * Charge les propriétés du fichier de configuration.
  * Les propriétés doivent correspondrent à l'énumération.
