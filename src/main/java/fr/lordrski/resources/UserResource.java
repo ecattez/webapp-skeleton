@@ -99,20 +99,17 @@ public class UserResource {
 	/** 
 	* Méthode prenant en charge les requêtes HTTP GET sur /users/{login}
 	*
-	* @return Une instance de User
+	* @return Une instance de User ou l'erreur 404 si le User n'a pas été trouvé
 	*/
 	@GET
 	@Path("{login}")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public User getUser(@PathParam("login") String login) {
 		User user = userDao.find(login);
-		// Si l'utilisateur est inconnu, on renvoie 404
 		if (user == null) {
 			throw new NotFoundException();
 		}
-		else {
-			return user;
-		}
+		return user;
 	}
 
 	/** 
@@ -187,7 +184,7 @@ public class UserResource {
 	
 	/**
 	* Méthode de récupération d'un utilisateur qui prend en charge les requêtes HTTP POST au format application/x-www-form-urlencoded
-	* La méthode renvoie l'utilisateur recherché en cas de succès
+	* La méthode renvoie l'utilisateur recherché en cas de succès, 404 sinon
 	*
 	* @param login login de l'utilisateur
 	* @param password mdp de l'utilisateur
@@ -199,13 +196,10 @@ public class UserResource {
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public User getUser(@PathParam("login") String login, @FormParam("password") String password) {
 		User user = userDao.findByLogin(login, password);
-		// Si l'utilisateur est inconnu, on renvoie 404
 		if (user == null) {
 			throw new NotFoundException();
 		}
-		else {
-			return user;
-		}
+		return user;
 	}
 
 }

@@ -18,6 +18,7 @@
  */
 package fr.lordrski.resources;
 
+import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -28,6 +29,7 @@ import org.glassfish.jersey.server.mvc.Viewable;
 /**
  * Ressources associée à divers objets
  */
+@Singleton
 @Path("/")
 public class MiscResource {
 	
