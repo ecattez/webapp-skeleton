@@ -18,16 +18,47 @@
  */
 package fr.lordrski.util;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+
 /**
  * Folder indique les différents dossiers pouvant être accessible au travers du contexte.
  */
 public enum Folder {
 	
-	EXCHANGE;
+	EXCHANGE("exchange");
+	
+	private Path path;
+	private String resourcePath;
+	
+	private Folder(String resourcePath) {
+		this.resourcePath = resourcePath;
+		this.path = Paths.get(resourcePath);
+	}
+	
+	/**
+	 * Retourne le chemin d'accès du dossier sur le disque
+	 * @return le chemin d'accès du dossier présent sur le disque
+	 */
+	public Path toPath() {
+		return path;
+	}
+	
+	/**
+	 * Concatène le chemin d'accès du dossier avec un autre chemin
+	 * @param other le chemin à ajouter au chemin d'accès du dossier présent sur le disque
+	 * @return le chemin d'accès du fichier dans le dossier sous forme d'une chaîne de caractères
+	 */
+	public Path resolve(String other) {
+		if (other == null)
+			return path;
+		return path.resolve(other);
+	}
 	
 	@Override
 	public String toString() {
-		return super.name().toLowerCase();
+		return resourcePath;
 	}
 
 }

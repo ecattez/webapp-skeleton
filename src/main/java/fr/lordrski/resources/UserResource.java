@@ -43,7 +43,7 @@ import fr.lordrski.tool.JdbiTool;
 /**
 * Ressource associée à l'entité {@link fr.lordrski.entity.User}
 */
-@Path("/users")
+@Path("users")
 public class UserResource {
 	
 	// L'annotation @Context permet de récupérer des informations sur le contexte d'exécution de la ressource.

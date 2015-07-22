@@ -24,11 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-import javax.servlet.ServletContext;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import fr.lordrski.util.Folder;
 
 /**
  * FileTool offre quelques fonctionnalités pour manipuler les fichiers
@@ -39,21 +35,6 @@ public class FileTool {
 	 * Empêche l'instanciation de la classe.
 	 */
 	private FileTool() {}
-	
-	/**
-	 * Associe le dossier passé en paramètre à son emplacement réel sur le disque
-	 * 
-	 * @param context le contexte de l'application web
-	 * @param folder le dossier sur le disque
-	 * @param dir le dossier
-	 * @return l'emplacement réel du dossier le disque sous forme de chaîne de caractères
-	 */
-	public static String toRealFolder(ServletContext context, Folder folder, String dir) {
-		String path = (String) context.getAttribute(folder.toString());
-		if (dir == null || dir.length() == 0)
-			return path;
-		return path + folder;
-	}
 	
 	/**
 	 * Transforme un fichier JSON sauvegardé sur le disque en objet JAVA

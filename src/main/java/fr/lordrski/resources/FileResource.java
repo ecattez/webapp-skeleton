@@ -19,12 +19,11 @@
 package fr.lordrski.resources;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Singleton;
-import javax.servlet.ServletContext;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -32,15 +31,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.lordrski.mvc.Model;
 import fr.lordrski.tool.FileTool;
@@ -53,9 +48,6 @@ import fr.lordrski.util.Folder;
 @Path("files")
 public class FileResource {
 	
-	@Context
-	private ServletContext context;
-	
 	/**
 	 * Télécharge un fichier depuis le serveur vers le client
 	 * 
@@ -65,10 +57,10 @@ public class FileResource {
 	 */
 	@GET
 	@Path("download/{folder}/{filename}")
-	public Response download(@PathParam("folder") String folder, @PathParam("filename") String filename) {
-		folder = FileTool.toRealFolder(context, Folder.EXCHANGE, folder);
-		File file = new File(folder, filename);
-		if (file.exists()) {
+	public Response download(@PathParam("folder") String folder, @NotNull @PathParam("filename") String filename) {
+		java.nio.file.Path path = Folder.EXCHANGE.resolve(folder).resolve(filename);
+		File file = path.toFile();
+		if (file.isFile()) {
 			return Response.ok(file).header("Content-Disposition", "attachment; filename=\"" + filename + "\"").build();			
 		}
 		throw new NotFoundException();
@@ -98,8 +90,9 @@ public class FileResource {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response upload(FormDataMultiPart multiPart, @PathParam("folder") String folder) {
-		folder = FileTool.toRealFolder(context, Folder.EXCHANGE, folder);
-		new File(folder).mkdirs();
+		java.nio.file.Path path = Folder.EXCHANGE.resolve(folder);
+		path.toFile().mkdirs();
+		folder = path.toString();
 		String filename;
 		Model result = new Model();
 		Collection<List<FormDataBodyPart>> allFields = multiPart.getFields().values();
@@ -126,33 +119,6 @@ public class FileResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response upload(FormDataMultiPart multiPart) {
 		return upload(multiPart, null);
-	}
-	
-	/**
-	 * Télécharge un document json depusi le client vers le serveur
-	 * 
-	 * @param folder le dossier de destination
-	 * @param filename le nom du fichier de destination
-	 * @param json le document json
-	 * @return La réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
-	 */
-	@POST
-	@Path("uploadJSON/{folder}/{filename}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response upload(@PathParam("folder") String folder, @PathParam("filename") String filename, String json) {
-		folder = FileTool.toRealFolder(context, Folder.EXCHANGE, folder);
-		new File(folder).mkdirs();
-		Model result = new Model();
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			JsonNode tree = mapper.readTree(json);
-			mapper.writeValue(new File(folder, filename), tree);
-			result.put(filename, true);
-		} catch (IOException e) {
-			e.printStackTrace();
-			result.put(filename, false);
-		}
-		return Response.ok(result).build();
 	}
 
 }

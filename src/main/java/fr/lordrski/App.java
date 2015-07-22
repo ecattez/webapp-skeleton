@@ -18,8 +18,6 @@
  */
 package fr.lordrski;
 
-import java.io.File;
-
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 
@@ -52,12 +50,10 @@ public class App extends ResourceConfig {
 	
 	private void initializeContext(ServletContext context) {
 		final String root = context.getContextPath();
-		final String real = context.getRealPath(File.separator);
 		context.setAttribute("css", root + "/css/");
 		context.setAttribute("default_css", root + "/css/style.css");
 		context.setAttribute("js", root + "/js/");
 		context.setAttribute("jQuery", root + "/js/jquery-2.1.4.min.js");
-		context.setAttribute("exchange", real  + "/exchange/");
 	}
 
 }

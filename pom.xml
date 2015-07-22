@@ -30,16 +30,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<!-- Référence les dossiers de ressources du projet -->
-		<resources>
-			<resource>
-				<directory>src/resources</directory>
-			</resource>
-			<resource>
-				<targetPath>META-INF</targetPath>
-				<directory>src/META-INF</directory>
-			</resource>
-		</resources>
 	</build>
 
 	<dependencyManagement>
@@ -132,7 +122,7 @@
 		<javaxservlet.version>3.1.0</javaxservlet.version>
 		<jackson.version>2.5.4</jackson.version>
 		<jersey.version>2.19</jersey.version>
-		<jetty.version>9.3.1.v20150714</jetty.version>
+		<jetty.version>9.3.0.RC0</jetty.version>
 		<sql.version>3.8.7</sql.version>
 		<thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -18,9 +18,6 @@
  */
 package fr.lordrski.resources;
 
-import java.io.File;
-import java.io.IOException;
-
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -28,10 +25,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.server.mvc.Viewable;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import fr.lordrski.JsonTest;
 
 /**
  * Ressources associée à divers objets
@@ -73,19 +66,5 @@ public class MiscResource {
 	public Viewable index_files() {
 		return new Viewable("files");
 	}
-	
-	@GET
-	@Path("jsontest")
-	@Produces(MediaType.APPLICATION_JSON)
-	public JsonTest[] test() {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			return mapper.readValue(new File("test.json"), JsonTest[].class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 
 }

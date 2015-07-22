@@ -18,9 +18,10 @@
  */
 package fr.lordrski.util;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -40,8 +41,8 @@ public enum DBProperties {
 	DB_PASSWORD("db.password");
 	
 	private static final Properties properties = new Properties();
-	private static final String configPath = DBProperties.class.getClassLoader().getResource("config.properties").getPath();
-	private static final String scriptPath = DBProperties.class.getClassLoader().getResource("config.sql").getPath();
+	private static final Path configPath = Paths.get("config/config.properties");
+	private static final Path scriptPath = Paths.get("config/config.sql");
 	private static boolean initialized = false;
 	
 	/**
@@ -50,10 +51,10 @@ public enum DBProperties {
 	public static final void initialize() {
 		if (!initialized) {
 			try {
-				properties.load(new FileReader(new File(configPath)));
+				properties.load(new FileReader(configPath.toFile()));
 				Handle handle = JdbiTool.getDBI().open();
 				ScriptRunner script = new ScriptRunner(handle.getConnection(), false ,false);
-				script.runScript(new FileReader(new File(scriptPath)));
+				script.runScript(new FileReader(scriptPath.toFile()));
 				handle.close();
 			} catch (IOException | SQLException e) {
 				e.printStackTrace();
