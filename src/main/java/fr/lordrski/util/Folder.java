@@ -23,7 +23,7 @@ import java.nio.file.Paths;
 
 
 /**
- * Folder indique les différents dossiers pouvant être accessible au travers du contexte.
+ * Folder indique les différents dossiers pouvant être accessible en dehors du contexte.
  */
 public enum Folder {
 	
