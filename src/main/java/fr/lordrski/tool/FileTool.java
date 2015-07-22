@@ -64,10 +64,12 @@ public class FileTool {
 	public static <E> E readJSON(File jsonFile, Class<E> type) {
 		ObjectMapper mapper = new ObjectMapper();
 		E elt = null;
-		try {
-			elt = mapper.readValue(jsonFile, type);
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (jsonFile.exists()) {
+			try {
+				elt = mapper.readValue(jsonFile, type);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return elt;
 	}
@@ -82,6 +84,7 @@ public class FileTool {
 		ObjectMapper mapper = new ObjectMapper();
 		boolean success = false;
 		try {
+			jsonFile.getAbsoluteFile().getParentFile().mkdirs();
 			mapper.writeValue(jsonFile, o);
 			success = true;
 		} catch (IOException e) {
