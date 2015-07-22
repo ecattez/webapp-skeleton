@@ -44,6 +44,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.lordrski.mvc.Model;
 import fr.lordrski.tool.FileTool;
+import fr.lordrski.util.Folder;
 
 /**
 * Ressource associée aux fichiers
@@ -65,7 +66,7 @@ public class FileResource {
 	@GET
 	@Path("download/{folder}/{filename}")
 	public Response download(@PathParam("folder") String folder, @PathParam("filename") String filename) {
-		folder = toRealFolder(folder);
+		folder = FileTool.toRealFolder(context, Folder.EXCHANGE, folder);
 		File file = new File(folder, filename);
 		if (file.exists()) {
 			return Response.ok(file).header("Content-Disposition", "attachment; filename=\"" + filename + "\"").build();			
@@ -97,7 +98,7 @@ public class FileResource {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response upload(FormDataMultiPart multiPart, @PathParam("folder") String folder) {
-		folder = toRealFolder(folder);
+		folder = FileTool.toRealFolder(context, Folder.EXCHANGE, folder);
 		new File(folder).mkdirs();
 		String filename;
 		Model result = new Model();
@@ -139,7 +140,7 @@ public class FileResource {
 	@Path("uploadJSON/{folder}/{filename}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response upload(@PathParam("folder") String folder, @PathParam("filename") String filename, String json) {
-		folder = toRealFolder(folder);
+		folder = FileTool.toRealFolder(context, Folder.EXCHANGE, folder);
 		new File(folder).mkdirs();
 		Model result = new Model();
 		ObjectMapper mapper = new ObjectMapper();
@@ -152,19 +153,6 @@ public class FileResource {
 			result.put(filename, false);
 		}
 		return Response.ok(result).build();
-	}
-	
-	/**
-	 * Associe le dossier passé en paramètre à son emplacement réel sur le disque
-	 * 
-	 * @param folder le dossier
-	 * @return l'emplacement réel du dossier le disque sous forme de chaîne de caractères
-	 */
-	private String toRealFolder(String folder) {
-		String exchange = (String) context.getAttribute("exchange");
-		if (folder == null || folder.length() == 0)
-			return exchange;
-		return exchange + folder;
 	}
 
 }

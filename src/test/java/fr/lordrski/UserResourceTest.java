@@ -7,13 +7,11 @@ import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.test.JerseyTest;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -21,17 +19,9 @@ import org.junit.runners.MethodSorters;
 import fr.lordrski.entity.User;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UserResourceTest extends JerseyTest {
+public class UserResourceTest extends ResourceTest {
 	
 	private static final String USER_PATH = "/users";
-	
-	/**
-	* Il est obligatoire de redéfinir cette méthode qui permet de configurer le contexte de Jersey
-	*/
-	@Override
-	protected Application configure() {
-		return new App();
-	}
 
 	/**
 	* Vérifie qu'initialement on a une liste d'utilisateurs vide
