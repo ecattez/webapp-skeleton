@@ -6,13 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="#" th:href="${application.default_css}" />
 	<script type="text/javascript">
 		function upload() {
-			var url = "/files/upload/";
-			var folder = $("#form_upload #folder").val();
-			
-			if (!(folder == null || folder.length == 0)) {
-				url += folder + "/";
-			}
-			
+			var url = "/files/upload/";			
 			$("#form_upload").attr("action", url).submit();
 		}
 		
@@ -36,8 +30,9 @@
 <body>
 	<h1>Upload a File</h1>
 	<form id="form_upload" method="post" enctype="multipart/form-data">
-		Dossier: <input type="text" id="folder" size="50" />
+		Dossier: <input type="text" id="folder" name="folder" size="50" />
 		<p>Select a file : <input type="file" name="files" size="50" multiple="multiple" /></p>
+		<input type="file" name="oneFile" />
 		<input type="button" value="Upload It" onclick="javascript:upload();" />
 	</form>
 	

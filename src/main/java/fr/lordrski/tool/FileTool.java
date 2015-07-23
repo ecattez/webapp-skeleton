@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -75,16 +76,15 @@ public class FileTool {
 	}
 	
 	/**
-	 * Copie un fichier dans un emplacement du disque
+	 * Copie un fichier à un emplacement sur le disque
 	 * 
-	 * @param tmp le fichier à copier stocké dans la zone temporaire du disque
-	 * @param folder le dossier
-	 * @param filename le nom du fichier
+	 * @param src le fichier à copier stocké dans la zone temporaire du disque
+	 * @param dest le chemin de destination
 	 * @return vrai si la copie s'est bien déroulée
 	 */
-	public static boolean upload(File tmp, String folder, String filename) {
-		try (FileInputStream fin = new FileInputStream(tmp);
-				FileOutputStream fout = new FileOutputStream(folder + File.separator + filename)) {
+	public static boolean upload(File src, Path dest) {
+		try (FileInputStream fin = new FileInputStream(src);
+				FileOutputStream fout = new FileOutputStream(dest.toFile())) {
 			FileChannel fchin = fin.getChannel();
 			FileChannel fchout = fout.getChannel();
 			fchin.transferTo(0, fchin.size(), fchout);

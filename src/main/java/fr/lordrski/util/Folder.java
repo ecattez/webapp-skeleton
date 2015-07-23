@@ -18,8 +18,12 @@
  */
 package fr.lordrski.util;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -54,6 +58,32 @@ public enum Folder {
 		if (other == null)
 			return path;
 		return path.resolve(other);
+	}
+	
+	/**
+	 * Crée le chemin d'accès du dossier s'il n'existe pas
+	 * @return le chemin d'accès du dossier
+	 */
+	public Path mkdirs() {
+		try {
+			return Files.createDirectories(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return path;
+	}
+	
+	/**
+	 * Liste le contenu du dossier
+	 * @return la liste des chemins (équivalent aux fichiers) accessibles à partir de ce dossier
+	 */
+	public List<Path> list() {
+		try {
+			return Files.list(path).collect(Collectors.toList());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	@Override
