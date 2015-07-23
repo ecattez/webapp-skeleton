@@ -106,7 +106,7 @@ public class UserResourceTest extends ResourceTest {
 		int code = target(USER_PATH).path("jsteed").request().delete().getStatus();
 		assertEquals(204, code);
 		int notFound = target(USER_PATH).path("jsteed").request().get().getStatus();
-		assertEquals(404, notFound);    
+		assertEquals(404, notFound);
 	}
  
 	/**
