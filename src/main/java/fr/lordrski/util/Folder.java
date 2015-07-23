@@ -27,7 +27,7 @@ import java.nio.file.Paths;
  */
 public enum Folder {
 	
-	EXCHANGE("exchange");
+	CONFIG("config"), EXCHANGE("exchange");
 	
 	private Path path;
 	private String resourcePath;

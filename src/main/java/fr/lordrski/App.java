@@ -18,16 +18,25 @@
  */
 package fr.lordrski;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Arrays;
+
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.skife.jdbi.v2.Handle;
 
 import fr.lordrski.mvc.ThymeleafMvcFeature;
+import fr.lordrski.tool.JdbiTool;
 import fr.lordrski.util.CORSResponseFilter;
-import fr.lordrski.util.DBProperties;
+import fr.lordrski.util.Folder;
+import fr.lordrski.util.ScriptRunner;
 
 /**
  * {@link javax.ws.rs.core.Application} charge toutes les ressources de l'application.
@@ -35,12 +44,12 @@ import fr.lordrski.util.DBProperties;
 public class App extends ResourceConfig {
 	
 	public App() {
-		DBProperties.initialize();
 		register(LoggingFilter.class);
 		register(ThymeleafMvcFeature.class);
 		register(MultiPartFeature.class);
 		register(CORSResponseFilter.class);
 		packages("fr.lordrski.resources");
+		runSQL();
 	}
 	
 	public App(@Context ServletContext context) {
@@ -48,12 +57,44 @@ public class App extends ResourceConfig {
 		initializeContext(context);
 	}
 	
+	/**
+	 * Initialise le ServletContext au lancement de l'application
+	 * @param context le ServletContext
+	 */
 	private void initializeContext(ServletContext context) {
 		final String root = context.getContextPath();
 		context.setAttribute("css", root + "/css/");
 		context.setAttribute("default_css", root + "/css/style.css");
 		context.setAttribute("js", root + "/js/");
 		context.setAttribute("jQuery", root + "/js/jquery-2.1.4.min.js");
+	}
+	
+	/**
+	 * Exécute tous les fichiers SQL contenu dans le dossier de configuration de l'application
+	 */
+	private void runSQL() {
+		File folder = Folder.CONFIG.toPath().toFile();
+		if (folder.isDirectory()) {
+			Arrays.stream(folder.listFiles()).filter(f -> f.getName().endsWith(".sql")).forEach(f -> runScript(f));
+		}
+		else {
+			folder.mkdirs();
+		}
+	}
+	
+	/**
+	 * Exécute le fichier SQL passé en paramètre
+	 * @param file le fichier SQL à exécuter
+	 */
+	private void runScript(File file) {
+		Handle handle = JdbiTool.getDBI().open();
+		ScriptRunner script = new ScriptRunner(handle.getConnection(), false ,false);
+		try {
+			script.runScript(new FileReader(file));
+		} catch (IOException | SQLException e) {
+			e.printStackTrace();
+		}
+		handle.close();
 	}
 
 }

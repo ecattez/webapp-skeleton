@@ -22,12 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.Properties;
-
-import org.skife.jdbi.v2.Handle;
-
-import fr.lordrski.tool.JdbiTool;
 
 /**
  * Charge les propriétés du fichier de configuration.
@@ -41,25 +36,13 @@ public enum DBProperties {
 	DB_PASSWORD("db.password");
 	
 	private static final Properties properties = new Properties();
-	private static final Path configPath = Paths.get("config/config.properties");
-	private static final Path scriptPath = Paths.get("config/config.sql");
-	private static boolean initialized = false;
+	private static final Path configPath = Folder.CONFIG.toPath().resolve("config.properties");
 	
-	/**
-	 * Initialise la classe si ce n'est pas déjà fait
-	 */
-	public static final void initialize() {
-		if (!initialized) {
-			try {
-				properties.load(new FileReader(configPath.toFile()));
-				Handle handle = JdbiTool.getDBI().open();
-				ScriptRunner script = new ScriptRunner(handle.getConnection(), false ,false);
-				script.runScript(new FileReader(scriptPath.toFile()));
-				handle.close();
-			} catch (IOException | SQLException e) {
-				e.printStackTrace();
-			}
-			initialized = true;
+	static {
+		try {
+			properties.load(new FileReader(configPath.toFile()));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
