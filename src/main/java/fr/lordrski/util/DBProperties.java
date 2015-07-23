@@ -34,12 +34,12 @@ public enum DBProperties {
 	DB_USERNAME("db.username"),
 	DB_PASSWORD("db.password");
 	
-	private static final Properties properties = new Properties();
-	private static final Path configPath = Folder.CONFIG.toPath().resolve("config.properties");
+	private static final Properties PROPERTIES = new Properties();
 	
 	static {
+		Path config = Folder.CONFIG.toPath().resolve("config.properties");
 		try {
-			properties.load(new FileReader(configPath.toFile()));
+			PROPERTIES.load(new FileReader(config.toFile()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -57,7 +57,7 @@ public enum DBProperties {
 	 * @return la valeur des propriétés contenues dans le fichier de configuration
 	 */
 	public final String val() {
-		return properties.getProperty(key);
+		return PROPERTIES.getProperty(key);
 	}
 
 }

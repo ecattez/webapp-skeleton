@@ -73,12 +73,12 @@ public class App extends ResourceConfig {
 	 * Exécute tous les fichiers SQL contenu dans le dossier de configuration de l'application
 	 */
 	private void runSQL() {
-		File folder = Folder.CONFIG.toPath().toFile();
-		if (folder.isDirectory()) {
-			Arrays.stream(folder.listFiles()).filter(f -> f.getName().endsWith(".sql")).forEach(f -> runScript(f));
+		File config = Folder.CONFIG.toPath().toFile();
+		if (config.isDirectory()) {
+			Arrays.stream(config.listFiles()).filter(f -> f.getName().endsWith(".sql")).forEach(f -> runScript(f));
 		}
 		else {
-			folder.mkdirs();
+			config.mkdirs();
 		}
 	}
 	
