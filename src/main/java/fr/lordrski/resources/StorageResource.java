@@ -41,12 +41,10 @@ import fr.lordrski.util.AppFiles;
 */
 @Singleton
 @Path("storage")
-public class StorageResource {
-	
-	private final String ROOT;
+public class StorageResource extends PathAccessor {
 	
 	public StorageResource() {
-		this.ROOT = "storage";
+		super("storage");
 	}
 	
 	/**
@@ -59,7 +57,7 @@ public class StorageResource {
 	@GET
 	@Path("download/{folder}/{filename}")
 	public Response download(@PathParam("folder") String folder, @PathParam("filename") String filename) {
-		return AppFiles.download(Paths.get(ROOT, folder, filename));
+		return AppFiles.download(Paths.get(ROOT_PATH, folder, filename));
 	}
 	
 	/**
@@ -71,7 +69,7 @@ public class StorageResource {
 	@GET
 	@Path("download/{filename}")
 	public Response download(@PathParam("filename") String filename) {
-		return AppFiles.download(Paths.get(ROOT, "", filename));
+		return AppFiles.download(Paths.get(ROOT_PATH, "", filename));
 	}
 	
 	/**
@@ -86,7 +84,7 @@ public class StorageResource {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response upload(FormDataMultiPart multiPart, @FormDataParam("folder") @DefaultValue("") String folder) {
-		return AppFiles.upload(multiPart, Paths.get(ROOT, folder));
+		return AppFiles.upload(multiPart, Paths.get(ROOT_PATH, folder));
 	}
 	
 }
