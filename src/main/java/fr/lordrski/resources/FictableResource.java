@@ -114,7 +114,7 @@ public class FictableResource extends PathAccessor {
 	
 	@PUT
 	@Path("{fictable}")
-	public Response modifyFictable(@PathParam("fictable") String jsonName, Fictable fictable) {
+	public Response updateFictable(@PathParam("fictable") String jsonName, Fictable fictable) {
 		File jsonFile = Paths.get(ROOT_PATH, Fictable.normalize(jsonName)).toFile();
 		if (jsonFile.exists()) {
 			AppFiles.writeJSON(jsonFile, fictable);

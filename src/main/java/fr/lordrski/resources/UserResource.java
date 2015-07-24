@@ -141,7 +141,7 @@ public class UserResource {
 	*/
 	@PUT
 	@Path("{login}")
-	public Response modifyUser(@PathParam("login") String login, User user) {
+	public Response updateUser(@PathParam("login") String login, User user) {
 		// Si l'utilisateur est inconnu, on renvoie 404
 		if (userDao.find(login) == null) {
 			throw new NotFoundException();
