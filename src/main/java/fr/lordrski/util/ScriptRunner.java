@@ -18,13 +18,20 @@
  */
 package fr.lordrski.util;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.skife.jdbi.v2.Handle;
 
 /**
  * Outil basé sur la classe com.ibatis.common.jdbc.ScriptRunner du projet iBATIS Apache.
@@ -34,7 +41,41 @@ public class ScriptRunner {
 
 	private static final String DEFAULT_DELIMITER = ";";
 	
-	private final Logger log = Logger.getLogger("SCRIPT RUNNER");
+	/**
+	 * Exécute tous les fichiers SQL contenu dans le dossier des scripts de l'application.
+	 * Les fichiers SQL sont exécutés dans l'ordre naturel de leur nom.
+	 */
+	public static void runDefaultScripts() {
+		Path root = Paths.get("scripts");
+		if (Files.isDirectory(root)) {
+			try {
+				Files.list(root).filter(path -> path.toString().endsWith(".sql")).forEach(path -> runDefaultScript(path));
+			} catch (IOException e) {
+				Logger.getLogger("scripts").log(Level.SEVERE, "Error occured while reading script folder", e);
+			}
+		}
+		else {
+			Logger.getLogger("scripts").severe("No scripts found in script folder");
+		}
+	}
+	
+	/**
+	 * Exécute le fichier SQL au chemin d'accès passé en paramètre
+	 * @param path le chemin d'accès du fichier SQL à exécuter
+	 */
+	private static void runDefaultScript(Path path) {
+		Handle handle = JdbiProvider.getDBI().open();
+		ScriptRunner script = new ScriptRunner(handle.getConnection(), false ,false);
+		try {
+			script.runScript(new FileReader(path.toFile()));
+			Logger.getLogger("scripts").info("SQL script " + path.getFileName() + " loaded successfully");
+		} catch (IOException | SQLException e) {
+			Logger.getLogger("scripts").log(Level.SEVERE, "Error occured while reading " + path.getFileName());
+		}
+		handle.close();
+	}
+	
+	private final Logger log = Logger.getLogger("script runner");
 
 	private Connection connection;
 

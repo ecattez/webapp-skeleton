@@ -6,12 +6,12 @@
 	<link rel="stylesheet" type="text/css" href="#" th:href="${application.default_css}" />
 	<script type="text/javascript">
 		function upload() {
-			var url = "/files/upload/";			
+			var url = "/storage/upload/";			
 			$("#form_upload").attr("action", url).submit();
 		}
 		
 		function download() {
-			var url = "/files/download/";
+			var url = "/storage/download/";
 			var folder = $("#form_download #folder").val();
 			var filename = $("#form_download #filename").val();
 			

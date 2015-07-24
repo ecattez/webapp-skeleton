@@ -38,10 +38,10 @@ import javax.ws.rs.core.UriInfo;
 
 import fr.lordrski.dao.UserDAO;
 import fr.lordrski.entity.User;
-import fr.lordrski.tool.JdbiTool;
+import fr.lordrski.util.JdbiProvider;
 
 /**
-* Ressource associée à l'entité {@link fr.lordrski.entity.User}
+* Service associé à l'entité {@link fr.lordrski.entity.User}
 */
 @Path("users")
 public class UserResource {
@@ -60,7 +60,7 @@ public class UserResource {
 	* Une ressource doit avoir un contructeur (éventuellement sans arguments)
 	*/
 	public UserResource() {
-		this.userDao = JdbiTool.getDAO(UserDAO.class);
+		this.userDao = JdbiProvider.getDAO(UserDAO.class);
 	}
 
 	/**

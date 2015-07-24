@@ -20,8 +20,11 @@ package fr.lordrski.util;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 /**
  * Charge les propriétés du fichier de configuration.
@@ -37,11 +40,17 @@ public enum DBProperties {
 	private static final Properties PROPERTIES = new Properties();
 	
 	static {
-		Path config = Folder.CONFIG.toPath().resolve("config.properties");
-		try {
-			PROPERTIES.load(new FileReader(config.toFile()));
-		} catch (IOException e) {
-			e.printStackTrace();
+		Path config = Paths.get("config", "config.properties");
+		if (Files.exists(config)) {
+			try {
+				PROPERTIES.load(new FileReader(config.toFile()));
+				Logger.getLogger("config").info("Properties in config.properties loaded successfully");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			Logger.getLogger("config").severe("No config.properties found in config folder");
 		}
 	}
 	

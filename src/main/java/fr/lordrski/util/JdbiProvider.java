@@ -16,36 +16,47 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.tool;
+package fr.lordrski.util;
+
+import org.skife.jdbi.v2.DBI;
 
 /**
- * StringTool offre quelques fonctionnalités pour manipuler les chaînes de caractères.
+ * Permet l'accès à toutes les classes de DAO via un {@link DBI} static.
  */
-public class StringTool {
+public class JdbiProvider {
+	
+	private static DBI dbi;
 	
 	/**
 	 * Empêche l'instanciation de la classe.
 	 */
-	private StringTool() {}
-	
+	private JdbiProvider() {}
+
 	/**
-	 * Test si une chaîne est null
+	 * Donne accès à la base de données via un objet DBI
 	 * 
-	 * @param str la chaîne à tester
-	 * @return vrai si la chaîne est null
+	 * @return un objet DBI
 	 */
-	public static boolean isNull(String str) {
-		return str == null;
+	public static DBI getDBI() {
+		if (dbi == null) {
+			try {
+				Class.forName(DBProperties.DB_DRIVER.val());
+				dbi = new DBI(DBProperties.DB_URI.val(), DBProperties.DB_USERNAME.val(), DBProperties.DB_PASSWORD.val());
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		return dbi;
 	}
 	
 	/**
-	 * Test si une chaîne est vide
+	 * Récupère n'importe quel DAO via l'objet DBI
 	 * 
-	 * @param str la chaîne à tester
-	 * @return vrai si la chaîne est vide
+	 * @param dao le DAO voulu
+	 * @return le dao voulu
 	 */
-	public static boolean isEmpty(String str) {
-		return str == null || str.length() == 0;
+	public static <DAO> DAO getDAO(Class<DAO> dao) {
+		return getDBI().onDemand(dao);
 	}
-	
+
 }

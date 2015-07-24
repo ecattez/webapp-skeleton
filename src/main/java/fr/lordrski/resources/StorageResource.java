@@ -18,13 +18,12 @@
  */
 package fr.lordrski.resources;
 
-import java.io.File;
-import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -35,17 +34,20 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import fr.lordrski.mvc.Model;
-import fr.lordrski.tool.FileTool;
-import fr.lordrski.tool.StringTool;
-import fr.lordrski.util.Folder;
+import fr.lordrski.util.AppFiles;
 
 /**
-* Ressource associée aux fichiers
+* Service associé aux fichiers du dossier "storage"
 */
 @Singleton
-@Path("files")
-public class FileResource {
+@Path("storage")
+public class StorageResource {
+	
+	private final String ROOT;
+	
+	public StorageResource() {
+		this.ROOT = "storage";
+	}
 	
 	/**
 	 * Télécharge un fichier depuis le serveur vers le client
@@ -57,11 +59,7 @@ public class FileResource {
 	@GET
 	@Path("download/{folder}/{filename}")
 	public Response download(@PathParam("folder") String folder, @PathParam("filename") String filename) {
-		java.nio.file.Path path = Folder.EXCHANGE.resolve(folder).resolve(filename);
-		if (Files.exists(path)) {
-			return Response.ok(path.toFile()).header("Content-Disposition", "attachment; filename=\"" + filename + "\"").build();			
-		}
-		throw new NotFoundException();
+		return AppFiles.download(Paths.get(ROOT, folder, filename));
 	}
 	
 	/**
@@ -73,7 +71,7 @@ public class FileResource {
 	@GET
 	@Path("download/{filename}")
 	public Response download(@PathParam("filename") String filename) {
-		return download(null, filename);
+		return AppFiles.download(Paths.get(ROOT, "", filename));
 	}
 	
 	/**
@@ -87,21 +85,8 @@ public class FileResource {
 	@Path("upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response upload(FormDataMultiPart multiPart, @FormDataParam("folder") String folder) {
-		java.nio.file.Path path = Folder.EXCHANGE.resolve(folder);
-		Model model = new Model();
-
-		path.toFile().mkdirs();
-		multiPart.getFields().values().stream().forEach(
-			fields -> fields.stream().filter(field -> !StringTool.isEmpty(field.getFormDataContentDisposition().getFileName())).forEach(
-				field -> {
-					String filename = field.getFormDataContentDisposition().getFileName();
-					boolean result = FileTool.upload(field.getValueAs(File.class), path.resolve(filename));
-					model.put(filename, result);
-				}
-			)
-		);
-		return Response.ok(model).build();
+	public Response upload(FormDataMultiPart multiPart, @FormDataParam("folder") @DefaultValue("") String folder) {
+		return AppFiles.upload(multiPart, Paths.get(ROOT, folder));
 	}
 	
 }

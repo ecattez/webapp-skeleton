@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
 import org.glassfish.jersey.server.mvc.Viewable;
 
 /**
- * Ressources associée à divers objets
+ * Service associé à divers objets
  */
 @Singleton
 @Path("/")

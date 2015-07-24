@@ -16,26 +16,34 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.tool;
+package fr.lordrski.util;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.nio.file.Path;
+
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import fr.lordrski.mvc.Model;
+
 /**
- * FileTool offre quelques fonctionnalités pour manipuler les fichiers
+ * AppFiles offre des fonctionnalités pour manipuler les fichiers
  */
-public class FileTool {
+public class AppFiles {
 	
 	/**
 	 * Empêche l'instanciation de la classe.
 	 */
-	private FileTool() {}
+	private AppFiles() {}
 	
 	/**
 	 * Transforme un fichier JSON sauvegardé sur le disque en objet JAVA
@@ -66,7 +74,7 @@ public class FileTool {
 		ObjectMapper mapper = new ObjectMapper();
 		boolean success = false;
 		try {
-			jsonFile.getAbsoluteFile().getParentFile().mkdirs();
+			jsonFile.getParentFile().mkdirs();
 			mapper.writeValue(jsonFile, o);
 			success = true;
 		} catch (IOException e) {
@@ -76,13 +84,49 @@ public class FileTool {
 	}
 	
 	/**
+	 * Télécharge un fichier depuis le serveur vers le client
+	 * 
+	 * @param Path path le chemin d'accès du fichier à télécharger
+	 * @return La réponse avec le fichier dans l'entête ou NOT FOUND
+	 */
+	public static Response download(Path filePath) {
+		if (Files.exists(filePath)) {
+			return Response.ok(filePath.toFile())
+					.header("Content-Disposition", "attachment; filename=\"" + filePath.getFileName() + "\"").build();			
+		}
+		throw new NotFoundException();
+	}
+	
+	/**
+	 * Télécharge un ou plusieurs fichiers depuis le client vers le serveur
+	 * 
+	 * @param multiPart L'objet qui contient toutes les informations du formulaire de type multipart
+	 * @param dest le chemin du dossier de destination
+	 * @return La réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
+	 */
+	public static Response upload(FormDataMultiPart multiPart, Path dest) {
+		Model model = new Model();
+		multiPart.getFields().values().stream().forEach(
+			fields -> fields.stream().filter(field -> !Strings.isEmpty(field.getFormDataContentDisposition().getFileName())).forEach(
+				field -> {
+					String filename = field.getFormDataContentDisposition().getFileName();
+					boolean result = upload(field.getValueAs(File.class), dest.resolve(filename));
+					model.put(filename, result);
+				}
+			)
+		);
+		return Response.ok(model).build();
+	}
+	
+	/**
 	 * Copie un fichier à un emplacement sur le disque
 	 * 
 	 * @param src le fichier à copier stocké dans la zone temporaire du disque
-	 * @param dest le chemin de destination
+	 * @param dest le chemin du fichier de destination
 	 * @return vrai si la copie s'est bien déroulée
 	 */
 	public static boolean upload(File src, Path dest) {
+		dest.getParent().toFile().mkdirs();
 		try (FileInputStream fin = new FileInputStream(src);
 				FileOutputStream fout = new FileOutputStream(dest.toFile())) {
 			FileChannel fchin = fin.getChannel();

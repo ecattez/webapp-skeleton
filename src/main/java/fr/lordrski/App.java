@@ -18,24 +18,15 @@
  */
 package fr.lordrski;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Arrays;
-
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.skife.jdbi.v2.Handle;
 
 import fr.lordrski.mvc.ThymeleafMvcFeature;
-import fr.lordrski.tool.JdbiTool;
 import fr.lordrski.util.CORSResponseFilter;
-import fr.lordrski.util.Folder;
 import fr.lordrski.util.ScriptRunner;
 
 /**
@@ -49,7 +40,7 @@ public class App extends ResourceConfig {
 		register(MultiPartFeature.class);
 		register(CORSResponseFilter.class);
 		packages("fr.lordrski.resources");
-		runSQL();
+		ScriptRunner.runDefaultScripts();
 	}
 	
 	public App(@Context ServletContext context) {
@@ -67,34 +58,6 @@ public class App extends ResourceConfig {
 		context.setAttribute("default_css", root + "/css/style.css");
 		context.setAttribute("js", root + "/js/");
 		context.setAttribute("jQuery", root + "/js/jquery-2.1.4.min.js");
-	}
-	
-	/**
-	 * Exécute tous les fichiers SQL contenu dans le dossier de configuration de l'application
-	 */
-	private void runSQL() {
-		File config = Folder.CONFIG.toPath().toFile();
-		if (config.isDirectory()) {
-			Arrays.stream(config.listFiles()).filter(f -> f.getName().endsWith(".sql")).forEach(f -> runScript(f));
-		}
-		else {
-			config.mkdirs();
-		}
-	}
-	
-	/**
-	 * Exécute le fichier SQL passé en paramètre
-	 * @param file le fichier SQL à exécuter
-	 */
-	private void runScript(File file) {
-		Handle handle = JdbiTool.getDBI().open();
-		ScriptRunner script = new ScriptRunner(handle.getConnection(), false ,false);
-		try {
-			script.runScript(new FileReader(file));
-		} catch (IOException | SQLException e) {
-			e.printStackTrace();
-		}
-		handle.close();
 	}
 
 }
