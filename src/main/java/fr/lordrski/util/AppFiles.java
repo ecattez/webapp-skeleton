@@ -19,12 +19,11 @@
 package fr.lordrski.util;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
@@ -46,17 +45,32 @@ public class AppFiles {
 	private AppFiles() {}
 	
 	/**
+	 * Crée l'ensemble des dossiers formant le chemin d'accès passé en paramètre
+	 * @param path les dossiers à créer sous forme d'un chemin d'accès
+	 * @return le chemin d'accès créé et valide, null sinon
+	 */
+	public static Path mkdirs(Path path) {
+		Path out = null;
+		try {
+			out = Files.createDirectories(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return out;
+	}
+	
+	/**
 	 * Transforme un fichier JSON sauvegardé sur le disque en objet JAVA
-	 * @param jsonFile le fichier json à lire
+	 * @param jsonPath le chemin d'accès du fichier json à lire
 	 * @param type la classe de l'objet JAVA a retrouver
 	 * @return l'objet JAVA retrouvé via le fichier json
 	 */
-	public static <E> E readJSON(File jsonFile, Class<E> type) {
+	public static <E> E readJSON(Path jsonPath, Class<E> type) {
 		ObjectMapper mapper = new ObjectMapper();
 		E elt = null;
-		if (jsonFile.exists()) {
+		if (Files.exists(jsonPath)) {
 			try {
-				elt = mapper.readValue(jsonFile, type);
+				elt = mapper.readValue(jsonPath.toFile(), type);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -66,16 +80,19 @@ public class AppFiles {
 	
 	/**
 	 * Transforme un objet JAVA en fichier JSON sauvegardé sur le disque
-	 * @param jsonFile le fichier json à sauvegarder
-	 * @param o l'objet a transformer
+	 * @param jsonPath le chemin d'accès du fichier json à sauvegarder
+	 * @param o l'objet à transformer
 	 * @return vrai si l'écriture du fichier s'est bien déroulée
 	 */
-	public static boolean writeJSON(File jsonFile, Object o) {
+	public static boolean writeJSON(Path jsonPath, Object o) {
 		ObjectMapper mapper = new ObjectMapper();
+		Path parent = jsonPath.getParent();
 		boolean success = false;
+		if (!Files.exists(parent)) {
+			mkdirs(parent);
+		}
 		try {
-			jsonFile.getParentFile().mkdirs();
-			mapper.writeValue(jsonFile, o);
+			mapper.writeValue(jsonPath.toFile(), o);
 			success = true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -110,7 +127,7 @@ public class AppFiles {
 			fields -> fields.stream().filter(field -> !Strings.isEmpty(field.getFormDataContentDisposition().getFileName())).forEach(
 				field -> {
 					String filename = field.getFormDataContentDisposition().getFileName();
-					boolean result = upload(field.getValueAs(File.class), dest.resolve(filename));
+					boolean result = upload(field.getValueAs(File.class).toPath(), dest.resolve(filename));
 					model.put(filename, result);
 				}
 			)
@@ -121,18 +138,18 @@ public class AppFiles {
 	/**
 	 * Copie un fichier à un emplacement sur le disque
 	 * 
-	 * @param src le fichier à copier stocké dans la zone temporaire du disque
+	 * @param src le chemin du fichier à copier stocké dans la zone temporaire du disque
 	 * @param dest le chemin du fichier de destination
 	 * @return vrai si la copie s'est bien déroulée
 	 */
-	public static boolean upload(File src, Path dest) {
-		dest.getParent().toFile().mkdirs();
-		try (FileInputStream fin = new FileInputStream(src);
-				FileOutputStream fout = new FileOutputStream(dest.toFile())) {
-			FileChannel fchin = fin.getChannel();
-			FileChannel fchout = fout.getChannel();
-			fchin.transferTo(0, fchin.size(), fchout);
-			return true;
+	public static boolean upload(Path src, Path dest) {
+		Path parent = dest.getParent();
+		if (!Files.exists(parent)) {
+			mkdirs(parent);
+		}
+		try (FileChannel fchin = FileChannel.open(src);
+				FileChannel fchout = FileChannel.open(dest, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
+			return fchin.transferTo(0, fchin.size(), fchout) > 0;
 		}
 		catch (IOException e) {
 			e.printStackTrace();

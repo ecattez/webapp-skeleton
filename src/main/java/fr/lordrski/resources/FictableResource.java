@@ -18,8 +18,9 @@
  */
 package fr.lordrski.resources;
 
-import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,17 +60,18 @@ public class FictableResource extends PathAccessor {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Fictable> getFictables() {
-		File folder = Paths.get(ROOT_PATH).toFile();
+	public List<Fictable> getFictables() throws IOException {
+		java.nio.file.Path parent = Paths.get(ROOT_PATH);
 		List<Fictable> fictables = new ArrayList<Fictable>();
-		Fictable tmp;
-		if (folder.isDirectory()) {
-			for (File jsonFile : folder.listFiles()) {
-				tmp = AppFiles.readJSON(jsonFile, Fictable.class);
-				if (tmp != null) {
-					fictables.add(tmp);
+		if (Files.isDirectory(parent)) {
+			Files.list(parent).forEach(
+				jsonPath -> {
+					Fictable tmp = AppFiles.readJSON(jsonPath, Fictable.class);
+					if (tmp != null) {
+						fictables.add(tmp);
+					}
 				}
-			}
+			);
 		}
 		return fictables;
 	}
@@ -78,8 +80,8 @@ public class FictableResource extends PathAccessor {
 	@Path("{fictable}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Fictable getFictable(@PathParam("fictable") String jsonName) {
-		File jsonFile = Paths.get(ROOT_PATH, Fictable.normalize(jsonName)).toFile();
-		Fictable fictable = AppFiles.readJSON(jsonFile, Fictable.class);
+		java.nio.file.Path jsonPath = Paths.get(ROOT_PATH, Fictable.normalize(jsonName));
+		Fictable fictable = AppFiles.readJSON(jsonPath, Fictable.class);
 		if (fictable == null) {
 			throw new NotFoundException();
 		}
@@ -88,12 +90,12 @@ public class FictableResource extends PathAccessor {
 	
 	@POST
 	public Response createFictable(Fictable fictable) {
-		File jsonFile = Paths.get(ROOT_PATH, fictable.getFileName()).toFile();
-		if (jsonFile.exists()) {
+		java.nio.file.Path jsonPath = Paths.get(ROOT_PATH, fictable.getFileName());
+		if (Files.exists(jsonPath)) {
 			return Response.status(Response.Status.CONFLICT).build();
 		}
 		else {
-			AppFiles.writeJSON(jsonFile, fictable);
+			AppFiles.writeJSON(jsonPath, fictable);
 			URI instanceURI = uriInfo.getAbsolutePathBuilder().path(fictable.getFileName()).build();
 			return Response.created(instanceURI).build();
 		}
@@ -101,28 +103,23 @@ public class FictableResource extends PathAccessor {
 	
 	@DELETE
 	@Path("{fictable}")
-	public Response deleteFictable(@PathParam("fictable") String jsonName) {
-		File jsonFile = Paths.get(ROOT_PATH, Fictable.normalize(jsonName)).toFile();
-		if (jsonFile.exists()) {
-			jsonFile.delete();
+	public Response deleteFictable(@PathParam("fictable") String jsonName) throws IOException {
+		java.nio.file.Path jsonPath = Paths.get(ROOT_PATH, Fictable.normalize(jsonName));
+		if (Files.deleteIfExists(jsonPath)) {
 			return Response.status(Response.Status.NO_CONTENT).build();
 		}
-		else {
-			throw new NotFoundException();
-		}
+		throw new NotFoundException();
 	}
 	
 	@PUT
 	@Path("{fictable}")
 	public Response updateFictable(@PathParam("fictable") String jsonName, Fictable fictable) {
-		File jsonFile = Paths.get(ROOT_PATH, Fictable.normalize(jsonName)).toFile();
-		if (jsonFile.exists()) {
-			AppFiles.writeJSON(jsonFile, fictable);
+		java.nio.file.Path jsonPath = Paths.get(ROOT_PATH, Fictable.normalize(jsonName));
+		if (Files.exists(jsonPath)) {
+			AppFiles.writeJSON(jsonPath, fictable);
 			return Response.status(Response.Status.NO_CONTENT).build();
 		}
-		else {
-			throw new NotFoundException();			
-		}
+		throw new NotFoundException();
 	}
 
 }
