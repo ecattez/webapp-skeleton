@@ -43,7 +43,7 @@ public class FictableResourceTest extends ResourceTest {
 			tmp = new FictableEntry();
 			tmp.put("id", "" + i);
 			tmp.put("label", "label" + i);
-			tmp.put("activated", "" + (i%2 == 0));
+			tmp.put("activated", "" + ((i%2 == 0) ? 1 : 0));
 			tmp.put("owner", "Edouard");
 			tmp.put("permission", "fictables.create");
 			tmp.put("couilleEnOr", "1");

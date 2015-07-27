@@ -25,7 +25,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
@@ -50,9 +49,6 @@ public class FictableResource extends PathAccessor {
 	
 	@Context
 	private UriInfo uriInfo;
-	
-	@Context
-	private ServletContext context;
 	
 	public FictableResource() {
 		super("fictables");
