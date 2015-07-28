@@ -123,12 +123,14 @@ public class AppFiles {
 	 */
 	public static Response upload(FormDataMultiPart multiPart, Path dest) {
 		Model model = new Model();
-		multiPart.getFields().values().stream().forEach(
-			fields -> fields.stream().filter(field -> !Strings.isEmpty(field.getFormDataContentDisposition().getFileName())).forEach(
+		multiPart.getFields().values().forEach(
+			fields -> fields.stream().forEach(
 				field -> {
 					String filename = field.getFormDataContentDisposition().getFileName();
-					boolean result = upload(field.getValueAs(File.class).toPath(), dest.resolve(filename));
-					model.put(filename, result);
+					if (Strings.isNotEmpty(filename)) {
+						boolean result = upload(field.getValueAs(File.class).toPath(), dest.resolve(filename));
+						model.put(filename, result);
+					}
 				}
 			)
 		);

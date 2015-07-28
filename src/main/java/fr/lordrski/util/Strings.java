@@ -29,16 +29,6 @@ public class Strings {
 	private Strings() {}
 	
 	/**
-	 * Test si une chaîne est null
-	 * 
-	 * @param str la chaîne à tester
-	 * @return vrai si la chaîne est null
-	 */
-	public static boolean isNull(String str) {
-		return str == null;
-	}
-	
-	/**
 	 * Test si une chaîne est vide
 	 * 
 	 * @param str la chaîne à tester
@@ -46,6 +36,16 @@ public class Strings {
 	 */
 	public static boolean isEmpty(String str) {
 		return str == null || str.length() == 0;
+	}
+	
+	/**
+	 * Test si une chaîne est non vide
+	 * 
+	 * @param str la chaîne à tester
+	 * @return vrai si la chaîne est non vide
+	 */
+	public static boolean isNotEmpty(String str) {
+		return !isEmpty(str);
 	}
 	
 }
