@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -58,18 +58,13 @@ public class FictableResource extends PathAccessor {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Fictable> getFictables() throws IOException {
 		java.nio.file.Path parent = Paths.get(ROOT_PATH);
-		List<Fictable> fictables = new ArrayList<Fictable>();
 		if (Files.isDirectory(parent)) {
-			Files.list(parent).forEach(
-				jsonPath -> {
-					Fictable tmp = AppFiles.readJSON(jsonPath, Fictable.class);
-					if (tmp != null) {
-						fictables.add(tmp);
-					}
-				}
-			);
+			return Files.list(parent)
+				.map(path -> AppFiles.readJSON(path, Fictable.class))
+				.filter(fictable -> fictable != null)
+				.collect(Collectors.toList());
 		}
-		return fictables;
+		return null;
 	}
 	
 	@GET
