@@ -46,10 +46,11 @@ public class App extends ResourceConfig {
 	public App(@Context ServletContext context) {
 		this();
 		final String root = context.getContextPath();
-		context.setAttribute("css", root + "/themes/");
-		context.setAttribute("default_css", root + "/themes/style.css");
-		context.setAttribute("js", root + "/scripts/");
-		context.setAttribute("jQuery", root + "/scripts/jquery-2.1.4.min.js");
+		final String gui = root + "/GUI";
+		context.setAttribute("css", gui + "/themes/");
+		context.setAttribute("default_css", gui + "/themes/style.css");
+		context.setAttribute("js", gui + "/scripts/");
+		context.setAttribute("jQuery", gui + "/scripts/jquery-2.1.4.min.js");
 	}
 
 }

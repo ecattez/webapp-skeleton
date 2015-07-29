@@ -23,10 +23,11 @@ package fr.lordrski.resources;
  */
 public abstract class PathAccessor {
 	
+	private final static String ROOT_FOLDER = "data/";
 	protected final String ROOT_PATH;
 	
 	public PathAccessor(final String ROOT_PATH) {
-		this.ROOT_PATH = ROOT_PATH;
+		this.ROOT_PATH = ROOT_FOLDER + ROOT_PATH;
 	}
 	
 	public String root() {

@@ -46,7 +46,7 @@ public class ScriptRunner {
 	 * Les fichiers SQL sont exécutés dans l'ordre naturel de leur nom.
 	 */
 	public static void runDefaultScripts() {
-		Path root = Paths.get("sql");
+		Path root = Paths.get("config/sql");
 		if (Files.isDirectory(root)) {
 			try {
 				Files.list(root).filter(path -> path.toString().endsWith(".sql")).forEach(path -> runDefaultScript(path));
