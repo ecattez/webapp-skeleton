@@ -64,7 +64,7 @@ public class FictableResource extends PathAccessor {
 				.filter(fictable -> fictable != null)
 				.collect(Collectors.toList());
 		}
-		return null;
+		throw new NotFoundException();
 	}
 	
 	@GET
