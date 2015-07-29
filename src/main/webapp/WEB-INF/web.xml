@@ -5,22 +5,22 @@
 			id="WebApp_ID"
 			version="3.0">
 	
-    <servlet>
-        <servlet-name>RESTFul Web Application</servlet-name>
-        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+    <filter>
+        <filter-name>RESTFul Web Application</filter-name>
+        <filter-class>org.glassfish.jersey.servlet.ServletContainer</filter-class>
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
 			<param-value>fr.lordrski.App</param-value>
 		</init-param>
 		<!-- Declare what file type should be accessible thru Jersey without being interpreted as REST call -->
 		<init-param>
-			<param-name>jersey.config.servlet.servlet.staticContentRegex</param-name>
+			<param-name>jersey.config.servlet.filter.staticContentRegex</param-name>
 			<param-value>/GUI/(image|themes|scripts)/.*</param-value>
 		</init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RESTFul Web Application</servlet-name>
+    </filter>
+    <filter-mapping>
+        <filter-name>RESTFul Web Application</filter-name>
         <url-pattern>/*</url-pattern>
-    </servlet-mapping>
+    </filter-mapping>
     
 </web-app>
