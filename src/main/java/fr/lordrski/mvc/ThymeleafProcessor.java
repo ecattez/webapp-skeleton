@@ -57,7 +57,7 @@ public class ThymeleafProcessor implements TemplateProcessor<String> {
 	public ThymeleafProcessor() {
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
 		templateResolver.setTemplateMode(StandardTemplateModeHandlers.HTML5.getTemplateModeName());
-		templateResolver.setPrefix("/GUI/templates/");
+		templateResolver.setPrefix("/gui/templates/");
 		templateResolver.setSuffix(".html");
 		templateResolver.setCacheTTLMs(1000L);
 		

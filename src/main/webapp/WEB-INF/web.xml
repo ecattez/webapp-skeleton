@@ -15,7 +15,7 @@
 		<!-- Declare what file type should be accessible thru Jersey without being interpreted as REST call -->
 		<init-param>
 			<param-name>jersey.config.servlet.filter.staticContentRegex</param-name>
-			<param-value>/GUI/(image|themes|scripts)/.*</param-value>
+			<param-value>/gui/(image|themes|scripts)/.*</param-value>
 		</init-param>
     </filter>
     <filter-mapping>
