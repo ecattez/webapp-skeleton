@@ -21,8 +21,6 @@ package fr.lordrski.mvc;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -59,7 +57,7 @@ public class ThymeleafProcessor implements TemplateProcessor<String> {
 	public ThymeleafProcessor() {
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
 		templateResolver.setTemplateMode(StandardTemplateModeHandlers.HTML5.getTemplateModeName());
-		templateResolver.setPrefix("/WEB-INF/templates/");
+		templateResolver.setPrefix("/templates/");
 		templateResolver.setSuffix(".html");
 		templateResolver.setCacheTTLMs(1000L);
 		
@@ -76,9 +74,7 @@ public class ThymeleafProcessor implements TemplateProcessor<String> {
 	public void writeTo(String templateReference, Viewable viewable, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream out) throws IOException {
 		try (OutputStreamWriter writer = new OutputStreamWriter(out, UTF_8)) {
 			WebContext context = new WebContext(request, response, servletContext, request.getLocale());
-			Map<String, Object> variables = new HashMap<String, Object>();
-			variables.put("it", viewable.getModel());
-			context.setVariables(variables);
+			context.setVariable("it", viewable.getModel());
 			templateEngine.process(viewable.getTemplateName(), context, writer);
 		}		
 	}

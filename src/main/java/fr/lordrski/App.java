@@ -35,29 +35,21 @@ import fr.lordrski.util.ScriptRunner;
 public class App extends ResourceConfig {
 	
 	public App() {
+		ScriptRunner.runDefaultScripts();
+		packages("fr.lordrski.resources");
 		register(LoggingFilter.class);
-		register(ThymeleafMvcFeature.class);
 		register(MultiPartFeature.class);
 		register(CORSResponseFilter.class);
-		packages("fr.lordrski.resources");
-		ScriptRunner.runDefaultScripts();
+		register(ThymeleafMvcFeature.class);
 	}
 	
 	public App(@Context ServletContext context) {
 		this();
-		initializeContext(context);
-	}
-	
-	/**
-	 * Initialise le ServletContext au lancement de l'application
-	 * @param context le ServletContext
-	 */
-	private void initializeContext(ServletContext context) {
 		final String root = context.getContextPath();
-		context.setAttribute("css", root + "/css/");
-		context.setAttribute("default_css", root + "/css/style.css");
-		context.setAttribute("js", root + "/js/");
-		context.setAttribute("jQuery", root + "/js/jquery-2.1.4.min.js");
+		context.setAttribute("css", root + "/themes/");
+		context.setAttribute("default_css", root + "/themes/style.css");
+		context.setAttribute("js", root + "/scripts/");
+		context.setAttribute("jQuery", root + "/scripts/jquery-2.1.4.min.js");
 	}
 
 }

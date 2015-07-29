@@ -66,7 +66,6 @@ public class FictableResourceTest extends ResourceTest {
 		Response response = target(FICTABLE_PATH).request().post(fictableEntity);
 		assertEquals(201, response.getStatus());
 		URI uriAttendue = target(FICTABLE_PATH).path(FICTABLE.getFileName()).getUri();
-		System.out.println(uriAttendue);
 		assertTrue(uriAttendue.equals(response.getLocation()));
 	}
 	
