@@ -12,29 +12,20 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import fr.lordrski.entity.Company;
-import fr.lordrski.entity.Group;
 import fr.lordrski.entity.User;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserResourceTestCase extends ResourceTest {
 	
-	private static Company company;
-	private static Group group;
+	private static String company = "leaderinfo";
+	private static String group = "admin";
 	
 	public UserResourceTestCase() {
 		super("/users");
-	}
-	
-	@BeforeClass
-	public static void initializeCompany() {
-		company = new Company("leaderinfo", "LEADER Informatique", "33 rue Charles Muyssart", "", "59000");
-		group = new Group(company, "admin", "Administrateur");
 	}
 
 	/**
@@ -51,7 +42,7 @@ public class UserResourceTestCase extends ResourceTest {
 	 */
 	@Test
 	public void test_B_CreateUser() {
-		User user = new User(group, "jsteed", "secret", "Steed", "John", "0606060606", "jsteed@mi5.uk");
+		User user = new User(company, group, "jsteed", "secret", "Steed", "John", "0606060606", "jsteed@mi5.uk");
 		
 		// Conversion de l'instance de User au format JSON pour l'envoi
 		Entity<User> userEntity = Entity.entity(user, MediaType.APPLICATION_JSON);
@@ -74,7 +65,7 @@ public class UserResourceTestCase extends ResourceTest {
 	 */
 	@Test
 	public void test_C_CreateSameUser() {
-		User user = new User(group, "jsteed", "secret", "Steed", "John", "0606060606", "jsteed@mi5.uk");
+		User user = new User(company, group, "jsteed", "secret", "Steed", "John", "0606060606", "jsteed@mi5.uk");
 		Entity<User> userEntity = Entity.entity(user, MediaType.APPLICATION_JSON);
 		int same = target(URI_PATH).request().post(userEntity).getStatus();
 		assertEquals(409, same);
@@ -85,7 +76,7 @@ public class UserResourceTestCase extends ResourceTest {
 	 */
 	@Test
 	public void test_D_GetTwoUsers() {
-		User user = new User(group, "epeel", "magic", "Peel", "Edgard", "0606060606", "epeel@mi5.uk");
+		User user = new User(company, group, "epeel", "magic", "Peel", "Edgard", "0606060606", "epeel@mi5.uk");
 		Entity<User> userEntity = Entity.entity(user, MediaType.APPLICATION_JSON);
 		target(URI_PATH).request().post(userEntity);
 		List<User> list = target(URI_PATH).request().get(new GenericType<List<User>>(){});
@@ -97,7 +88,7 @@ public class UserResourceTestCase extends ResourceTest {
 	 */
 	@Test
 	public void test_E_GetOneUser_Get() {
-		User user = new User(group, "jsteed", "secret", "Steed", "John", "0606060606", "jsteed@mi5.uk");
+		User user = new User(company, group, "jsteed", "secret", "Steed", "John", "0606060606", "jsteed@mi5.uk");
 		User result = target(URI_PATH).path("jsteed").request().get(User.class);
 		assertEquals(user, result);
 	}
@@ -136,7 +127,7 @@ public class UserResourceTestCase extends ResourceTest {
 	 */
 	@Test
 	public void test_I_ModifyUser() {
-		User modified = new User(group, "epeel", "magic", "Peel", "Edgard", "0606060606", "epeel@cia.usa");
+		User modified = new User(company, group, "epeel", "magic", "Peel", "Edgard", "0606060606", "epeel@cia.usa");
 		Entity<User> userEntity = Entity.entity(modified, MediaType.APPLICATION_JSON); 
 		int noContent = target(URI_PATH).path("epeel").request().put(userEntity).getStatus();
 		assertEquals(204, noContent);
@@ -149,7 +140,7 @@ public class UserResourceTestCase extends ResourceTest {
 	 */
 	@Test
 	public void test_J_ModifyInexistantUser() {
-		User inexistant = new User(group, "jsteed", "secret", "Steed", "John", "0606060606", "jsteed@mi5.uk");
+		User inexistant = new User(company, group, "jsteed", "secret", "Steed", "John", "0606060606", "jsteed@mi5.uk");
 		Entity<User> userEntity = Entity.entity(inexistant, MediaType.APPLICATION_JSON);
 		int notFound = target(URI_PATH).path("jsteed").request().put(userEntity).getStatus();
 		assertEquals(404, notFound);
@@ -159,6 +150,8 @@ public class UserResourceTestCase extends ResourceTest {
 	@Test
 	public void test_K_CreateUserFromForm() {
 		Form form = new Form();
+		form.param("company", company);
+		form.param("group", group);
 		form.param("login", "tking");
 		form.param("password", "iloveburgers");
 		form.param("firstName", "King");
@@ -179,7 +172,7 @@ public class UserResourceTestCase extends ResourceTest {
 		Form form = new Form();
 		form.param("password", "magic");
 		
-		User user = new User(group, "epeel", "magic", "Peel", "Edgard", "0606060606", "epeel@mi5.uk");
+		User user = new User(company, group, "epeel", "magic", "Peel", "Edgard", "0606060606", "epeel@mi5.uk");
 		Entity<Form> userEntity = Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE);
 		User result = target(URI_PATH).path("epeel").request().post(userEntity, User.class);
 		assertEquals(user, result);

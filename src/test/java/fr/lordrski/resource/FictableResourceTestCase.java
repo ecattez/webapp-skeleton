@@ -23,7 +23,7 @@ import fr.lordrski.entity.fictable.FictableInfos;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FictableResourceTestCase extends ResourceTest {
 
-	private static final Fictable FICTABLE = new Fictable("exemple.json", "Exemple");
+	private static final Fictable FICTABLE = new Fictable("clients.json", "Fictable d'exemple");
 	
 	public FictableResourceTestCase() {
 		super("/fictables");
@@ -34,22 +34,22 @@ public class FictableResourceTestCase extends ResourceTest {
 		List<FictableInfos> columns = new ArrayList<>();
 		List<FictableEntry> entries = new ArrayList<>();
 		
-		columns.add(new FictableInfos("id", "int", 5));
-		columns.add(new FictableInfos("label", "string", 20));
-		columns.add(new FictableInfos("activated", "boolean", 1));
-		columns.add(new FictableInfos("owner", "string", 8));
-		columns.add(new FictableInfos("permission", "string", 20));
-		columns.add(new FictableInfos("couilleEnOr", "boolean", 1));
+		columns.add(new FictableInfos("idCompany", "Company", "string", 20));
+		columns.add(new FictableInfos("idClient", "Client", "string", 20));
+		columns.add(new FictableInfos("firstName", "Firstname", "string", 20));
+		columns.add(new FictableInfos("lastName", "Lastname", "string", 20));
+		columns.add(new FictableInfos("address", "Address", "string", 20));
+		columns.add(new FictableInfos("email", "Email", "string", 20));
 		
 		FictableEntry tmp;
 		for (int i=0; i<2000; i++) {
 			tmp = new FictableEntry();
-			tmp.put("id", "" + i);
-			tmp.put("label", "label" + i);
-			tmp.put("activated", "" + ((i%2 == 0) ? 1 : 0));
-			tmp.put("owner", "Edouard");
-			tmp.put("permission", "fictables.create");
-			tmp.put("couilleEnOr", "1");
+			tmp.put("idCompany", "leaderinfo");
+			tmp.put("idClient", "client" + i);
+			tmp.put("firstName", "Jean " + i);
+			tmp.put("lastName", "Alphonse " + i);
+			tmp.put("address", "33 rue Charles " + i);
+			tmp.put("email", "jeanalphonse" + i + "@gmail.com");
 			entries.add(tmp);
 		}
 		
@@ -98,7 +98,7 @@ public class FictableResourceTestCase extends ResourceTest {
 		Entity<Fictable> fictableEntity = Entity.entity(FICTABLE, MediaType.APPLICATION_JSON);
 		target(URI_PATH).request().post(fictableEntity);
 		Fictable modified = FICTABLE.clone();
-		modified.setDisplayName("Exemple modifie");
+		modified.setDisplayName("Fictable d'exemple modifiée");
 		fictableEntity = Entity.entity(modified, MediaType.APPLICATION_JSON); 
 		int noContent = target(URI_PATH).path(FICTABLE.getFileName()).request().put(fictableEntity).getStatus();
 		assertEquals(204, noContent);

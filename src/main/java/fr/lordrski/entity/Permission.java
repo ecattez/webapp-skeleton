@@ -34,31 +34,32 @@ public class Permission {
 	
 	public static final String PERM_REGEX = "^(\\*|\\w+(\\.\\w+)*(\\.\\*)?)$";
 	
-	@DatabaseField(columnName = "group_id", foreign = true, uniqueCombo = true)
-	private Group group;
-	@DatabaseField(columnName = "permission_id", id = true, uniqueCombo = true)
+	@DatabaseField(columnName = "group_id", uniqueCombo = true)
+	private String group;
+	@DatabaseField(columnName = "permission_id", uniqueCombo = true)
 	private String uri;
 	
 	public Permission() {}
 	
-	public Permission(String uri) {
+	public Permission(String group, String uri) {
 		if (!uri.matches(PERM_REGEX)) {
 			throw new PermissionFormatException(uri);
 		}
+		this.group = group;
 		this.uri = uri;
 	}
 
 	/**
 	 * @return the group
 	 */
-	public Group getGroup() {
+	public String getGroup() {
 		return group;
 	}
 
 	/**
 	 * @param group the group to set
 	 */
-	public void setGroup(Group group) {
+	public void setGroup(String group) {
 		this.group = group;
 	}
 

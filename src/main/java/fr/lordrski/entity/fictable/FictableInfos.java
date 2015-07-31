@@ -23,14 +23,16 @@ package fr.lordrski.entity.fictable;
  */
 public class FictableInfos {
 	
-	private String name;
+	private String code;
+	private String label;
 	private String type;
 	private int length;
 	
 	public FictableInfos() {}
 	
-	public FictableInfos(String name, String type, int length) {
-		this.name = name;
+	public FictableInfos(String code, String label, String type, int length) {
+		this.code = code;
+		this.label = label;
 		this.type = type;
 		this.length = length;
 	}
@@ -39,16 +41,32 @@ public class FictableInfos {
 	 * Récupère le nom de la colonne
 	 * @return le nom de la colonne
 	 */
-	public String getName() {
-		return name;
+	public String getCode() {
+		return code;
 	}
 	
 	/**
 	 * Saisi le nom de la colonne
 	 * @param name le nouveau nom de la colonne
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setCode(String code) {
+		this.code = code;
+	}
+	
+	/**
+	 * Récupère le nom de la colonne
+	 * @return le nom de la colonne
+	 */
+	public String getLabel() {
+		return label;
+	}
+	
+	/**
+	 * Saisi le nom de la colonne
+	 * @param name le nouveau nom de la colonne
+	 */
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	
 	/**
@@ -85,17 +103,17 @@ public class FictableInfos {
 	
 	@Override
 	public boolean equals(Object o) {
-		return (o instanceof Fictable) && name.equals(((FictableInfos)o).name);
+		return (o instanceof Fictable) && code.equals(((FictableInfos)o).code);
 	}
 	
 	@Override
 	public int hashCode() {
-		return name == null ? 0 : name.hashCode();
+		return label == null ? 0 : label.hashCode();
 	}
 	
 	@Override
 	public String toString() {
-		return "FictableInfos[name=" + name + ", type=" + type + ", length=" + length + "]";
+		return "FictableInfos[code=" + code + ", label=" + label + ", type=" + type + ", length=" + length + "]";
 	}
 
 }

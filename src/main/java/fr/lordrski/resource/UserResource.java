@@ -169,7 +169,8 @@ public class UserResource {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response createUser(@FormParam("login") String login, @FormParam("password") String password,
+	public Response createUser(@FormParam("company") String company, @FormParam("group") String group,
+			@FormParam("login") String login, @FormParam("password") String password,
 			@FormParam("firstName") String firstName, @FormParam("lastName") String lastName,
 			@FormParam("phoneNumber") String phoneNumber, @FormParam("email") String email) throws SQLException {
 		// Si l'utilisateur existe déjà, renvoyer 409
@@ -177,7 +178,7 @@ public class UserResource {
 			return Response.status(Response.Status.CONFLICT).build();
 		}
 		else {
-			User user = new User(login, password, firstName, lastName, phoneNumber, email);
+			User user = new User(company, group, login, password, firstName, lastName, phoneNumber, email);
 			userDao.insert(user);
 			// On renvoie 201 et l'instance de la ressource dans le Header HTTP 'Location'
 			URI instanceURI = uriInfo.getAbsolutePathBuilder().path(login).build();

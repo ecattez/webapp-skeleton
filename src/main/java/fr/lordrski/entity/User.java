@@ -32,8 +32,10 @@ import fr.lordrski.dao.impl.UserDaoImpl;
 @DatabaseTable(tableName = "users", daoClass = UserDaoImpl.class)
 public class User {
 	
-	@DatabaseField(columnName = "group_id", foreign = true, foreignAutoRefresh = true, uniqueCombo = true)
-	private Group group;
+	@DatabaseField(columnName = "company_id", uniqueCombo = true)
+	private String company;
+	@DatabaseField(columnName = "group_id", uniqueCombo = true)
+	private String group;
 	@DatabaseField(columnName = "login", id = true, uniqueCombo = true)
 	private String login;
 	@DatabaseField(columnName = "password")
@@ -49,7 +51,8 @@ public class User {
 	
 	public User() {}
 	
-	public User(Group group, String login, String password, String firstName, String lastName, String phoneNumber, String email) {
+	public User(String company, String group, String login, String password, String firstName, String lastName, String phoneNumber, String email) {
+		this.company = company;
 		this.group = group;
 		this.login = login;
 		this.password = password;
@@ -59,21 +62,31 @@ public class User {
 		this.email = email;
 	}
 	
-	public User(String login, String password, String firstName, String lastName, String phoneNumber, String email) {
-		this(null, login, password, firstName, lastName, phoneNumber, email);
+	/**
+	 * @return the company
+	 */
+	public String getCompany() {
+		return company;
+	}
+
+	/**
+	 * @param group the group to set
+	 */
+	public void setCompany(String company) {
+		this.company = company;
 	}
 
 	/**
 	 * @return the group
 	 */
-	public Group getGroup() {
+	public String getGroup() {
 		return group;
 	}
 
 	/**
 	 * @param group the group to set
 	 */
-	public void setGroup(Group group) {
+	public void setGroup(String group) {
 		this.group = group;
 	}
 

@@ -11,26 +11,19 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import fr.lordrski.entity.Company;
 import fr.lordrski.entity.Group;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GroupResourceTestCase extends ResourceTest {
 	
-	private static Company company;
+	private static String company = "leaderinfo";
 	
 	public GroupResourceTestCase() {
 		super("/groups");
-	}
-	
-	@BeforeClass
-	public static void initializeCompany() {
-		company = new Company("leaderinfo", "LEADER Informatique", "33 rue Charles Muyssart", "", "59000");
 	}
 
 	@Test

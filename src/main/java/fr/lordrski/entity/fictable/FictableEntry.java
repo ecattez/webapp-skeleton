@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 /**
  * FictableEntry représente une ligne dans une {@link fr.lordrski.entity.fictable.Fictable}
+ * FictableEntry doit être en concordance avec FictableInfo et les codes des colonnes.
  */
 public class FictableEntry extends HashMap<String, String> {
 

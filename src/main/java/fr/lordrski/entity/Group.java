@@ -31,8 +31,8 @@ import fr.lordrski.dao.impl.GroupDaoImpl;
 @DatabaseTable(tableName = "groups", daoClass = GroupDaoImpl.class)
 public class Group {
 	
-	@DatabaseField(columnName = "company_id", foreign = true, foreignAutoRefresh = true, uniqueCombo = true)
-	private Company company;
+	@DatabaseField(columnName = "company_id", uniqueCombo = true)
+	private String company;
 	@DatabaseField(columnName = "group_id", id = true, uniqueCombo = true)
 	private String groupId;
 	@DatabaseField(columnName = "group_label")
@@ -44,27 +44,23 @@ public class Group {
 	
 	public Group() {}
 	
-	public Group(Company company, String groupId, String groupLabel) {
+	public Group(String company, String groupId, String groupLabel) {
 		this.company = company;
 		this.groupId = groupId;
 		this.groupLabel = groupLabel;
 	}
 	
-	public Group(String groupId, String groupLabel) {
-		this(null, groupId, groupLabel);
-	}
-	
 	/**
 	 * @return the company
 	 */
-	public Company getCompany() {
+	public String getCompany() {
 		return company;
 	}
 
 	/**
 	 * @param company the company to set
 	 */
-	public void setCompany(Company company) {
+	public void setCompany(String company) {
 		this.company = company;
 	}
 
