@@ -16,22 +16,24 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.resources;
+package fr.lordrski.dao;
+
+import java.sql.SQLException;
+
+import fr.lordrski.entity.User;
 
 /**
- * Un service qui étend PathAccessor permet d'associer un dossier de destination/récupération à ce service.
+ * User Dao qui a pour un identifiant String (User.login).
  */
-public abstract class PathAccessor {
+public interface UserDao extends AbstractDao<User, String> {
 	
-	private final static String ROOT_FOLDER = "data/";
-	protected final String ROOT_PATH;
-	
-	public PathAccessor(final String ROOT_PATH) {
-		this.ROOT_PATH = ROOT_FOLDER + ROOT_PATH;
-	}
-	
-	public String root() {
-		return this.ROOT_PATH;
-	}
+	/**
+	 * Trouve l'utilisateur via son login et son password
+	 * @param login le login de l'utilisateur
+	 * @param password le password de l'utilisateur
+	 * @return l'utilisateur s'il a été trouvé
+	 * @throws SQLException
+	 */
+	public User findByLogin(String login, String password) throws SQLException;
 
 }

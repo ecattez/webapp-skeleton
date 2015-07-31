@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.resources;
+package fr.lordrski.resource;
 
 import javax.inject.Singleton;
 import javax.ws.rs.GET;

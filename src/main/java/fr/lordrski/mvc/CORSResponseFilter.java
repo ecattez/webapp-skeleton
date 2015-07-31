@@ -16,17 +16,26 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.entity.fictables;
+package fr.lordrski.mvc;
 
-import java.util.HashMap;
+import java.io.IOException;
+
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
+import javax.ws.rs.core.MultivaluedMap;
 
 /**
- * FictableEntry représente une ligne dans une {@link fr.lordrski.entity.fictables.Fictable}
+ * Liste des accès autorisés
  */
-public class FictableEntry extends HashMap<String, String> {
+public class CORSResponseFilter implements ContainerResponseFilter {
 
-	private static final long serialVersionUID = 5479399252151115073L;
-	
-	public FictableEntry() {}
+	@Override
+	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
+		MultivaluedMap<String, Object> headers = responseContext.getHeaders();
+		headers.add("Access-Control-Allow-Origin", "*");	
+		headers.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");			
+		headers.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
+	}
 
 }

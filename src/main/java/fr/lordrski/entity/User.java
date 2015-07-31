@@ -20,28 +20,61 @@ package fr.lordrski.entity;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import fr.lordrski.dao.impl.UserDaoImpl;
+
 /**
- * User Entity
+ * Entité représentant un utilisateur d'une compagnie.
  */
 @XmlRootElement
+@DatabaseTable(tableName = "users", daoClass = UserDaoImpl.class)
 public class User {
 	
+	@DatabaseField(columnName = "group_id", foreign = true, foreignAutoRefresh = true, uniqueCombo = true)
+	private Group group;
+	@DatabaseField(columnName = "login", id = true, uniqueCombo = true)
 	private String login;
+	@DatabaseField(columnName = "password")
 	private String password;
-	private String firstname;
-	private String lastname;
-	private String birthday;
+	@DatabaseField(columnName = "firstname")
+	private String firstName;
+	@DatabaseField(columnName = "lastname")
+	private String lastName;
+	@DatabaseField(columnName = "phonenumber")
+	private String phoneNumber;
+	@DatabaseField(columnName = "email")
 	private String email;
 	
 	public User() {}
 	
-	public User(String login, String password, String firstname, String lastname, String birthday, String email) {
+	public User(Group group, String login, String password, String firstName, String lastName, String phoneNumber, String email) {
+		this.group = group;
 		this.login = login;
 		this.password = password;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.birthday = birthday;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
 		this.email = email;
+	}
+	
+	public User(String login, String password, String firstName, String lastName, String phoneNumber, String email) {
+		this(null, login, password, firstName, lastName, phoneNumber, email);
+	}
+
+	/**
+	 * @return the group
+	 */
+	public Group getGroup() {
+		return group;
+	}
+
+	/**
+	 * @param group the group to set
+	 */
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 	/**
@@ -72,7 +105,7 @@ public class User {
 	}
 
 	/**
-	 * Saisie le mot de passe du User
+	 * Saisi le mot de passe du User
 	 * 
 	 * @param password le mot de passe du User
 	 */
@@ -85,17 +118,17 @@ public class User {
 	 * 
 	 * @return le prénom du User
 	 */
-	public String getFirstname() {
-		return this.firstname;
+	public String getFirstName() {
+		return this.firstName;
 	}
 
 	/**
-	 * Saisie le prénom du User
+	 * Saisi le prénom du User
 	 * 
-	 * @param firstname le prénom du User
+	 * @param firstName le prénom du User
 	 */
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	/**
@@ -103,35 +136,35 @@ public class User {
 	 * 
 	 * @return le nom de famille du User
 	 */
-	public String getLastname() {
-		return this.lastname;
+	public String getLastName() {
+		return this.lastName;
 	}
 
 	/**
-	 * Saisie le nom de famille du User
+	 * Saisi le nom de famille du User
 	 * 
-	 * @param lastname le nom de famille du User
+	 * @param lastName le nom de famille du User
 	 */
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	/**
-	 * Retourne la date de naissance du User
+	 * Retourne le numéro de téléphone du User
 	 * 
-	 * @return la date de naissance du User
+	 * @return le numéro de téléphone du User
 	 */
-	public String getBirthday() {
-		return this.birthday;
+	public String getPhoneNumber() {
+		return this.phoneNumber;
 	}
 
 	/**
-	 * Saisie la date de naissance du User
+	 * Saisi le numéro de téléphone du User
 	 * 
-	 * @param birthday la date de naissance du User
+	 * @param phoneNumber le numéro de téléphone du User
 	 */
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	/**
@@ -144,7 +177,7 @@ public class User {
 	}
 
 	/**
-	 * Saisie l'adresse email du User
+	 * Saisi l'adresse email du User
 	 * 
 	 * @param email l'adresse email du User
 	 */
@@ -164,9 +197,9 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [login=" + login + ", password=" + password
-				+ ", firstname=" + firstname + ", lastname=" + lastname
-				+ ", birthday=" + birthday + ", email=" + email + "]";
+		return "User [group=" + group + ", login=" + login + ", password=" + password
+				+ ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", birthday=" + phoneNumber + ", email=" + email + "]";
 	}
 }
 	

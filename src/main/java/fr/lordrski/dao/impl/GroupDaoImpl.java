@@ -16,26 +16,22 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.util;
+package fr.lordrski.dao.impl;
 
-import java.io.IOException;
+import java.sql.SQLException;
 
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
-import javax.ws.rs.core.MultivaluedMap;
+import com.j256.ormlite.support.ConnectionSource;
+
+import fr.lordrski.dao.GroupDao;
+import fr.lordrski.entity.Group;
 
 /**
- * Liste des accès autorisés
+ * Implémentation JDBC de l'interface GroupDao.
  */
-public class CORSResponseFilter implements ContainerResponseFilter {
+public class GroupDaoImpl extends AbstractDaoImpl<Group, String> implements GroupDao {
 
-	@Override
-	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-		MultivaluedMap<String, Object> headers = responseContext.getHeaders();
-		headers.add("Access-Control-Allow-Origin", "*");	
-		headers.add("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");			
-		headers.add("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Codingpedia");
+	public GroupDaoImpl(ConnectionSource connectionSource) throws SQLException {
+		super(connectionSource, Group.class);
 	}
 
 }

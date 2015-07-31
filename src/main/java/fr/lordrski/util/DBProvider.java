@@ -18,45 +18,39 @@
  */
 package fr.lordrski.util;
 
-import org.skife.jdbi.v2.DBI;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
- * Permet l'accès à toutes les classes de DAO via un {@link DBI} static.
+ * Donne accès à la base de données via une connexion.
  */
-public class JdbiProvider {
+public class DBProvider {
 	
-	private static DBI dbi;
+	private static Connection connection;
+	
+	private DBProvider() {}
 	
 	/**
-	 * Empêche l'instanciation de la classe.
+	 * Donne accès à une connexion à la base de données
 	 */
-	private JdbiProvider() {}
-
-	/**
-	 * Donne accès à la base de données via un objet DBI
-	 * 
-	 * @return un objet DBI
-	 */
-	public static DBI getDBI() {
-		if (dbi == null) {
-			try {
-				Class.forName(DBProperties.DB_DRIVER.val());
-				dbi = new DBI(DBProperties.DB_URI.val(), DBProperties.DB_USERNAME.val(), DBProperties.DB_PASSWORD.val());
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+	public static Connection getConnection() {
+		try {
+			if (connection == null || connection.isClosed()) {
+				try {
+					Class.forName(DBProperties.DB_DRIVER.val());
+					connection = DriverManager.getConnection(
+							DBProperties.DB_URI.val(),
+							DBProperties.DB_USERNAME.val(),
+							DBProperties.DB_PASSWORD.val());
+				} catch (ClassNotFoundException | SQLException e) {
+					e.printStackTrace();
+				}
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return dbi;
-	}
-	
-	/**
-	 * Récupère n'importe quel DAO via l'objet DBI
-	 * 
-	 * @param dao le DAO voulu
-	 * @return le dao voulu
-	 */
-	public static <DAO> DAO getDAO(Class<DAO> dao) {
-		return getDBI().onDemand(dao);
+		return connection;
 	}
 
 }

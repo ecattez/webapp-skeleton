@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.entity.fictables;
+package fr.lordrski.entity.fictable;
 
 import java.util.List;
 
@@ -56,6 +56,7 @@ public class Fictable implements Cloneable {
 	
 	/**
 	 * Récupère le nom du fichier associé à la fictable
+	 * 
 	 * @return le nom du fichier de la fictable
 	 */
 	public String getFileName() {
@@ -64,6 +65,7 @@ public class Fictable implements Cloneable {
 	
 	/**
 	 * Saisi le nom du fichier associé à la fictable
+	 * 
 	 * @param fileName le nouveau nom du fichier de la fictable
 	 */
 	public void setFileName(String fileName) {
@@ -72,6 +74,7 @@ public class Fictable implements Cloneable {
 	
 	/**
 	 * Récupère le nom de la fictable
+	 * 
 	 * @return le nom de la fictable
 	 */
 	public String getDisplayName() {
@@ -80,6 +83,7 @@ public class Fictable implements Cloneable {
 	
 	/**
 	 * Saisi le nom de la fictable
+	 * 
 	 * @param displayName le nouveau nom de la fictable
 	 */
 	public void setDisplayName(String displayName) {
@@ -88,6 +92,7 @@ public class Fictable implements Cloneable {
 	
 	/**
 	 * Récupère les informations des colonnes de la fictable
+	 * 
 	 * @return les informations des colonnes de la fictable
 	 */
 	public List<FictableInfos> getInfos() {
@@ -96,6 +101,7 @@ public class Fictable implements Cloneable {
 	
 	/**
 	 * Saisi les informations des colonnes de la fictable
+	 * 
 	 * @param infos les nouvelles informations des colonnes de la fictable
 	 */
 	public void setInfos(List<FictableInfos> infos) {
@@ -104,6 +110,7 @@ public class Fictable implements Cloneable {
 	
 	/**
 	 * Récupère les lignes de la fictable
+	 * 
 	 * @return les entrées de la fictable
 	 */
 	public List<FictableEntry> getEntries() {
@@ -112,6 +119,7 @@ public class Fictable implements Cloneable {
 	
 	/**
 	 * Saisi les lignes de la fictable
+	 * 
 	 * @param entries les nouvelles entrées de la fictable
 	 */
 	public void setEntries(List<FictableEntry> entries) {
@@ -130,7 +138,7 @@ public class Fictable implements Cloneable {
 	
 	@Override
 	public String toString() {
-		return "Fictable [fileName=" + fileName + ", displayName=" + displayName + ", infos=" + infos + ", entries=" + entries + "]";
+		return "Fictable[fileName=" + fileName + ", displayName=" + displayName + ", infos=" + infos + ", entries=" + entries + "]";
 	}
 	
 	@Override

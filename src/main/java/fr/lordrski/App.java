@@ -25,8 +25,8 @@ import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import fr.lordrski.mvc.CORSResponseFilter;
 import fr.lordrski.mvc.ThymeleafMvcFeature;
-import fr.lordrski.util.CORSResponseFilter;
 import fr.lordrski.util.ScriptRunner;
 
 /**
@@ -36,7 +36,7 @@ public class App extends ResourceConfig {
 	
 	public App() {
 		ScriptRunner.runDefaultScripts();
-		packages("fr.lordrski.resources");
+		packages("fr.lordrski.resource");
 		register(LoggingFilter.class);
 		register(MultiPartFeature.class);
 		register(CORSResponseFilter.class);

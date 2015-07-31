@@ -1,4 +1,4 @@
-package fr.lordrski;
+package fr.lordrski.resource;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -16,15 +16,18 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import fr.lordrski.entity.fictables.Fictable;
-import fr.lordrski.entity.fictables.FictableEntry;
-import fr.lordrski.entity.fictables.FictableInfos;
+import fr.lordrski.entity.fictable.Fictable;
+import fr.lordrski.entity.fictable.FictableEntry;
+import fr.lordrski.entity.fictable.FictableInfos;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class FictableResourceTest extends ResourceTest {
-	
-	private static final String FICTABLE_PATH = "/fictables";
+public class FictableResourceTestCase extends ResourceTest {
+
 	private static final Fictable FICTABLE = new Fictable("exemple.json", "Exemple");
+	
+	public FictableResourceTestCase() {
+		super("/fictables");
+	}
 	
 	@BeforeClass
 	public static void initialize() {
@@ -56,50 +59,50 @@ public class FictableResourceTest extends ResourceTest {
 	
 	@Test
 	public void test_A_GetInexistantFictable() {
-		int notFound = target(FICTABLE_PATH).path(FICTABLE.getFileName()).request().get().getStatus();
+		int notFound = target(URI_PATH).path(FICTABLE.getFileName()).request().get().getStatus();
 		assertEquals(404, notFound);
 	}
 	
 	@Test
 	public void test_B_CreateFictable() {
 		Entity<Fictable> fictableEntity = Entity.entity(FICTABLE, MediaType.APPLICATION_JSON);
-		Response response = target(FICTABLE_PATH).request().post(fictableEntity);
+		Response response = target(URI_PATH).request().post(fictableEntity);
 		assertEquals(201, response.getStatus());
-		URI uriAttendue = target(FICTABLE_PATH).path(FICTABLE.getFileName()).getUri();
+		URI uriAttendue = target(URI_PATH).path(FICTABLE.getFileName()).getUri();
 		assertTrue(uriAttendue.equals(response.getLocation()));
 	}
 	
 	@Test
 	public void test_C_CreateSameFictable() {
 		Entity<Fictable> fictableEntity = Entity.entity(FICTABLE, MediaType.APPLICATION_JSON);
-		int same = target(FICTABLE_PATH).request().post(fictableEntity).getStatus();
+		int same = target(URI_PATH).request().post(fictableEntity).getStatus();
 		assertEquals(409, same);
 	}
 	
 	@Test
 	public void test_D_DeleteFictable() {
-		int same = target(FICTABLE_PATH).path(FICTABLE.getFileName()).request().delete().getStatus();
+		int same = target(URI_PATH).path(FICTABLE.getFileName()).request().delete().getStatus();
 		assertEquals(204, same);
-		int notFound = target(FICTABLE_PATH).path(FICTABLE.getFileName()).request().get().getStatus();
+		int notFound = target(URI_PATH).path(FICTABLE.getFileName()).request().get().getStatus();
 		assertEquals(404, notFound);
 	}
 	
 	@Test
 	public void test_H_DeleteInexistantFictable() {
-		int notFound = target(FICTABLE_PATH).path(FICTABLE.getFileName()).request().delete().getStatus();
+		int notFound = target(URI_PATH).path(FICTABLE.getFileName()).request().delete().getStatus();
 		assertEquals(404, notFound);
 	}
 	
 	@Test
 	public void test_I_ModifyFictable() {
 		Entity<Fictable> fictableEntity = Entity.entity(FICTABLE, MediaType.APPLICATION_JSON);
-		target(FICTABLE_PATH).request().post(fictableEntity);
+		target(URI_PATH).request().post(fictableEntity);
 		Fictable modified = FICTABLE.clone();
 		modified.setDisplayName("Exemple modifie");
 		fictableEntity = Entity.entity(modified, MediaType.APPLICATION_JSON); 
-		int noContent = target(FICTABLE_PATH).path(FICTABLE.getFileName()).request().put(fictableEntity).getStatus();
+		int noContent = target(URI_PATH).path(FICTABLE.getFileName()).request().put(fictableEntity).getStatus();
 		assertEquals(204, noContent);
-		Fictable retrieved = target(FICTABLE_PATH).path(FICTABLE.getFileName()).request().get(Fictable.class);
+		Fictable retrieved = target(URI_PATH).path(FICTABLE.getFileName()).request().get(Fictable.class);
 		assertEquals(modified, retrieved);
 	}
  
@@ -111,7 +114,7 @@ public class FictableResourceTest extends ResourceTest {
 	public void test_J_ModifyInexistantFictable() {
 		Fictable inexistant = new Fictable("test.json", "Test");
 		Entity<Fictable> fictableEntity = Entity.entity(inexistant, MediaType.APPLICATION_JSON);
-		int notFound = target(FICTABLE_PATH).path(inexistant.getFileName()).request().put(fictableEntity).getStatus();
+		int notFound = target(URI_PATH).path(inexistant.getFileName()).request().put(fictableEntity).getStatus();
 		assertEquals(404, notFound);
 	}
 

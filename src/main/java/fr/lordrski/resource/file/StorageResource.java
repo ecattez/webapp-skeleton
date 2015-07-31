@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.resources;
+package fr.lordrski.resource.file;
 
 import java.nio.file.Paths;
 
@@ -34,6 +34,7 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import fr.lordrski.resource.PathAccessor;
 import fr.lordrski.util.AppFiles;
 
 /**

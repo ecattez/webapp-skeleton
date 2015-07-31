@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.resources;
+package fr.lordrski.resource.fictable;
 
 import java.io.IOException;
 import java.net.URI;
@@ -38,7 +38,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import fr.lordrski.entity.fictables.Fictable;
+import fr.lordrski.entity.fictable.Fictable;
+import fr.lordrski.resource.PathAccessor;
 import fr.lordrski.util.AppFiles;
 
 /**

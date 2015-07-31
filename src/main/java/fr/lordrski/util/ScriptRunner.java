@@ -31,8 +31,6 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.skife.jdbi.v2.Handle;
-
 /**
  * Outil basé sur la classe com.ibatis.common.jdbc.ScriptRunner du projet iBATIS Apache.
  * Il permet d'exécuter des scripts SQL.
@@ -64,15 +62,13 @@ public class ScriptRunner {
 	 * @param path le chemin d'accès du fichier SQL à exécuter
 	 */
 	private static void runDefaultScript(Path path) {
-		Handle handle = JdbiProvider.getDBI().open();
-		ScriptRunner script = new ScriptRunner(handle.getConnection(), false ,false);
+		ScriptRunner script = new ScriptRunner(DBProvider.getConnection(), false ,false);
 		try {
 			script.runScript(new FileReader(path.toFile()));
 			Logger.getLogger("scripts").info("SQL script " + path.getFileName() + " loaded successfully");
 		} catch (IOException | SQLException e) {
 			Logger.getLogger("scripts").log(Level.SEVERE, "Error occured while reading " + path.getFileName());
 		}
-		handle.close();
 	}
 	
 	private final Logger log = Logger.getLogger("script runner");

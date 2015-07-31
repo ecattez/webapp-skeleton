@@ -16,10 +16,10 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.entity.fictables;
+package fr.lordrski.entity.fictable;
 
 /**
- * FictableInfos représente les informations d'une colonne d'une {@link fr.lordrski.entity.fictables.Fictable}.
+ * FictableInfos représente les informations d'une colonne d'une {@link fr.lordrski.entity.fictable.Fictable}.
  */
 public class FictableInfos {
 	
@@ -95,7 +95,7 @@ public class FictableInfos {
 	
 	@Override
 	public String toString() {
-		return "[" + name + ", " + type + ", " + length + "]";
+		return "FictableInfos[name=" + name + ", type=" + type + ", length=" + length + "]";
 	}
 
 }
