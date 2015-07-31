@@ -46,7 +46,7 @@ public class App extends ResourceConfig {
 	public App(@Context ServletContext context) {
 		this();
 		final String root = context.getContextPath();
-		final String gui = root + "/GUI";
+		final String gui = root + "/gui";
 		context.setAttribute("css", gui + "/themes/");
 		context.setAttribute("default_css", gui + "/themes/style.css");
 		context.setAttribute("js", gui + "/scripts/");
