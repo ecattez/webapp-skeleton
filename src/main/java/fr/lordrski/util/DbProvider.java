@@ -25,11 +25,11 @@ import java.sql.SQLException;
 /**
  * Donne accès à la base de données via une connexion.
  */
-public class DBProvider {
+public class DbProvider {
 	
 	private static Connection connection;
 	
-	private DBProvider() {}
+	private DbProvider() {}
 	
 	/**
 	 * Donne accès à une connexion à la base de données
@@ -38,11 +38,11 @@ public class DBProvider {
 		try {
 			if (connection == null || connection.isClosed()) {
 				try {
-					Class.forName(DBProperties.DB_DRIVER.val());
+					Class.forName(DbProperties.DB_DRIVER.val());
 					connection = DriverManager.getConnection(
-							DBProperties.DB_URI.val(),
-							DBProperties.DB_USERNAME.val(),
-							DBProperties.DB_PASSWORD.val());
+							DbProperties.DB_URI.val(),
+							DbProperties.DB_USERNAME.val(),
+							DbProperties.DB_PASSWORD.val());
 				} catch (ClassNotFoundException | SQLException e) {
 					e.printStackTrace();
 				}

@@ -62,7 +62,7 @@ public class ScriptRunner {
 	 * @param path le chemin d'accès du fichier SQL à exécuter
 	 */
 	private static void runDefaultScript(Path path) {
-		ScriptRunner script = new ScriptRunner(DBProvider.getConnection(), false ,false);
+		ScriptRunner script = new ScriptRunner(DbProvider.getConnection(), false ,false);
 		try {
 			script.runScript(new FileReader(path.toFile()));
 			Logger.getLogger("scripts").info("SQL script " + path.getFileName() + " loaded successfully");

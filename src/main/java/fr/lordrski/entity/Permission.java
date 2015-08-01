@@ -30,6 +30,7 @@ import fr.lordrski.exception.PermissionFormatException;
  * Exemple: fictables.* autorise tous les accès à partir de l'uri /fictables
  */
 @DatabaseTable(tableName = "permissions", daoClass = PermissionDaoImpl.class)
+@Deprecated
 public class Permission {
 	
 	public static final String PERM_REGEX = "^(\\*|\\w+(\\.\\w+)*(\\.\\*)?)$";

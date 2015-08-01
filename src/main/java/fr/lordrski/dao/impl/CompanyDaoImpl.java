@@ -24,6 +24,8 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import fr.lordrski.dao.CompanyDao;
 import fr.lordrski.entity.Company;
+import fr.lordrski.entity.Group;
+import fr.lordrski.entity.User;
 
 /**
  * Implémentation JDBC de l'interface CompanyDao.
@@ -32,6 +34,16 @@ public class CompanyDaoImpl extends AbstractDaoImpl<Company, String> implements 
 
 	public CompanyDaoImpl(ConnectionSource connectionSource) throws SQLException {
 		super(connectionSource, Company.class);
+	}
+
+	@Override
+	public Company getCompanyOf(Group group) throws SQLException {
+		return this.find(group.getCompany());
+	}
+
+	@Override
+	public Company getCompanyOf(User user) throws SQLException {
+		return this.find(user.getCompany());
 	}
 
 }

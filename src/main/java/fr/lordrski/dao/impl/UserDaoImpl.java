@@ -19,11 +19,14 @@
 package fr.lordrski.dao.impl;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 
 import fr.lordrski.dao.UserDao;
+import fr.lordrski.entity.Company;
+import fr.lordrski.entity.Group;
 import fr.lordrski.entity.User;
 
 /**
@@ -38,8 +41,28 @@ public class UserDaoImpl extends AbstractDaoImpl<User, String> implements UserDa
 	@Override
 	public User findByLogin(String login, String password) throws SQLException {
 		QueryBuilder<User, String> queryBuilder = this.queryBuilder();
-		queryBuilder.where().eq("login", login).and().eq("password", password);
+		queryBuilder.where().idEq(login).and().eq("password", password);
 		return this.queryForFirst(queryBuilder.prepare());
+	}
+	
+	@Override
+	public List<User> listUsersOfCompany(String companyId) throws SQLException {
+		return this.queryForEq("company_id", companyId);
+	}
+
+	@Override
+	public List<User> listUsersOfGroup(String groupId) throws SQLException {
+		return this.queryForEq("group_id", groupId);
+	}
+
+	@Override
+	public List<User> listUsersOf(Company company) throws SQLException {
+		return this.listUsersOfCompany(company.getCompanyId());
+	}
+
+	@Override
+	public List<User> listUsersOf(Group group) throws SQLException {
+		return this.listUsersOfGroup(group.getGroupId());
 	}
 
 }

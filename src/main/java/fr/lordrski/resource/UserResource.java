@@ -56,7 +56,7 @@ public class UserResource {
 	 * Une ressource doit avoir un contructeur (éventuellement sans arguments)
 	 */
 	public UserResource() {
-		this.userDao = (UserDao) DaoProvider.getDao(User.class);
+		this.userDao = DaoProvider.getDao(User.class);
 	}
 
 	/**

@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  * Charge les propriétés du fichier de configuration.
  * Les propriétés doivent correspondrent à l'énumération.
  */
-public enum DBProperties {
+public enum DbProperties {
 	
 	DB_DRIVER("db.driver"),
 	DB_URI("db.uri"),
@@ -56,7 +56,7 @@ public enum DBProperties {
 	
 	private final String key;
 	
-	private DBProperties(final String key) {
+	private DbProperties(final String key) {
 		this.key = key;
 	}
 	

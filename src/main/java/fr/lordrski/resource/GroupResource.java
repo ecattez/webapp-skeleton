@@ -51,7 +51,7 @@ public class GroupResource {
 	private GroupDao groupDao;
 
 	public GroupResource() {
-		this.groupDao = (GroupDao) DaoProvider.getDao(Group.class);
+		this.groupDao = DaoProvider.getDao(Group.class);
 	}
 
 	@POST

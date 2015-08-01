@@ -19,7 +19,10 @@
 package fr.lordrski.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 
+import fr.lordrski.entity.Company;
+import fr.lordrski.entity.Group;
 import fr.lordrski.entity.User;
 
 /**
@@ -29,11 +32,48 @@ public interface UserDao extends AbstractDao<User, String> {
 	
 	/**
 	 * Trouve l'utilisateur via son login et son password
+	 * 
 	 * @param login le login de l'utilisateur
 	 * @param password le password de l'utilisateur
 	 * @return l'utilisateur s'il a été trouvé
 	 * @throws SQLException
 	 */
 	public User findByLogin(String login, String password) throws SQLException;
+	
+	/**
+	 * Charge la liste des utilisateurs de la compagnie passée en paramètre
+	 * 
+	 * @param companyId la compagnie pour laquelle on veut retrouver les utilisateurs
+	 * @return la liste des utilisateurs d'une compagnie
+	 * @throws SQLException
+	 */
+	public List<User> listUsersOfCompany(String companyId) throws SQLException;
+	
+	/**
+	 * Charge la liste des utilisateurs du groupe passé en paramètre
+	 * 
+	 * @param groupId le groupe pour lequel on veut retrouver les utilisateurs
+	 * @return la liste des utilisateurs d'un groupe
+	 * @throws SQLException
+	 */
+	public List<User> listUsersOfGroup(String groupId) throws SQLException;
+	
+	/**
+	 * Charge la liste des utilisateurs de la compagnie passée en paramètre
+	 * 
+	 * @param company la compagnie pour laquelle on veut retrouver les utilisateurs
+	 * @return la liste des utilisateurs d'une compagnie
+	 * @throws SQLException
+	 */
+	public List<User> listUsersOf(Company company) throws SQLException;
+	
+	/**
+	 * Charge la liste des utilisateurs du groupe passé en paramètre
+	 * 
+	 * @param group le groupe pour lequel on veut retrouver les utilisateurs
+	 * @return la liste des utilisateurs d'un groupe
+	 * @throws SQLException
+	 */
+	public List<User> listUsersOf(Group group) throws SQLException;
 
 }

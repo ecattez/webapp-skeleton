@@ -19,11 +19,14 @@
 package fr.lordrski.dao.impl;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.j256.ormlite.support.ConnectionSource;
 
 import fr.lordrski.dao.GroupDao;
+import fr.lordrski.entity.Company;
 import fr.lordrski.entity.Group;
+import fr.lordrski.entity.User;
 
 /**
  * Implémentation JDBC de l'interface GroupDao.
@@ -32,6 +35,21 @@ public class GroupDaoImpl extends AbstractDaoImpl<Group, String> implements Grou
 
 	public GroupDaoImpl(ConnectionSource connectionSource) throws SQLException {
 		super(connectionSource, Group.class);
+	}
+
+	@Override
+	public List<Group> listGroupsOfCompany(String companyId) throws SQLException {
+		return this.queryForEq("company_id", companyId);
+	}
+	
+	@Override
+	public List<Group> listGroupsOf(Company company) throws SQLException {
+		return this.listGroupsOfCompany(company.getCompanyId());
+	}
+
+	@Override
+	public Group getGroupOf(User user) throws SQLException {
+		return this.find(user.getGroup());
 	}
 
 }

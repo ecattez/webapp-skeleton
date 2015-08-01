@@ -18,11 +18,33 @@
  */
 package fr.lordrski.dao;
 
+import java.sql.SQLException;
+
 import fr.lordrski.entity.Company;
+import fr.lordrski.entity.Group;
+import fr.lordrski.entity.User;
 
 /**
  * Company Dao qui a pour un identifiant String (Company.companyId).
  */
 public interface CompanyDao extends AbstractDao<Company, String> {
+	
+	/**
+	 * Charge les informations de la compagnie associée au groupe passé en paramètre
+	 * 
+	 * @param group le groupe pour lequel on veut retrouver la compagnie
+	 * @return la compagnie d'un groupe
+	 * @throws SQLException
+	 */
+	public Company getCompanyOf(Group group) throws SQLException;
+	
+	/**
+	 * Charge les information de la compagnie associée à l'utilisateur passé en paramètre
+	 * 
+	 * @param user l'utilisateur pour lequel on veut retrouver la compagnie
+	 * @return la compagnie d'un l'utilisateur
+	 * @throws SQLException
+	 */
+	public Company getCompanyOf(User user) throws SQLException;
 
 }

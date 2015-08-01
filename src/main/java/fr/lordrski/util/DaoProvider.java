@@ -46,8 +46,8 @@ public class DaoProvider {
 	public static ConnectionSource getConnectionSource() {
 		if (conSource == null) {
 			try {
-				Class.forName(DBProperties.DB_DRIVER.val());
-				conSource = new JdbcConnectionSource(DBProperties.DB_URI.val(), DBProperties.DB_USERNAME.val(), DBProperties.DB_PASSWORD.val());
+				Class.forName(DbProperties.DB_DRIVER.val());
+				conSource = new JdbcConnectionSource(DbProperties.DB_URI.val(), DbProperties.DB_USERNAME.val(), DbProperties.DB_PASSWORD.val());
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
@@ -75,9 +75,10 @@ public class DaoProvider {
 	 * @param daoObject l'objet associé à une table en base
 	 * @return le dao voulu
 	 */
-	public static Dao<?,?> getDao(Class<?> daoObject) {
+	public static synchronized <D extends Dao<T, ?>, T> D getDao(Class<T> daoObject) {
 		try {
-			return DaoManager.createDao(getConnectionSource(), daoObject);
+			D dao = DaoManager.createDao(getConnectionSource(), daoObject);
+			return dao;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

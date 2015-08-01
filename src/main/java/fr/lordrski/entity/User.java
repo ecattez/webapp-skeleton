@@ -210,7 +210,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [group=" + group + ", login=" + login + ", password=" + password
+		return "User [company=" + company + ", group=" + group + ", login=" + login + ", password=" + password
 				+ ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", birthday=" + phoneNumber + ", email=" + email + "]";
 	}

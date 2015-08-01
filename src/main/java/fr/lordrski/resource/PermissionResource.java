@@ -36,7 +36,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import fr.lordrski.dao.PermissionDao;
-import fr.lordrski.entity.Group;
 import fr.lordrski.entity.Permission;
 import fr.lordrski.util.DaoProvider;
 
@@ -52,7 +51,7 @@ public class PermissionResource {
 	private PermissionDao permissionDao;
 
 	public PermissionResource() {
-		this.permissionDao = (PermissionDao) DaoProvider.getDao(Group.class);
+		this.permissionDao = DaoProvider.getDao(Permission.class);
 	}
 
 	@POST

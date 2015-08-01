@@ -51,7 +51,7 @@ public class CompanyResource {
 	private CompanyDao companyDao;
 
 	public CompanyResource() {
-		this.companyDao = (CompanyDao) DaoProvider.getDao(Company.class);
+		this.companyDao = DaoProvider.getDao(Company.class);
 	}
 
 	@POST
