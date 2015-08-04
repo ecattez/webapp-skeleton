@@ -40,9 +40,9 @@ public class UserDaoImpl extends AbstractDaoImpl<User, String> implements UserDa
 	
 	@Override
 	public User findByLogin(String login, String password) throws SQLException {
-		QueryBuilder<User, String> queryBuilder = this.queryBuilder();
-		queryBuilder.where().idEq(login).and().eq("password", password);
-		return this.queryForFirst(queryBuilder.prepare());
+		QueryBuilder<User, String> qB = this.queryBuilder();
+		qB.where().idEq(login).and().eq("password", password);
+		return qB.queryForFirst();
 	}
 	
 	@Override
@@ -51,8 +51,10 @@ public class UserDaoImpl extends AbstractDaoImpl<User, String> implements UserDa
 	}
 
 	@Override
-	public List<User> listUsersOfGroup(String groupId) throws SQLException {
-		return this.queryForEq("group_id", groupId);
+	public List<User> listUsersOfGroup(String companyId, String groupId) throws SQLException {
+		QueryBuilder<User, String> qB = this.queryBuilder();
+		qB.where().eq("company_id", companyId).and().eq("group_id", groupId);
+		return qB.query();
 	}
 
 	@Override
@@ -62,7 +64,7 @@ public class UserDaoImpl extends AbstractDaoImpl<User, String> implements UserDa
 
 	@Override
 	public List<User> listUsersOf(Group group) throws SQLException {
-		return this.listUsersOfGroup(group.getGroupId());
+		return this.listUsersOfGroup(group.getCompany(), group.getGroupId());
 	}
 
 }

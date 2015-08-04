@@ -21,6 +21,7 @@ package fr.lordrski.dao.impl;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 
 import fr.lordrski.dao.GroupDao;
@@ -49,7 +50,9 @@ public class GroupDaoImpl extends AbstractDaoImpl<Group, String> implements Grou
 
 	@Override
 	public Group getGroupOf(User user) throws SQLException {
-		return this.find(user.getGroup());
+		QueryBuilder<Group, String> qB = this.queryBuilder();
+		qB.where().idEq(user.getGroup()).and().eq("company_id", user.getCompany());
+		return qB.queryForFirst();
 	}
 
 }

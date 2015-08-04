@@ -52,11 +52,12 @@ public interface UserDao extends AbstractDao<User, String> {
 	/**
 	 * Charge la liste des utilisateurs du groupe passé en paramètre
 	 * 
+	 * @param companyId la compagnie du groupe pour lequel on veut retrouver les utilisateurs
 	 * @param groupId le groupe pour lequel on veut retrouver les utilisateurs
 	 * @return la liste des utilisateurs d'un groupe
 	 * @throws SQLException
 	 */
-	public List<User> listUsersOfGroup(String groupId) throws SQLException;
+	public List<User> listUsersOfGroup(String companyId, String groupId) throws SQLException;
 	
 	/**
 	 * Charge la liste des utilisateurs de la compagnie passée en paramètre

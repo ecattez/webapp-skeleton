@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS lang(
 
 -- Creation de la table des compagnies
 CREATE TABLE IF NOT EXISTS companies(
+	--company_uuid UUID UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
 	company_id VARCHAR(10),
 	company_label VARCHAR(30) NOT NULL,
 	address VARCHAR(30),
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS companies(
 
 -- Creation de la table des groupes
 CREATE TABLE IF NOT EXISTS groups(
+	--group_uuid UUID UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
 	company_id VARCHAR(10),
 	group_id VARCHAR(10),
 	group_label varchar(30) NOT NULL,
@@ -28,6 +30,7 @@ CREATE TABLE IF NOT EXISTS groups(
 
 -- Creation de la table des utilisateurs
 CREATE TABLE IF NOT EXISTS users(
+	--user_uuid UUID UNIQUE NOT NULL DEFAULT uuid_generate_v4(),
 	company_id VARCHAR(10),
 	group_id VARCHAR(10),
 	login VARCHAR(10),
