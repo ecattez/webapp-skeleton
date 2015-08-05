@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * {@link HashMap} avec des clés de type String et des valeurs Object.
- * Elle est principalement utilisée dans les vues de type {@link org.glassfish.jersey.server.mvc.Viewable}
+ * Elle est principalement utilisée dans les vues de type {@link org.glassfish.jersey.server.mvc.Viewable}.
  */
 public class Model extends HashMap<String, Object> {
 

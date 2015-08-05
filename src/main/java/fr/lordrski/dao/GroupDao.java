@@ -26,7 +26,7 @@ import fr.lordrski.entity.Group;
 import fr.lordrski.entity.User;
 
 /**
- * Group Dao qui a pour un identifiant String (Group.groupId).
+ * Group Dao qui a pour identifiant un String (Group.groupId).
  */
 public interface GroupDao extends AbstractDao<Group, String> {
 	

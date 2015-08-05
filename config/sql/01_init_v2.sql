@@ -1,11 +1,12 @@
 -- authentication(authentication_id, username, password_salt, password_hash);
--- authentication_token (authentication_token_id, token, expiration_date);
+-- securid (user_id, token_id, expiration_date);
 -- user (user_id, first_name, last_name, email, phone, authentication_id);
 -- company (company_id, name, address, additionnal_address, zip_code);
 -- group (group_id, group_name);
 -- permission (permission_id, group_id);
 
 -- membership (membership_id, user_id, company_id, group_id);
+
 
 -- Un utilisateur appartient à une seule company et un seul groupe
 ---- donc dans membership:

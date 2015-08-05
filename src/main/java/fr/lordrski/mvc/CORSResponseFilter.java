@@ -27,7 +27,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 
 /**
- * Liste des accès autorisés
+ * Liste des accès autorisés.
  */
 @Provider
 public class CORSResponseFilter implements ContainerResponseFilter {

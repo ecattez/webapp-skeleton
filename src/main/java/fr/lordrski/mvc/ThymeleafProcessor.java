@@ -74,6 +74,10 @@ public class ThymeleafProcessor implements TemplateProcessor<String> {
 	public void writeTo(String templateReference, Viewable viewable, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream out) throws IOException {
 		try (OutputStreamWriter writer = new OutputStreamWriter(out, UTF_8)) {
 			WebContext context = new WebContext(request, response, servletContext, request.getLocale());
+			final String gui = "/gui";
+			context.setVariable("gui", gui);
+			context.setVariable("css", gui + "/themes/");
+			context.setVariable("js", gui + "/scripts/");
 			context.setVariable("it", viewable.getModel());
 			templateEngine.process(viewable.getTemplateName(), context, writer);
 		}		

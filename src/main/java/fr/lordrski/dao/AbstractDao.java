@@ -24,8 +24,7 @@ import java.util.List;
 import com.j256.ormlite.dao.Dao;
 
 /**
- * @author ecattez
- *
+ * Extension du Dao.
  */
 public interface AbstractDao<T, ID> extends Dao<T, ID> {
 	

@@ -19,32 +19,22 @@
 package fr.lordrski.dao;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
-import fr.lordrski.entity.Company;
-import fr.lordrski.entity.Group;
-import fr.lordrski.entity.User;
+import fr.lordrski.entity.security.SecurID;
 
 /**
- * Company Dao qui a pour identifiant un String (Company.companyId).
+ * Token Dao qui a pour identifiant un UUID (SecurID.userId).
  */
-public interface CompanyDao extends AbstractDao<Company, String> {
+public interface SecurIDDao extends AbstractDao<SecurID, UUID> {
 	
 	/**
-	 * Charge les informations de la compagnie associée au groupe passé en paramètre
+	 * Trouve la clé de sécurité via l'identifiant du token
 	 * 
-	 * @param group le groupe pour lequel on veut retrouver la compagnie
-	 * @return la compagnie d'un groupe
+	 * @param tokenId l'identifiant du token de la clé de sécurité
+	 * @return la clé de sécurité
 	 * @throws SQLException
 	 */
-	public Company getCompanyOf(Group group) throws SQLException;
-	
-	/**
-	 * Charge les information de la compagnie associée à l'utilisateur passé en paramètre
-	 * 
-	 * @param user l'utilisateur pour lequel on veut retrouver la compagnie
-	 * @return la compagnie d'un l'utilisateur
-	 * @throws SQLException
-	 */
-	public Company getCompanyOf(User user) throws SQLException;
+	public SecurID findByTokenId(UUID tokenId) throws SQLException;
 
 }

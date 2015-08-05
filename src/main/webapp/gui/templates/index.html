@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>Welcome</title>
-	<script type="text/javascript" src="#" th:src="${application.jQuery}"></script>
-	<script type="text/javascript" src="#" th:src="${application.js} + @{jsonml-dom.js}"></script>
-	<script type="text/javascript" src="#" th:src="${application.js} + @{jsonml-html.js}"></script>
-	<link rel="stylesheet" type="text/css" href="#" th:href="${application.default_css}" />
+	<script type="text/javascript" src="#" th:src="${js} + @{jquery-2.1.4.min.js}"></script>
+	<script type="text/javascript" src="#" th:src="${js} + @{jsonml-dom.js}"></script>
+	<script type="text/javascript" src="#" th:src="${js} + @{jsonml-html.js}"></script>
+	<link rel="stylesheet" type="text/css" href="#" th:href="${css} + @{style.css}" />
 </head>
 <body>
 	<h1 id="helloworld">Hello World</h1>

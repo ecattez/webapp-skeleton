@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 import javax.ws.rs.NameBinding;
 
 /**
- * Cette annotation permet la sécurité dans l'application
+ * Cette annotation permet la sécurité dans l'application.
  */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(value = RetentionPolicy.RUNTIME)

@@ -16,13 +16,28 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.dao;
+package fr.lordrski.dao.impl;
 
-import fr.lordrski.entity.Permission;
+import java.sql.SQLException;
+import java.util.UUID;
+
+import com.j256.ormlite.support.ConnectionSource;
+
+import fr.lordrski.dao.SecurIDDao;
+import fr.lordrski.entity.security.SecurID;
 
 /**
- * Permission Dao qui a pour identifiant un String (Permission.permissionId).
+ * Implémentation JDBC de l'interface SecurIDDao.
  */
-public interface PermissionDao extends AbstractDao<Permission, String> {
+public class SecurIDDaoImpl extends AbstractDaoImpl<SecurID, UUID> implements SecurIDDao {
 
+	public SecurIDDaoImpl(ConnectionSource connectionSource) throws SQLException {
+		super(connectionSource, SecurID.class);
+	}
+
+	@Override
+	public SecurID findByTokenId(UUID tokenId) throws SQLException {
+		return this.queryBuilder().where().eq("token_id", tokenId).queryForFirst();
+	}
+	
 }

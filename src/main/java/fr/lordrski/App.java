@@ -18,13 +18,11 @@
  */
 package fr.lordrski;
 
-import javax.servlet.ServletContext;
-import javax.ws.rs.core.Context;
-
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import fr.lordrski.mvc.AuthenticationFilter;
 import fr.lordrski.mvc.CORSResponseFilter;
 import fr.lordrski.mvc.ThymeleafMvcFeature;
 import fr.lordrski.util.ScriptRunner;
@@ -38,18 +36,10 @@ public class App extends ResourceConfig {
 		ScriptRunner.runDefaultScripts();
 		packages("fr.lordrski.resource");
 		register(LoggingFilter.class);
+		register(ThymeleafMvcFeature.class);
 		register(MultiPartFeature.class);
 		register(CORSResponseFilter.class);
-		register(ThymeleafMvcFeature.class);
-	}
-	
-	public App(@Context ServletContext context) {
-		this();
-		final String gui = "/gui";
-		context.setAttribute("css", gui + "/themes/");
-		context.setAttribute("default_css", gui + "/themes/style.css");
-		context.setAttribute("js", gui + "/scripts/");
-		context.setAttribute("jQuery", gui + "/scripts/jquery-2.1.4.min.js");
+		register(AuthenticationFilter.class);
 	}
 
 }
