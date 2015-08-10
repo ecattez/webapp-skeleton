@@ -21,7 +21,7 @@ package fr.lordrski.util;
 /**
  * StringTool offre des fonctionnalités pour manipuler les chaînes de caractères.
  */
-public class Strings {
+public abstract class Strings {
 	
 	/**
 	 * Empêche l'instanciation de la classe.

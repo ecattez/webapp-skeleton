@@ -16,9 +16,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import fr.lordrski.entity.fictable.Fictable;
-import fr.lordrski.entity.fictable.FictableEntry;
-import fr.lordrski.entity.fictable.FictableInfos;
+import fr.lordrski.entity.standard.fictable.Fictable;
+import fr.lordrski.entity.standard.fictable.FictableEntry;
+import fr.lordrski.entity.standard.fictable.FictableInfos;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FictableResourceTestCase extends ResourceTest {

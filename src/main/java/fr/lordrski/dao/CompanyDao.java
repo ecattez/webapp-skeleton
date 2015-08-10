@@ -20,9 +20,9 @@ package fr.lordrski.dao;
 
 import java.sql.SQLException;
 
-import fr.lordrski.entity.Company;
-import fr.lordrski.entity.Group;
-import fr.lordrski.entity.User;
+import fr.lordrski.entity.deprecated.Company;
+import fr.lordrski.entity.deprecated.Group;
+import fr.lordrski.entity.deprecated.User;
 
 /**
  * Company Dao qui a pour identifiant un String (Company.companyId).

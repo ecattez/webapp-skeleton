@@ -38,11 +38,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import fr.lordrski.dao.UserDao;
-import fr.lordrski.entity.User;
+import fr.lordrski.entity.deprecated.User;
 import fr.lordrski.util.DaoProvider;
 
 /**
- * Service associé à l'entité {@link fr.lordrski.entity.User}
+ * Service associé à l'entité {@link fr.lordrski.entity.deprecated.User}
  */
 @Path("users")
 public class UserResource {

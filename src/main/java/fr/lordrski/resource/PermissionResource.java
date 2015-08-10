@@ -36,11 +36,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import fr.lordrski.dao.PermissionDao;
-import fr.lordrski.entity.Permission;
+import fr.lordrski.entity.deprecated.Permission;
 import fr.lordrski.util.DaoProvider;
 
 /**
- * Service associé à l'entité {@link fr.lordrski.entity.Permission}
+ * Service associé à l'entité {@link fr.lordrski.entity.deprecated.Permission}
  */
 @Path("permissions")
 public class PermissionResource {

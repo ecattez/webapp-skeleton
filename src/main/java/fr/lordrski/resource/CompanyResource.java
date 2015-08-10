@@ -36,11 +36,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import fr.lordrski.dao.CompanyDao;
-import fr.lordrski.entity.Company;
+import fr.lordrski.entity.deprecated.Company;
 import fr.lordrski.util.DaoProvider;
 
 /**
- * Service associé à l'entité {@link fr.lordrski.entity.Company}
+ * Service associé à l'entité {@link fr.lordrski.entity.deprecated.Company}
  */
 @Path("companies")
 public class CompanyResource {

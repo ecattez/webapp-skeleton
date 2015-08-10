@@ -29,7 +29,7 @@ import com.j256.ormlite.support.DatabaseConnection;
 /**
  * Permet l'accès à la base de données et le DAO.
  */
-public class DaoProvider {
+public abstract class DaoProvider {
 	
 	private static ConnectionSource conSource;
 	

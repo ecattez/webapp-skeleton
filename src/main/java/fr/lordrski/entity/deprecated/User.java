@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.entity;
+package fr.lordrski.entity.deprecated;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,6 +28,7 @@ import fr.lordrski.dao.impl.UserDaoImpl;
 /**
  * Entité représentant un utilisateur d'une compagnie.
  */
+@Deprecated
 @XmlRootElement
 @DatabaseTable(tableName = "users", daoClass = UserDaoImpl.class)
 public class User {

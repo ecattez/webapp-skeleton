@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import com.j256.ormlite.support.ConnectionSource;
 
 import fr.lordrski.dao.PermissionDao;
-import fr.lordrski.entity.Permission;
+import fr.lordrski.entity.deprecated.Permission;
 
 /**
  * Implémentation JDBC de l'interface PermissionDao.

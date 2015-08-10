@@ -16,12 +16,12 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.entity.fictable;
+package fr.lordrski.entity.standard.fictable;
 
 import java.util.HashMap;
 
 /**
- * FictableEntry représente une ligne dans une {@link fr.lordrski.entity.fictable.Fictable}
+ * FictableEntry représente une ligne dans une {@link fr.lordrski.entity.standard.fictable.Fictable}
  * FictableEntry doit être en concordance avec FictableInfo et les codes des colonnes.
  */
 public class FictableEntry extends HashMap<String, String> {

@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.entity.fictable;
+package fr.lordrski.entity.standard.fictable;
 
 import java.util.List;
 

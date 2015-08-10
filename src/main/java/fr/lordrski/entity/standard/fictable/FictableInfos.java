@@ -16,10 +16,10 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.entity.fictable;
+package fr.lordrski.entity.standard.fictable;
 
 /**
- * FictableInfos représente les informations d'une colonne d'une {@link fr.lordrski.entity.fictable.Fictable}.
+ * FictableInfos représente les informations d'une colonne d'une {@link fr.lordrski.entity.standard.fictable.Fictable}.
  */
 public class FictableInfos {
 	

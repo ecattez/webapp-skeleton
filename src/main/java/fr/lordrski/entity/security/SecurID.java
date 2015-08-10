@@ -32,8 +32,8 @@ import fr.lordrski.dao.impl.SecurIDDaoImpl;
 @DatabaseTable(daoClass = SecurIDDaoImpl.class)
 public class SecurID {
 	
-	@DatabaseField(columnName = "user_id", id = true, uniqueCombo = true)
-	private UUID userId;
+	@DatabaseField(columnName = "auth_id", id = true, uniqueCombo = true)
+	private UUID authId;
 	@DatabaseField(columnName = "token_id", uniqueCombo = true)
 	private UUID tokenId;
 	@DatabaseField(columnName = "expiration_date", canBeNull = false)
@@ -41,24 +41,24 @@ public class SecurID {
 	
 	public SecurID() {}
 	
-	public SecurID(UUID userId, UUID tokenId, Date expirationDate) {
-		this.userId = userId;
+	public SecurID(UUID authId, UUID tokenId, Date expirationDate) {
+		this.authId = authId;
 		this.tokenId = tokenId;
 		this.expirationDate = expirationDate;
 	}
 
 	/**
-	 * @return the userId
+	 * @return the authId
 	 */
-	public UUID getUserId() {
-		return userId;
+	public UUID getAuthId() {
+		return authId;
 	}
 	
 	/**
-	 * @param userId the userId to set
+	 * @param authId the authId to set
 	 */
-	public void setUserId(UUID userId) {
-		this.userId = userId;
+	public void setAuthId(UUID authId) {
+		this.authId = authId;
 	}
 	
 	/**
@@ -91,17 +91,17 @@ public class SecurID {
 	
 	@Override
 	public boolean equals(Object o) {
-		return tokenId.equals(o);
+		return (o instanceof SecurID) && authId.equals(((SecurID)o).authId);
 	}
 	
 	@Override
 	public int hashCode() {
-		return tokenId.hashCode();
+		return authId.hashCode();
 	}
 	
 	@Override
 	public String toString() {
-		return "SecurID[userId=" + userId + ", tokenId=" + tokenId + ", expirationDate=" + expirationDate + "]";
+		return "SecurID[authId=" + authId + ", tokenId=" + tokenId + ", expirationDate=" + expirationDate + "]";
 	}
 
 }

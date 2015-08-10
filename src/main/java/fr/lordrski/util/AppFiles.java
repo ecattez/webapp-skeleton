@@ -37,7 +37,7 @@ import fr.lordrski.mvc.Model;
 /**
  * AppFiles offre des fonctionnalités pour manipuler les fichiers
  */
-public class AppFiles {
+public abstract class AppFiles {
 	
 	/**
 	 * Empêche l'instanciation de la classe.

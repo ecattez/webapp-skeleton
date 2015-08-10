@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.entity;
+package fr.lordrski.entity.deprecated;
 
 import java.util.Set;
 
@@ -28,6 +28,7 @@ import fr.lordrski.dao.impl.GroupDaoImpl;
 /**
  * Entité représentant un groupe d'utilisateurs dans une compagnie.
  */
+@Deprecated
 @DatabaseTable(tableName = "groups", daoClass = GroupDaoImpl.class)
 public class Group {
 	

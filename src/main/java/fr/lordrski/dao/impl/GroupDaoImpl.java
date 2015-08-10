@@ -25,9 +25,9 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 
 import fr.lordrski.dao.GroupDao;
-import fr.lordrski.entity.Company;
-import fr.lordrski.entity.Group;
-import fr.lordrski.entity.User;
+import fr.lordrski.entity.deprecated.Company;
+import fr.lordrski.entity.deprecated.Group;
+import fr.lordrski.entity.deprecated.User;
 
 /**
  * Implémentation JDBC de l'interface GroupDao.

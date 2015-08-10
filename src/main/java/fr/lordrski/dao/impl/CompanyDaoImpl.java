@@ -23,9 +23,9 @@ import java.sql.SQLException;
 import com.j256.ormlite.support.ConnectionSource;
 
 import fr.lordrski.dao.CompanyDao;
-import fr.lordrski.entity.Company;
-import fr.lordrski.entity.Group;
-import fr.lordrski.entity.User;
+import fr.lordrski.entity.deprecated.Company;
+import fr.lordrski.entity.deprecated.Group;
+import fr.lordrski.entity.deprecated.User;
 
 /**
  * Implémentation JDBC de l'interface CompanyDao.

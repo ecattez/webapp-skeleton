@@ -15,7 +15,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import fr.lordrski.entity.Group;
+import fr.lordrski.entity.deprecated.Group;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GroupResourceTestCase extends ResourceTest {

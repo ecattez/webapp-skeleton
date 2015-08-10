@@ -38,7 +38,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import fr.lordrski.entity.fictable.Fictable;
+import fr.lordrski.entity.standard.fictable.Fictable;
 import fr.lordrski.resource.PathAccessor;
 import fr.lordrski.util.AppFiles;
 

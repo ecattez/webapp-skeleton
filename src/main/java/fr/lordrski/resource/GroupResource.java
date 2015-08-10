@@ -36,11 +36,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import fr.lordrski.dao.GroupDao;
-import fr.lordrski.entity.Group;
+import fr.lordrski.entity.deprecated.Group;
 import fr.lordrski.util.DaoProvider;
 
 /**
- * Service associé à l'entité {@link fr.lordrski.entity.Group}
+ * Service associé à l'entité {@link fr.lordrski.entity.deprecated.Group}
  */
 @Path("groups")
 public class GroupResource {

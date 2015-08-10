@@ -16,7 +16,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import fr.lordrski.entity.User;
+import fr.lordrski.entity.deprecated.User;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserResourceTestCase extends ResourceTest {

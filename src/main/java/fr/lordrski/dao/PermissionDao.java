@@ -18,7 +18,7 @@
  */
 package fr.lordrski.dao;
 
-import fr.lordrski.entity.Permission;
+import fr.lordrski.entity.deprecated.Permission;
 
 /**
  * Permission Dao qui a pour identifiant un String (Permission.permissionId).

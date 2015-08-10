@@ -16,17 +16,29 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.exception;
+package fr.lordrski.util;
+
+import java.util.regex.Pattern;
 
 /**
- * Exception produite lorsqu'une {@link fr.lordrski.entity.deprecated.Permission} n'est pas écrite correctement.
+ * Patterns généraux utilisable par toute l'application.
  */
-public class PermissionFormatException extends RuntimeException {
-
-	private static final long serialVersionUID = 7105925119783419935L;
+public enum Patterns {
 	
-	public PermissionFormatException(String message) {
-		super("Erreur dans le format de la permission: " + message);
+	EMAIL("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+	
+	private String regex;
+	
+	private Patterns(String regex) {
+		this.regex = regex;
+	}
+	
+	public String regex() {
+		return this.regex;
+	}
+	
+	public Pattern pattern() {
+		return Pattern.compile(regex);
 	}
 
 }
