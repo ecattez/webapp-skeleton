@@ -18,12 +18,15 @@
  */
 package fr.lordrski.resource.file;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -34,11 +37,14 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
+import fr.lordrski.mvc.Model;
 import fr.lordrski.resource.PathAccessor;
 import fr.lordrski.util.AppFiles;
+import fr.lordrski.util.Strings;
 
 /**
-* Service associé aux fichiers du dossier "storage"
+* Service associé à la persistence des données sous forme de fichiers.
+* Ce service utilise comme dossier d'origine le dossier {@link PathAccessor.ROOT_FOLDER}/storage.
 */
 @Singleton
 @Path("storage")
@@ -58,7 +64,12 @@ public class StorageResource extends PathAccessor {
 	@GET
 	@Path("download/{folder}/{filename}")
 	public Response download(@PathParam("folder") String folder, @PathParam("filename") String filename) {
-		return AppFiles.download(Paths.get(ROOT_PATH, folder, filename));
+		java.nio.file.Path filePath = Paths.get(ROOT_PATH, folder, filename);
+		if (Files.exists(filePath)) {
+			return Response.ok(filePath.toFile())
+					.header("Content-Disposition", "attachment; filename=\"" + filePath.getFileName() + "\"").build();			
+		}
+		throw new NotFoundException();
 	}
 	
 	/**
@@ -70,7 +81,7 @@ public class StorageResource extends PathAccessor {
 	@GET
 	@Path("download/{filename}")
 	public Response download(@PathParam("filename") String filename) {
-		return AppFiles.download(Paths.get(ROOT_PATH, "", filename));
+		return download("", filename);
 	}
 	
 	/**
@@ -85,7 +96,20 @@ public class StorageResource extends PathAccessor {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response upload(FormDataMultiPart multiPart, @FormDataParam("folder") @DefaultValue("") String folder) {
-		return AppFiles.upload(multiPart, Paths.get(ROOT_PATH, folder));
+		java.nio.file.Path dest = Paths.get(ROOT_PATH, folder);
+		Model model = new Model();
+		multiPart.getFields().values().forEach(
+			fields -> fields.stream().forEach(
+				field -> {
+					String filename = field.getFormDataContentDisposition().getFileName();
+					if (Strings.isNotEmpty(filename)) {
+						boolean result = AppFiles.upload(field.getValueAs(File.class).toPath(), dest.resolve(filename));
+						model.put(filename, result);
+					}
+				}
+			)
+		);
+		return Response.ok(model).build();
 	}
 	
 }

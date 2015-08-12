@@ -18,20 +18,28 @@
  */
 package fr.lordrski.resource;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  * Un service qui étend PathAccessor permet d'associer un dossier de destination/récupération à ce service.
  */
 public abstract class PathAccessor {
 	
-	private final static String ROOT_FOLDER = "data/";
+	public final static String ROOT_FOLDER = "data";
+	
 	protected final String ROOT_PATH;
 	
 	public PathAccessor(final String ROOT_PATH) {
-		this.ROOT_PATH = ROOT_FOLDER + ROOT_PATH;
+		this.ROOT_PATH = ROOT_FOLDER + "/" + ROOT_PATH;
 	}
 	
 	public String root() {
 		return this.ROOT_PATH;
+	}
+	
+	public Path rootPath() {
+		return Paths.get(ROOT_PATH);
 	}
 
 }

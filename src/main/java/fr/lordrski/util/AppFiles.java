@@ -18,21 +18,13 @@
  */
 package fr.lordrski.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.core.Response;
-
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import fr.lordrski.mvc.Model;
 
 /**
  * AppFiles offre des fonctionnalités pour manipuler les fichiers
@@ -98,43 +90,6 @@ public abstract class AppFiles {
 			e.printStackTrace();
 		}
 		return success;
-	}
-	
-	/**
-	 * Télécharge un fichier depuis le serveur vers le client
-	 * 
-	 * @param Path path le chemin d'accès du fichier à télécharger
-	 * @return La réponse avec le fichier dans l'entête ou NOT FOUND
-	 */
-	public static Response download(Path filePath) {
-		if (Files.exists(filePath)) {
-			return Response.ok(filePath.toFile())
-					.header("Content-Disposition", "attachment; filename=\"" + filePath.getFileName() + "\"").build();			
-		}
-		throw new NotFoundException();
-	}
-	
-	/**
-	 * Télécharge un ou plusieurs fichiers depuis le client vers le serveur
-	 * 
-	 * @param multiPart L'objet qui contient toutes les informations du formulaire de type multipart
-	 * @param dest le chemin du dossier de destination
-	 * @return La réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
-	 */
-	public static Response upload(FormDataMultiPart multiPart, Path dest) {
-		Model model = new Model();
-		multiPart.getFields().values().forEach(
-			fields -> fields.stream().forEach(
-				field -> {
-					String filename = field.getFormDataContentDisposition().getFileName();
-					if (Strings.isNotEmpty(filename)) {
-						boolean result = upload(field.getValueAs(File.class).toPath(), dest.resolve(filename));
-						model.put(filename, result);
-					}
-				}
-			)
-		);
-		return Response.ok(model).build();
 	}
 	
 	/**
