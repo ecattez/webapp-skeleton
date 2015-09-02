@@ -44,7 +44,7 @@ import fr.lordrski.util.DaoProvider;
 public class AuthenticationFilter implements ContainerRequestFilter, ContainerResponseFilter {
 	
 	private static final long NEXT_EXPIRATION_MILLIS = 600000L;
-	private static final String CLIENT_TOKEN_KEY = "authenticationToken";
+	private static final String CLIENT_TOKEN_KEY = "Authentication";
 	
 	private SecurIDDao securIdDao = DaoProvider.getDao(SecurID.class);
 
