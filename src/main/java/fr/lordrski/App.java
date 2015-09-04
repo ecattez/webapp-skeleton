@@ -25,7 +25,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import fr.lordrski.mvc.AuthenticationFilter;
 import fr.lordrski.mvc.CORSResponseFilter;
 import fr.lordrski.mvc.ThymeleafMvcFeature;
-import fr.lordrski.util.ScriptRunner;
+import fr.lordrski.util.sql.ScriptRunner;
 
 /**
  * {@link javax.ws.rs.core.Application} charge toutes les ressources de l'application.

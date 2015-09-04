@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.util;
+package fr.lordrski.util.sql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,6 +33,8 @@ public abstract class DbProvider {
 	
 	/**
 	 * Donne accès à une connexion à la base de données
+	 * 
+	 * @return une connexion à la base de données
 	 */
 	public static Connection getConnection() {
 		try {

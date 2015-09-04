@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.util;
+package fr.lordrski.util.sql;
 
 import java.io.FileReader;
 import java.io.IOException;

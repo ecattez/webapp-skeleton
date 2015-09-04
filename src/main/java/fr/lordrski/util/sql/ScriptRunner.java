@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.util;
+package fr.lordrski.util.sql;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -59,7 +59,9 @@ public class ScriptRunner {
 	
 	/**
 	 * Exécute le fichier SQL au chemin d'accès passé en paramètre
-	 * @param path le chemin d'accès du fichier SQL à exécuter
+	 * 
+	 * @param	path
+	 * 			le chemin d'accès du fichier SQL à exécuter
 	 */
 	private static void runDefaultScript(Path path) {
 		ScriptRunner script = new ScriptRunner(DbProvider.getConnection(), false ,false);
@@ -98,7 +100,8 @@ public class ScriptRunner {
 	/**
 	 * Exécute un script SQL
 	 * 
-	 * @param reader the source of the script
+	 * @param	reader
+	 * 			the source of the script
 	 */
 	public void runScript(Reader reader) throws IOException, SQLException {
 		try {
@@ -121,10 +124,15 @@ public class ScriptRunner {
 	/**
 	 * Exécute un script SQL en utilisant la connexion passé en paramètre
 	 * 
-	 * @param con la connexion utilisée pour l'exécution du script
-	 * @param reader la source du script
-	 * @throws SQLException si une erreur SQL se produit
-	 * @throws IOException si une erreur se produit pendant la lecture du Reader
+	 * @param	con
+	 * 			la connexion utilisée pour l'exécution du script
+	 * @param	reader
+	 * 			la source du script
+	 * 
+	 * @throws	SQLException
+	 * 			si une erreur SQL se produit
+	 * @throws	IOException
+	 * 			si une erreur se produit pendant la lecture du Reader
 	 */
 	private void runScript(Connection con, Reader reader) throws IOException, SQLException {
 		StringBuffer command = null;

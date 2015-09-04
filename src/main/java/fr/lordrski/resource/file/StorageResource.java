@@ -35,9 +35,9 @@ import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
 import fr.lordrski.mvc.Model;
 import fr.lordrski.resource.PathAccessor;
-import fr.lordrski.util.AppFiles;
 import fr.lordrski.util.Patterns;
 import fr.lordrski.util.Strings;
+import fr.lordrski.util.file.FileManager;
 
 /**
 * Service associé à la persistence des données sous forme de fichiers.
@@ -54,21 +54,24 @@ public class StorageResource extends PathAccessor {
 	/**
 	 * Télécharge un ou plusieurs fichiers depuis le client vers le serveur
 	 * 
-	 * @param multiPart L'objet qui contient toutes les informations du formulaire de type multipart
-	 * @param folder le dossier de destination
-	 * @return La réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
+	 * @param	multiPart
+	 * 			l'objet qui contient toutes les informations du formulaire de type multipart
+	 * @param	path
+	 * 			le dossier de destination
+	 * 
+	 * @return la réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
 	 */
 	@POST
 	@Path("{path:" + Patterns.Constants.URI + "}")
-	public Response createFile(@PathParam("path") String folder, FormDataMultiPart multiPart) {
-		java.nio.file.Path dest = Paths.get(ROOT_PATH, folder);
+	public Response createFile(@PathParam("path") String path, FormDataMultiPart multiPart) {
+		java.nio.file.Path dest = Paths.get(ROOT_PATH, path);
 		Model model = new Model();
 		multiPart.getFields().values().forEach(
 			fields -> fields.stream().forEach(
 				field -> {
 					String filename = field.getFormDataContentDisposition().getFileName();
 					if (Strings.isNotEmpty(filename)) {
-						boolean result = AppFiles.copy(field.getValueAs(File.class).toPath(), dest.resolve(filename));
+						boolean result = FileManager.copy(field.getValueAs(File.class).toPath(), dest.resolve(filename));
 						model.put(filename, result);
 					}
 				}
@@ -81,8 +84,10 @@ public class StorageResource extends PathAccessor {
 	 * Télécharge un fichier depuis le serveur vers le client.
 	 * Dans le cas d'un dossier, il est envoyé sous forme d'une archive ZIP.
 	 * 
-	 * @param path le chemin du fichier à télécharger
-	 * @return La réponse avec le fichier dans l'entête ou NOT FOUND
+	 * @param	path
+	 * 			le chemin du fichier à télécharger
+	 * 
+	 * @return la réponse avec le fichier dans l'entête ou NOT FOUND
 	 */
 	@GET
 	@Path("{path:" + Patterns.Constants.URI + "}")
@@ -90,7 +95,7 @@ public class StorageResource extends PathAccessor {
 		java.nio.file.Path src = Paths.get(ROOT_PATH, path);
 		if (Files.exists(src)) {
 			if (Files.isDirectory(src)) {
-				src = AppFiles.mkzip(src, Paths.get(TMP_FOLDER).resolve(src.getFileName() + ".zip"));
+				src = FileManager.mkzip(src, Paths.get(TMP_FOLDER).resolve(src.getFileName() + ".zip"));
 			}
 			return Response.ok(src.toFile()).header("Content-Disposition", "attachment; filename=\"" + src.getFileName() + "\"").build();
 		}
@@ -100,7 +105,9 @@ public class StorageResource extends PathAccessor {
 	/**
 	 * Supprime un fichier du serveur
 	 * 
-	 * @param path le chemin du fichier à supprimer
+	 * @param	path
+	 * 			le chemin du fichier à supprimer
+	 * 
 	 * @return la réponse de suppression du fichier
 	 */
 	@DELETE
@@ -108,7 +115,7 @@ public class StorageResource extends PathAccessor {
 	public Response deleteFile(@PathParam("path") String path) {
 		java.nio.file.Path src = Paths.get(ROOT_PATH, path);
 		if (Files.exists(src)) {
-			return Response.ok(AppFiles.delete(src).toString()).build();
+			return Response.ok(FileManager.delete(src).toString()).build();
 		}
 		throw new NotFoundException();
 	}

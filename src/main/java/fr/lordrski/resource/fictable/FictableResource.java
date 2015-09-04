@@ -40,10 +40,10 @@ import javax.ws.rs.core.UriInfo;
 
 import fr.lordrski.entity.standard.fictable.Fictable;
 import fr.lordrski.resource.PathAccessor;
-import fr.lordrski.util.AppFiles;
+import fr.lordrski.util.file.FileManager;
 
 /**
- * Service associé aux fictables
+ * Service associé aux fictables.
  */
 @Path("fictables")
 public class FictableResource extends PathAccessor {
@@ -61,7 +61,7 @@ public class FictableResource extends PathAccessor {
 		java.nio.file.Path parent = Paths.get(ROOT_PATH);
 		if (Files.isDirectory(parent)) {
 			return Files.list(parent)
-				.map(path -> AppFiles.readJSON(path, Fictable.class))
+				.map(path -> FileManager.readJSON(path, Fictable.class))
 				.filter(fictable -> fictable != null)
 				.collect(Collectors.toList());
 		}
@@ -73,7 +73,7 @@ public class FictableResource extends PathAccessor {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Fictable getFictable(@PathParam("fictable") String jsonName) {
 		java.nio.file.Path jsonPath = Paths.get(ROOT_PATH, Fictable.normalize(jsonName));
-		Fictable fictable = AppFiles.readJSON(jsonPath, Fictable.class);
+		Fictable fictable = FileManager.readJSON(jsonPath, Fictable.class);
 		if (fictable == null) {
 			throw new NotFoundException();
 		}
@@ -87,7 +87,7 @@ public class FictableResource extends PathAccessor {
 			return Response.status(Response.Status.CONFLICT).build();
 		}
 		else {
-			AppFiles.writeJSON(jsonPath, fictable);
+			FileManager.writeJSON(jsonPath, fictable);
 			URI instanceURI = uriInfo.getAbsolutePathBuilder().path(fictable.getFileName()).build();
 			return Response.created(instanceURI).build();
 		}
@@ -108,7 +108,7 @@ public class FictableResource extends PathAccessor {
 	public Response updateFictable(@PathParam("fictable") String jsonName, Fictable fictable) {
 		java.nio.file.Path jsonPath = Paths.get(ROOT_PATH, Fictable.normalize(jsonName));
 		if (Files.exists(jsonPath)) {
-			AppFiles.writeJSON(jsonPath, fictable);
+			FileManager.writeJSON(jsonPath, fictable);
 			return Response.status(Response.Status.NO_CONTENT).build();
 		}
 		throw new NotFoundException();

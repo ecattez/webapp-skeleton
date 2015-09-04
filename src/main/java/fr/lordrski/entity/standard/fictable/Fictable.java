@@ -28,7 +28,10 @@ public class Fictable implements Cloneable {
 	
 	/**
 	 * Méthode permettant de normaliser le nom du fichier passé en paramètre, associé à une fictable
-	 * @param fileName le nom du fichier à normaliser
+	 * 
+	 * @param	fileName
+	 * 			le nom du fichier à normaliser
+	 * 
 	 * @return le nom du fichier normalisé
 	 */
 	public static String normalize(String fileName) {
@@ -66,7 +69,8 @@ public class Fictable implements Cloneable {
 	/**
 	 * Saisi le nom du fichier associé à la fictable
 	 * 
-	 * @param fileName le nouveau nom du fichier de la fictable
+	 * @param	fileName
+	 * 			le nouveau nom du fichier de la fictable
 	 */
 	public void setFileName(String fileName) {
 		this.fileName = normalize(fileName);
@@ -84,7 +88,8 @@ public class Fictable implements Cloneable {
 	/**
 	 * Saisi le nom de la fictable
 	 * 
-	 * @param displayName le nouveau nom de la fictable
+	 * @param	displayName
+	 * 			le nouveau nom de la fictable
 	 */
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
@@ -102,7 +107,8 @@ public class Fictable implements Cloneable {
 	/**
 	 * Saisi les informations des colonnes de la fictable
 	 * 
-	 * @param infos les nouvelles informations des colonnes de la fictable
+	 * @param	infos
+	 * 			les nouvelles informations des colonnes de la fictable
 	 */
 	public void setInfos(List<FictableInfos> infos) {
 		this.infos = infos;
@@ -120,7 +126,8 @@ public class Fictable implements Cloneable {
 	/**
 	 * Saisi les lignes de la fictable
 	 * 
-	 * @param entries les nouvelles entrées de la fictable
+	 * @param	entries
+	 * 			les nouvelles entrées de la fictable
 	 */
 	public void setEntries(List<FictableEntry> entries) {
 		this.entries = entries;

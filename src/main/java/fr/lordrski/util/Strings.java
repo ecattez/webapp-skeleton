@@ -21,7 +21,7 @@ package fr.lordrski.util;
 /**
  * StringTool offre des fonctionnalités pour manipuler les chaînes de caractères.
  */
-public abstract class Strings {
+public final class Strings {
 	
 	/**
 	 * Empêche l'instanciation de la classe.
@@ -31,7 +31,9 @@ public abstract class Strings {
 	/**
 	 * Test si une chaîne est vide
 	 * 
-	 * @param str la chaîne à tester
+	 * @param	str
+	 * 			la chaîne à tester
+	 * 
 	 * @return vrai si la chaîne est vide
 	 */
 	public static boolean isEmpty(String str) {
@@ -41,7 +43,9 @@ public abstract class Strings {
 	/**
 	 * Test si une chaîne est non vide
 	 * 
-	 * @param str la chaîne à tester
+	 * @param	str
+	 * 			la chaîne à tester
+	 * 
 	 * @return vrai si la chaîne est non vide
 	 */
 	public static boolean isNotEmpty(String str) {

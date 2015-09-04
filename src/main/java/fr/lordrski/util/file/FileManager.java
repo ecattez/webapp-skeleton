@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.util;
+package fr.lordrski.util.file;
 
 import java.io.IOException;
 import java.net.URI;
@@ -32,18 +32,21 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * AppFiles offre des fonctionnalités pour manipuler les fichiers
+ * Cette classe offre des fonctionnalités pour manipuler les fichiers principalement via leurs chemins d'accès.
  */
-public abstract class AppFiles {
+public final class FileManager {
 	
 	/**
 	 * Empêche l'instanciation de la classe.
 	 */
-	private AppFiles() {}
+	private FileManager() {}
 	
 	/**
 	 * Crée l'ensemble des dossiers formant le chemin d'accès passé en paramètre
-	 * @param path les dossiers à créer sous forme d'un chemin d'accès
+	 * 
+	 * @param	path
+	 * 			les dossiers à créer sous forme d'un chemin d'accès
+	 * 
 	 * @return le chemin d'accès
 	 */
 	public static Path mkdirs(Path path) {
@@ -56,10 +59,13 @@ public abstract class AppFiles {
 	}
 	
 	/**
-	 * Archive un fichier ou un dossier.
-	 * @param src le chemin d'accès du fichier à archiver
-	 * @param dest le chemin d'accès du répertoire temporaire
-	 * @param prefix le nom de l'archive sans son extension
+	 * Archive un fichier ou un dossier
+	 * 
+	 * @param	src
+	 * 			le chemin d'accès du fichier à archiver
+	 * @param	dest
+	 * 			le chemin d'accès du répertoire temporaire
+	 * 
 	 * @return le chemin d'accès de l'archive
 	 */
 	public static Path mkzip(Path src, Path dest) {
@@ -88,7 +94,10 @@ public abstract class AppFiles {
 	/**
 	 * Supprime le fichier accessible via le chemin passé en paramètre.
 	 * Attention: si le fichier est un dossier, on supprime le dossier récursivement.
-	 * @param path le chemin d'accès du fichier à supprimer
+	 * 
+	 * @param	path
+	 * 			le chemin d'accès du fichier à supprimer
+	 * 
 	 * @return le chemin d'accès
 	 */
 	public static Path delete(Path path) {
@@ -103,8 +112,11 @@ public abstract class AppFiles {
 	/**
 	 * Copie un fichier à un emplacement sur le disque
 	 * 
-	 * @param src le chemin du fichier à copier stocké dans la zone temporaire du disque
-	 * @param dest le chemin du fichier de destination
+	 * @param	src
+	 * 			le chemin du fichier à copier stocké dans la zone temporaire du disque
+	 * @param	dest
+	 * 			le chemin du fichier de destination
+	 * 
 	 * @return vrai si la copie s'est bien déroulée
 	 */
 	public static boolean copy(Path src, Path dest) {
@@ -124,8 +136,12 @@ public abstract class AppFiles {
 	
 	/**
 	 * Transforme un fichier JSON sauvegardé sur le disque en objet JAVA
-	 * @param jsonPath le chemin d'accès du fichier json à lire
-	 * @param type la classe de l'objet JAVA a retrouver
+	 * 
+	 * @param	jsonPath
+	 * 			le chemin d'accès du fichier json à lire
+	 * @param	type
+	 * 			la classe de l'objet JAVA a retrouver
+	 * 
 	 * @return l'objet JAVA retrouvé via le fichier json
 	 */
 	public static <E> E readJSON(Path jsonPath, Class<E> type) {
@@ -143,8 +159,12 @@ public abstract class AppFiles {
 	
 	/**
 	 * Transforme un objet JAVA en fichier JSON sauvegardé sur le disque
-	 * @param jsonPath le chemin d'accès du fichier json à sauvegarder
-	 * @param o l'objet à transformer
+	 * 
+	 * @param	jsonPath
+	 * 			le chemin d'accès du fichier json à sauvegarder
+	 * @param	o
+	 * 			l'objet à transformer
+	 * 
 	 * @return vrai si l'écriture du fichier s'est bien déroulée
 	 */
 	public static boolean writeJSON(Path jsonPath, Object o) {

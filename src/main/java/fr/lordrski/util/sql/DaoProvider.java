@@ -16,7 +16,7 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.util;
+package fr.lordrski.util.sql;
 
 import java.sql.SQLException;
 
@@ -72,7 +72,9 @@ public abstract class DaoProvider {
 	/**
 	 * Récupère n'importe quel Dao
 	 * 
-	 * @param daoObject l'objet associé à une table en base
+	 * @param	daoObject
+	 * 			l'objet associé à une table en base
+	 * 
 	 * @return le dao voulu
 	 */
 	public static synchronized <D extends Dao<T, ?>, T> D getDao(Class<T> daoObject) {

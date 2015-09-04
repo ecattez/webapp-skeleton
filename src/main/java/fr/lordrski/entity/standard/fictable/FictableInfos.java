@@ -39,6 +39,7 @@ public class FictableInfos {
 	
 	/**
 	 * Récupère le nom de la colonne
+	 * 
 	 * @return le nom de la colonne
 	 */
 	public String getCode() {
@@ -47,7 +48,9 @@ public class FictableInfos {
 	
 	/**
 	 * Saisi le nom de la colonne
-	 * @param name le nouveau nom de la colonne
+	 * 
+	 * @param	name
+	 * 			le nouveau nom de la colonne
 	 */
 	public void setCode(String code) {
 		this.code = code;
@@ -55,6 +58,7 @@ public class FictableInfos {
 	
 	/**
 	 * Récupère le nom de la colonne
+	 * 
 	 * @return le nom de la colonne
 	 */
 	public String getLabel() {
@@ -63,7 +67,9 @@ public class FictableInfos {
 	
 	/**
 	 * Saisi le nom de la colonne
-	 * @param name le nouveau nom de la colonne
+	 * 
+	 * @param	name
+	 * 			le nouveau nom de la colonne
 	 */
 	public void setLabel(String label) {
 		this.label = label;
@@ -71,6 +77,7 @@ public class FictableInfos {
 	
 	/**
 	 * Récupère le type (int, string...) de la colonne
+	 * 
 	 * @return le type de la colonne
 	 */
 	public String getType() {
@@ -79,7 +86,9 @@ public class FictableInfos {
 	
 	/**
 	 * Saisi le type (int, string...) de la colonne
-	 * @param type le nouveau type de la colonne
+	 * 
+	 * @param	type
+	 * 			le nouveau type de la colonne
 	 */
 	public void setType(String type) {
 		this.type = type;
@@ -87,6 +96,7 @@ public class FictableInfos {
 	
 	/**
 	 * Récupère la taille (nb de caractères) de la colonne
+	 * 
 	 * @return la taille de la colonne
 	 */
 	public int getLength() {
@@ -95,7 +105,9 @@ public class FictableInfos {
 	
 	/**
 	 * Saisi la taille (nb de caractères) de la colonne
-	 * @param length la nouvelle taille de la colonne
+	 * 
+	 * @param	length
+	 * 			la nouvelle taille de la colonne
 	 */
 	public void setLength(int length) {
 		this.length = length;

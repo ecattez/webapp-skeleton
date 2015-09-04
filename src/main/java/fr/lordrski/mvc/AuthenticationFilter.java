@@ -34,7 +34,7 @@ import javax.ws.rs.ext.Provider;
 
 import fr.lordrski.dao.SecurIDDao;
 import fr.lordrski.entity.security.SecurID;
-import fr.lordrski.util.DaoProvider;
+import fr.lordrski.util.sql.DaoProvider;
 
 /**
  * Filtre pour la sécurité des requêtes.

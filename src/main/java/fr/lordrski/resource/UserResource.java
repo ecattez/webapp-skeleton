@@ -39,7 +39,7 @@ import javax.ws.rs.core.UriInfo;
 
 import fr.lordrski.dao.UserDao;
 import fr.lordrski.entity.deprecated.User;
-import fr.lordrski.util.DaoProvider;
+import fr.lordrski.util.sql.DaoProvider;
 
 /**
  * Service associé à l'entité {@link fr.lordrski.entity.deprecated.User}
