@@ -16,31 +16,30 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.lordrski.resource;
+package fr.lordrski.util;
 
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 /**
- * Un service qui étend PathAccessor permet d'associer un dossier de destination/récupération à ce service.
+ * Aide à la suppression de fichiers notamment utilisée pour la suppression récursive de répertoires.
  */
-public abstract class PathAccessor {
+public class DeleteFileVisitor extends SimpleFileVisitor<Path> {
 	
-	public final static String ROOT_FOLDER = "data";
-	public final static String TMP_FOLDER = ROOT_FOLDER + "/tmp";
-	
-	protected final String ROOT_PATH;
-	
-	public PathAccessor(final String ROOT_PATH) {
-		this.ROOT_PATH = ROOT_FOLDER + "/" + ROOT_PATH;
+	@Override
+	public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+		Files.delete(file);
+		return FileVisitResult.CONTINUE;
 	}
 	
-	public String root() {
-		return this.ROOT_PATH;
-	}
-	
-	public Path rootPath() {
-		return Paths.get(ROOT_PATH);
+	@Override
+	public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+		Files.delete(dir);
+		return FileVisitResult.CONTINUE;
 	}
 
 }

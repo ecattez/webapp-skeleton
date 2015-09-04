@@ -26,20 +26,27 @@ import java.util.regex.Pattern;
 public enum Patterns {
 	
 	EMAIL("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"),
-	PERMISSION("^(\\*|\\w+(\\.\\w+)*(\\.\\*)?)$");
+	PERMISSION("^(\\*|\\w+(\\.\\w+)*(\\.\\*)?)$"),
+	FILEPATH("^(\\/?\\w(\\.?\\w+)*)*\\/?$");
 	
-	private String regex;
+	private final String regex;
 	
-	private Patterns(String regex) {
+	private Patterns(final String regex) {
 		this.regex = regex;
 	}
 	
-	public String regex() {
+	public final String regex() {
 		return this.regex;
 	}
 	
-	public Pattern pattern() {
+	public final Pattern pattern() {
 		return Pattern.compile(regex);
+	}
+	
+	public static class Constants {
+		
+		public static final String URI = "(\\/?\\w(\\.?\\w+)*)*\\/?";
+		
 	}
 
 }

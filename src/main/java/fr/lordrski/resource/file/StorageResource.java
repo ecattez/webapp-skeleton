@@ -23,23 +23,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.inject.Singleton;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import fr.lordrski.mvc.Model;
 import fr.lordrski.resource.PathAccessor;
 import fr.lordrski.util.AppFiles;
+import fr.lordrski.util.Patterns;
 import fr.lordrski.util.Strings;
 
 /**
@@ -55,36 +52,6 @@ public class StorageResource extends PathAccessor {
 	}
 	
 	/**
-	 * Télécharge un fichier depuis le serveur vers le client
-	 * 
-	 * @param folder le dossier qui contient le fichier à télécharger
-	 * @param filename le nom du fichier à télécharger
-	 * @return La réponse avec le fichier dans l'entête ou NOT FOUND
-	 */
-	@GET
-	@Path("download/{folder}/{filename}")
-	public Response download(@PathParam("folder") String folder, @PathParam("filename") String filename) {
-		java.nio.file.Path filePath = Paths.get(ROOT_PATH, folder, filename);
-		if (Files.exists(filePath)) {
-			return Response.ok(filePath.toFile())
-					.header("Content-Disposition", "attachment; filename=\"" + filePath.getFileName() + "\"").build();			
-		}
-		throw new NotFoundException();
-	}
-	
-	/**
-	 * Télécharge un fichier depuis le serveur vers le client
-	 * 
-	 * @param filename le nom du fichier à télécharger
-	 * @return La réponse avec le fichier dans l'entête ou NOT FOUND
-	 */
-	@GET
-	@Path("download/{filename}")
-	public Response download(@PathParam("filename") String filename) {
-		return download("", filename);
-	}
-	
-	/**
 	 * Télécharge un ou plusieurs fichiers depuis le client vers le serveur
 	 * 
 	 * @param multiPart L'objet qui contient toutes les informations du formulaire de type multipart
@@ -92,10 +59,8 @@ public class StorageResource extends PathAccessor {
 	 * @return La réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
 	 */
 	@POST
-	@Path("upload")
-	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response upload(FormDataMultiPart multiPart, @FormDataParam("folder") @DefaultValue("") String folder) {
+	@Path("{path:" + Patterns.Constants.URI + "}")
+	public Response createFile(@PathParam("path") String folder, FormDataMultiPart multiPart) {
 		java.nio.file.Path dest = Paths.get(ROOT_PATH, folder);
 		Model model = new Model();
 		multiPart.getFields().values().forEach(
@@ -103,13 +68,49 @@ public class StorageResource extends PathAccessor {
 				field -> {
 					String filename = field.getFormDataContentDisposition().getFileName();
 					if (Strings.isNotEmpty(filename)) {
-						boolean result = AppFiles.upload(field.getValueAs(File.class).toPath(), dest.resolve(filename));
+						boolean result = AppFiles.copy(field.getValueAs(File.class).toPath(), dest.resolve(filename));
 						model.put(filename, result);
 					}
 				}
 			)
 		);
 		return Response.ok(model).build();
+	}
+	
+	/**
+	 * Télécharge un fichier depuis le serveur vers le client.
+	 * Dans le cas d'un dossier, il est envoyé sous forme d'une archive ZIP.
+	 * 
+	 * @param path le chemin du fichier à télécharger
+	 * @return La réponse avec le fichier dans l'entête ou NOT FOUND
+	 */
+	@GET
+	@Path("{path:" + Patterns.Constants.URI + "}")
+	public Response getFile(@PathParam("path") String path) {
+		java.nio.file.Path src = Paths.get(ROOT_PATH, path);
+		if (Files.exists(src)) {
+			if (Files.isDirectory(src)) {
+				src = AppFiles.mkzip(src, Paths.get(TMP_FOLDER).resolve(src.getFileName() + ".zip"));
+			}
+			return Response.ok(src.toFile()).header("Content-Disposition", "attachment; filename=\"" + src.getFileName() + "\"").build();
+		}
+		throw new NotFoundException();
+	}
+	
+	/**
+	 * Supprime un fichier du serveur
+	 * 
+	 * @param path le chemin du fichier à supprimer
+	 * @return la réponse de suppression du fichier
+	 */
+	@DELETE
+	@Path("{path:" + Patterns.Constants.URI + "}")
+	public Response deleteFile(@PathParam("path") String path) {
+		java.nio.file.Path src = Paths.get(ROOT_PATH, path);
+		if (Files.exists(src)) {
+			return Response.ok(AppFiles.delete(src).toString()).build();
+		}
+		throw new NotFoundException();
 	}
 	
 }

@@ -19,10 +19,15 @@
 package fr.lordrski.util;
 
 import java.io.IOException;
+import java.net.URI;
 import java.nio.channels.FileChannel;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,16 +44,82 @@ public abstract class AppFiles {
 	/**
 	 * Crée l'ensemble des dossiers formant le chemin d'accès passé en paramètre
 	 * @param path les dossiers à créer sous forme d'un chemin d'accès
-	 * @return le chemin d'accès créé et valide, null sinon
+	 * @return le chemin d'accès
 	 */
 	public static Path mkdirs(Path path) {
-		Path out = null;
 		try {
-			out = Files.createDirectories(path);
+			 Files.createDirectories(path);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return out;
+		return path;
+	}
+	
+	/**
+	 * Archive un fichier ou un dossier.
+	 * @param src le chemin d'accès du fichier à archiver
+	 * @param dest le chemin d'accès du répertoire temporaire
+	 * @param prefix le nom de l'archive sans son extension
+	 * @return le chemin d'accès de l'archive
+	 */
+	public static Path mkzip(Path src, Path dest) {
+		Map<String, Object> env = new HashMap<>();
+		env.put("create", "true");
+		env.put("useTempFile", true);
+		
+		Path destParent = dest.getParent();
+		if (!Files.exists(destParent)) {
+			mkdirs(destParent);
+		}
+		
+		URI uri = URI.create("jar:" + dest.toUri());
+		
+		try (FileSystem fs = FileSystems.newFileSystem(uri, env)) {
+			Iterable<Path> roots = fs.getRootDirectories();
+			Path root = roots.iterator().next();
+			Files.walkFileTree(src, new CopyFileVisitor(root));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return dest;
+	}
+	
+	/**
+	 * Supprime le fichier accessible via le chemin passé en paramètre.
+	 * Attention: si le fichier est un dossier, on supprime le dossier récursivement.
+	 * @param path le chemin d'accès du fichier à supprimer
+	 * @return le chemin d'accès
+	 */
+	public static Path delete(Path path) {
+		try {
+			Files.walkFileTree(path, new DeleteFileVisitor());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return path;
+	}
+	
+	/**
+	 * Copie un fichier à un emplacement sur le disque
+	 * 
+	 * @param src le chemin du fichier à copier stocké dans la zone temporaire du disque
+	 * @param dest le chemin du fichier de destination
+	 * @return vrai si la copie s'est bien déroulée
+	 */
+	public static boolean copy(Path src, Path dest) {
+		Path destParent = dest.getParent();
+		if (!Files.exists(destParent)) {
+			mkdirs(destParent);
+		}
+		try (FileChannel fchin = FileChannel.open(src);
+				FileChannel fchout = FileChannel.open(dest, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
+			return fchin.transferTo(0, fchin.size(), fchout) > 0;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	/**
@@ -90,28 +161,6 @@ public abstract class AppFiles {
 			e.printStackTrace();
 		}
 		return success;
-	}
-	
-	/**
-	 * Copie un fichier à un emplacement sur le disque
-	 * 
-	 * @param src le chemin du fichier à copier stocké dans la zone temporaire du disque
-	 * @param dest le chemin du fichier de destination
-	 * @return vrai si la copie s'est bien déroulée
-	 */
-	public static boolean upload(Path src, Path dest) {
-		Path parent = dest.getParent();
-		if (!Files.exists(parent)) {
-			mkdirs(parent);
-		}
-		try (FileChannel fchin = FileChannel.open(src);
-				FileChannel fchout = FileChannel.open(dest, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
-			return fchin.transferTo(0, fchin.size(), fchout) > 0;
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
 	}
 
 }
