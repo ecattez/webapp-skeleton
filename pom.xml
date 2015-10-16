@@ -2,7 +2,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>fr.lordrski</groupId>
+	<groupId>fr.ecattez</groupId>
 	<artifactId>webapp-skeleton</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
