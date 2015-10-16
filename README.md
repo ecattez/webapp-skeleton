@@ -1,5 +1,6 @@
 # webapp-skeleton
-Skeleton for web applications using java server
+Skeleton for web applications using java server.
+[Currently in development]
 
 ## Dependences:
 
@@ -20,7 +21,7 @@ main path: {host}:{port}
 
 application path: {main}/
 
-example: http://localhost:8080/users/LordRski
+example: http://localhost:8080/users/ecattez
 
 ## DAO
 
