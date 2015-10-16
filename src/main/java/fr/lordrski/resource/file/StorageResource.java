@@ -75,7 +75,7 @@ public class StorageResource extends PathAccessor {
 			fields -> fields.stream().forEach(
 				field -> {
 					String filename = field.getFormDataContentDisposition().getFileName();
-					if (Strings.isNotEmpty(filename)) {
+					if (!Strings.isEmpty(filename)) {
 						boolean result = FileManager.copy(field.getValueAs(File.class).toPath(), dest.resolve(filename));
 						model.put(filename, result);
 					}

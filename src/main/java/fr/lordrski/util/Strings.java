@@ -19,7 +19,7 @@
 package fr.lordrski.util;
 
 /**
- * StringTool offre des fonctionnalités pour manipuler les chaînes de caractères.
+ * Strings offre des fonctionnalités pour manipuler les chaînes de caractères.
  */
 public final class Strings {
 	
@@ -41,15 +41,18 @@ public final class Strings {
 	}
 	
 	/**
-	 * Test si une chaîne est non vide
+	 * Inverse une chaîne de caractères
 	 * 
 	 * @param	str
-	 * 			la chaîne à tester
+	 * 			la chaîne à inverser
 	 * 
-	 * @return vrai si la chaîne est non vide
+	 * @return la chaîne inversée
 	 */
-	public static boolean isNotEmpty(String str) {
-		return !isEmpty(str);
+	public static String reverse(String str) {
+		if (str == null) {
+			return null;
+		}
+		return new StringBuilder(str).reverse().toString();
 	}
 	
 }

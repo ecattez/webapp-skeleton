@@ -1,4 +1,4 @@
-package fr.lordrski;
+package fr.lordrski.mvc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
