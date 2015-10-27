@@ -16,34 +16,23 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.ecattez.dao.impl;
+package fr.ecattez.entity.deprecated.fictable;
 
-import java.sql.SQLException;
-
-import com.j256.ormlite.support.ConnectionSource;
-
-import fr.ecattez.dao.deprecated.CompanyDao;
-import fr.ecattez.entity.deprecated.Company;
-import fr.ecattez.entity.deprecated.Group;
-import fr.ecattez.entity.deprecated.User;
+import java.util.HashMap;
 
 /**
- * Implémentation JDBC de l'interface CompanyDao.
+ * FictableEntry représente une ligne dans une {@link fr.ecattez.entity.deprecated.fictable.Fictable}
+ * FictableEntry doit être en concordance avec FictableInfo et les codes des colonnes.
  */
-public class CompanyDaoImpl extends AbstractDaoImpl<Company, String> implements CompanyDao {
+public class FictableEntry extends HashMap<String, String> {
 
-	public CompanyDaoImpl(ConnectionSource connectionSource) throws SQLException {
-		super(connectionSource, Company.class);
-	}
-
+	private static final long serialVersionUID = 5479399252151115073L;
+	
+	public FictableEntry() {}
+	
 	@Override
-	public Company getCompanyOf(Group group) throws SQLException {
-		return this.find(group.getCompany());
-	}
-
-	@Override
-	public Company getCompanyOf(User user) throws SQLException {
-		return this.find(user.getCompany());
+	public String toString() {
+		return "FictableEntry" + super.toString();
 	}
 
 }

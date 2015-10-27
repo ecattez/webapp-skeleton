@@ -1,4 +1,5 @@
 # webapp-skeleton
+
 Skeleton for web applications using java server.
 [Currently in development]
 
@@ -22,6 +23,22 @@ main path: {host}:{port}
 application path: {main}/
 
 example: http://localhost:8080/users/ecattez
+
+## Packages
+
+Les packages sont découpés en différentes catégories suivant la manière de procéder suivante:
+
+### Packages principaux
+- dao
+- entity
+- mvc
+- resource
+- standard
+
+### Sous-packages principaux
+- file
+- security
+- standard
 
 ## DAO
 

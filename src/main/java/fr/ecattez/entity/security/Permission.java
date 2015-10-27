@@ -1,85 +1,83 @@
-/**
- * This file is part of webapp-skeleton.
- *
- * webapp-skeleton is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * webapp-skeleton is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.				 
- * 
- * You should have received a copy of the GNU General Public License
- * along with webapp-skeleton.  If not, see <http://www.gnu.org/licenses/>.
- * 
- * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
- */
 package fr.ecattez.entity.security;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
-
-/**
- * Entité représentant un droit d'accès à une ressource.
- */
-@DatabaseTable
 public class Permission {
 	
-	@DatabaseField(columnName = "permission_id")
-	private long permissionId;
-	@DatabaseField(columnName = "http_uri")
-	private String httpUri;
+	private int id;
+	private String moduleName;
+	private String resourceName;
+	private boolean recursivePath;
+	private String httpMethod;
 	
 	public Permission() {}
-	
-	public Permission(long permissionId, String httpUri) {
-		this.permissionId = permissionId;
-		this.httpUri = httpUri;
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
 	}
 
 	/**
-	 * @return the permissionId
+	 * @param id the id to set
 	 */
-	public long getPermissionId() {
-		return permissionId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
-	 * @param permissionId the permissionId to set
+	 * @return the moduleName
 	 */
-	public void setPermissionId(long permissionId) {
-		this.permissionId = permissionId;
+	public String getModuleName() {
+		return moduleName;
 	}
 
 	/**
-	 * @return the httpUri
+	 * @param moduleName the moduleName to set
 	 */
-	public String getHttpUri() {
-		return httpUri;
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
 	}
 
 	/**
-	 * @param httpUri the httpUri to set
+	 * @return the resourceName
 	 */
-	public void setHttpUri(String httpUri) {
-		this.httpUri = httpUri;
+	public String getResourceName() {
+		return resourceName;
 	}
-	
-	@Override
-	public boolean equals(Object o) {
-		return (o instanceof Permission) && permissionId == ((Permission)o).permissionId;
+
+	/**
+	 * @param resourceName the resourceName to set
+	 */
+	public void setResourceName(String resourceName) {
+		this.resourceName = resourceName;
 	}
-	
-	@Override
-	public int hashCode() {
-		return Long.hashCode(permissionId);
+
+	/**
+	 * @return the recursivePath
+	 */
+	public boolean isRecursivePath() {
+		return recursivePath;
 	}
-	
-	@Override
-	public String toString() {
-		return "Permission[permissionId=" + permissionId + ", httpUri=" + httpUri + "]";
+
+	/**
+	 * @param recursivePath the recursivePath to set
+	 */
+	public void setRecursivePath(boolean recursivePath) {
+		this.recursivePath = recursivePath;
+	}
+
+	/**
+	 * @return the httpMethod
+	 */
+	public String getHttpMethod() {
+		return httpMethod;
+	}
+
+	/**
+	 * @param httpMethod the httpMethod to set
+	 */
+	public void setHttpMethod(String httpMethod) {
+		this.httpMethod = httpMethod;
 	}
 
 }

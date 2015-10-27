@@ -16,34 +16,35 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.ecattez.dao.impl;
+package fr.ecattez.dao.deprecated;
 
 import java.sql.SQLException;
 
-import com.j256.ormlite.support.ConnectionSource;
-
-import fr.ecattez.dao.deprecated.CompanyDao;
 import fr.ecattez.entity.deprecated.Company;
 import fr.ecattez.entity.deprecated.Group;
 import fr.ecattez.entity.deprecated.User;
 
 /**
- * Implémentation JDBC de l'interface CompanyDao.
+ * Company Dao qui a pour identifiant un String (Company.companyId).
  */
-public class CompanyDaoImpl extends AbstractDaoImpl<Company, String> implements CompanyDao {
-
-	public CompanyDaoImpl(ConnectionSource connectionSource) throws SQLException {
-		super(connectionSource, Company.class);
-	}
-
-	@Override
-	public Company getCompanyOf(Group group) throws SQLException {
-		return this.find(group.getCompany());
-	}
-
-	@Override
-	public Company getCompanyOf(User user) throws SQLException {
-		return this.find(user.getCompany());
-	}
+public interface CompanyDao extends AbstractDao<Company, String> {
+	
+	/**
+	 * Charge les informations de la compagnie associée au groupe passé en paramètre
+	 * 
+	 * @param group le groupe pour lequel on veut retrouver la compagnie
+	 * @return la compagnie d'un groupe
+	 * @throws SQLException
+	 */
+	public Company getCompanyOf(Group group) throws SQLException;
+	
+	/**
+	 * Charge les information de la compagnie associée à l'utilisateur passé en paramètre
+	 * 
+	 * @param user l'utilisateur pour lequel on veut retrouver la compagnie
+	 * @return la compagnie d'un l'utilisateur
+	 * @throws SQLException
+	 */
+	public Company getCompanyOf(User user) throws SQLException;
 
 }

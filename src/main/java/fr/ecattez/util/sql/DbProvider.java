@@ -25,7 +25,7 @@ import java.sql.SQLException;
 /**
  * Donne accès à la base de données via une connexion.
  */
-public abstract class DbProvider {
+public final class DbProvider {
 	
 	private static Connection connection;
 	

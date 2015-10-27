@@ -24,28 +24,32 @@ import java.util.List;
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.support.ConnectionSource;
 
-import fr.ecattez.dao.AbstractDao;
-
 /**
  * Ajoute de nouvelles méthodes et des méthodes raccourcies à {@link com.j256.ormlite.dao.Dao}.
  */
-public abstract class AbstractDaoImpl<T, ID> extends BaseDaoImpl<T, ID> implements AbstractDao<T, ID> {
+public abstract class AbstractDaoImpl<T, ID> extends BaseDaoImpl<T, ID> {
 	
 	public AbstractDaoImpl(ConnectionSource connectionSource, Class<T> dataClass) throws SQLException {
 		super(connectionSource, dataClass);
 	}
 
-	@Override
+	/**
+	 * {@link #queryForAll}
+	 */
 	public List<T> findAll() throws SQLException {
 		return this.queryForAll();
 	}
 	
-	@Override
+	/**
+	 * {@link #queryForId}
+	 */
 	public T find(ID id) throws SQLException {
 		return this.queryForId(id);
 	}
 	
-	@Override
+	/**
+	 * {@link #create}
+	 */
 	public int insert(T data) throws SQLException {
 		return this.create(data);
 	}

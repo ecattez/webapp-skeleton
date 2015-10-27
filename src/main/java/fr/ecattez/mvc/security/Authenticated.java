@@ -16,34 +16,21 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.ecattez.dao.impl;
+package fr.ecattez.mvc.security;
 
-import java.sql.SQLException;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import com.j256.ormlite.support.ConnectionSource;
-
-import fr.ecattez.dao.deprecated.CompanyDao;
-import fr.ecattez.entity.deprecated.Company;
-import fr.ecattez.entity.deprecated.Group;
-import fr.ecattez.entity.deprecated.User;
+import javax.ws.rs.NameBinding;
 
 /**
- * Implémentation JDBC de l'interface CompanyDao.
+ * Cette annotation permet la sécurité dans l'application.
  */
-public class CompanyDaoImpl extends AbstractDaoImpl<Company, String> implements CompanyDao {
-
-	public CompanyDaoImpl(ConnectionSource connectionSource) throws SQLException {
-		super(connectionSource, Company.class);
-	}
-
-	@Override
-	public Company getCompanyOf(Group group) throws SQLException {
-		return this.find(group.getCompany());
-	}
-
-	@Override
-	public Company getCompanyOf(User user) throws SQLException {
-		return this.find(user.getCompany());
-	}
+@Target({ ElementType.TYPE, ElementType.METHOD })
+@Retention(value = RetentionPolicy.RUNTIME)
+@NameBinding
+public @interface Authenticated {
 
 }

@@ -16,34 +16,43 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.ecattez.dao.impl;
-
-import java.sql.SQLException;
-
-import com.j256.ormlite.support.ConnectionSource;
-
-import fr.ecattez.dao.deprecated.CompanyDao;
-import fr.ecattez.entity.deprecated.Company;
-import fr.ecattez.entity.deprecated.Group;
-import fr.ecattez.entity.deprecated.User;
+package fr.ecattez.util.standard;
 
 /**
- * Implémentation JDBC de l'interface CompanyDao.
+ * Strings offre des fonctionnalités pour manipuler les chaînes de caractères.
  */
-public class CompanyDaoImpl extends AbstractDaoImpl<Company, String> implements CompanyDao {
-
-	public CompanyDaoImpl(ConnectionSource connectionSource) throws SQLException {
-		super(connectionSource, Company.class);
+public final class Strings {
+	
+	/**
+	 * Empêche l'instanciation de la classe.
+	 */
+	private Strings() {}
+	
+	/**
+	 * Test si une chaîne est vide
+	 * 
+	 * @param	str
+	 * 			la chaîne à tester
+	 * 
+	 * @return vrai si la chaîne est vide
+	 */
+	public static boolean isEmpty(String str) {
+		return str == null || str.length() == 0;
 	}
-
-	@Override
-	public Company getCompanyOf(Group group) throws SQLException {
-		return this.find(group.getCompany());
+	
+	/**
+	 * Inverse une chaîne de caractères
+	 * 
+	 * @param	str
+	 * 			la chaîne à inverser
+	 * 
+	 * @return la chaîne inversée
+	 */
+	public static String reverse(String str) {
+		if (str == null) {
+			return null;
+		}
+		return new StringBuilder(str).reverse().toString();
 	}
-
-	@Override
-	public Company getCompanyOf(User user) throws SQLException {
-		return this.find(user.getCompany());
-	}
-
+	
 }

@@ -22,7 +22,7 @@ import java.sql.SQLException;
 
 import com.j256.ormlite.support.ConnectionSource;
 
-import fr.ecattez.dao.PermissionDao;
+import fr.ecattez.dao.deprecated.PermissionDao;
 import fr.ecattez.entity.deprecated.Permission;
 
 /**

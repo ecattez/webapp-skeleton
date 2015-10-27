@@ -24,7 +24,7 @@ import java.util.List;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 
-import fr.ecattez.dao.GroupDao;
+import fr.ecattez.dao.deprecated.GroupDao;
 import fr.ecattez.entity.deprecated.Company;
 import fr.ecattez.entity.deprecated.Group;
 import fr.ecattez.entity.deprecated.User;

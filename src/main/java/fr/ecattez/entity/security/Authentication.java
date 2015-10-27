@@ -18,22 +18,14 @@
  */
 package fr.ecattez.entity.security;
 
-import java.util.Date;
-import java.util.UUID;
-
-public class SecurID {
+public class Authentication {
 	
 	private int id;
-	private UUID token;
-	private Date expirationDate;
+	private String memberName;
+	private String passwordSalt;
+	private String passwordHash;
 	
-	public SecurID() {}	
-	
-	public SecurID(int id, UUID token, Date expirationDate) {
-		this.id = id;
-		this.token = token;
-		this.expirationDate = expirationDate;
-	}
+	public Authentication() {}
 
 	/**
 	 * @return the id
@@ -50,31 +42,45 @@ public class SecurID {
 	}
 
 	/**
-	 * @return the token
+	 * @return the memberName
 	 */
-	public UUID getToken() {
-		return token;
+	public String getMemberName() {
+		return memberName;
 	}
 
 	/**
-	 * @param token the token to set
+	 * @param memberName the memberName to set
 	 */
-	public void setToken(UUID token) {
-		this.token = token;
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
 	}
 
 	/**
-	 * @return the expirationDate
+	 * @return the passwordSalt
 	 */
-	public Date getExpirationDate() {
-		return expirationDate;
+	public String getPasswordSalt() {
+		return passwordSalt;
 	}
 
 	/**
-	 * @param expirationDate the expirationDate to set
+	 * @param passwordSalt the passwordSalt to set
 	 */
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
+	public void setPasswordSalt(String passwordSalt) {
+		this.passwordSalt = passwordSalt;
 	}
 
+	/**
+	 * @return the passwordHash
+	 */
+	public String getPasswordHash() {
+		return passwordHash;
+	}
+
+	/**
+	 * @param passwordHash the passwordHash to set
+	 */
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
+	}
+	
 }

@@ -16,28 +16,29 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.ecattez.dao.impl;
+package fr.ecattez.util;
 
-import java.sql.SQLException;
-import java.util.UUID;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
-import com.j256.ormlite.support.ConnectionSource;
+import junit.framework.TestCase;
 
-import fr.ecattez.dao.deprecated.SecurIDDao;
-import fr.ecattez.entity.security.SecurID;
+import org.junit.Test;
 
-/**
- * Implémentation JDBC de l'interface SecurIDDao.
- */
-public class SecurIDDaoImpl extends AbstractDaoImpl<SecurID, UUID> implements SecurIDDao {
+import fr.ecattez.util.security.Passwords;
 
-	public SecurIDDaoImpl(ConnectionSource connectionSource) throws SQLException {
-		super(connectionSource, SecurID.class);
-	}
-
-	@Override
-	public SecurID findByToken(UUID tokenId) throws SQLException {
-		return this.queryBuilder().where().eq("token_id", tokenId).queryForFirst();
+public class PasswordTestCase extends TestCase {
+	
+	@Test
+	public void test_equals() {
+		String password = "pizzas";
+		String checkedHash;
+		try {
+			checkedHash = Passwords.hash(password);
+			assertTrue(Passwords.check(password, checkedHash));
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

@@ -16,34 +16,31 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.ecattez.dao.impl;
+package fr.ecattez.dao.deprecated;
 
 import java.sql.SQLException;
+import java.util.List;
 
-import com.j256.ormlite.support.ConnectionSource;
-
-import fr.ecattez.dao.deprecated.CompanyDao;
-import fr.ecattez.entity.deprecated.Company;
-import fr.ecattez.entity.deprecated.Group;
-import fr.ecattez.entity.deprecated.User;
+import com.j256.ormlite.dao.Dao;
 
 /**
- * Implémentation JDBC de l'interface CompanyDao.
+ * Extension du Dao.
  */
-public class CompanyDaoImpl extends AbstractDaoImpl<Company, String> implements CompanyDao {
-
-	public CompanyDaoImpl(ConnectionSource connectionSource) throws SQLException {
-		super(connectionSource, Company.class);
-	}
-
-	@Override
-	public Company getCompanyOf(Group group) throws SQLException {
-		return this.find(group.getCompany());
-	}
-
-	@Override
-	public Company getCompanyOf(User user) throws SQLException {
-		return this.find(user.getCompany());
-	}
+public interface AbstractDao<T, ID> extends Dao<T, ID> {
+	
+	/**
+	 * {@link #queryForAll}
+	 */
+	public List<T> findAll() throws SQLException;
+	
+	/**
+	 * {@link #queryForId}
+	 */
+	public T find(ID id) throws SQLException;
+	
+	/**
+	 * {@link #create}
+	 */
+	public int insert(T data) throws SQLException;
 
 }

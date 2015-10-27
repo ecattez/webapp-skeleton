@@ -16,34 +16,37 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.ecattez.dao.impl;
+package fr.ecattez.util.standard;
 
-import java.sql.SQLException;
-
-import com.j256.ormlite.support.ConnectionSource;
-
-import fr.ecattez.dao.deprecated.CompanyDao;
-import fr.ecattez.entity.deprecated.Company;
-import fr.ecattez.entity.deprecated.Group;
-import fr.ecattez.entity.deprecated.User;
+import java.util.regex.Pattern;
 
 /**
- * Implémentation JDBC de l'interface CompanyDao.
+ * Patterns généraux utilisable par toute l'application.
  */
-public class CompanyDaoImpl extends AbstractDaoImpl<Company, String> implements CompanyDao {
-
-	public CompanyDaoImpl(ConnectionSource connectionSource) throws SQLException {
-		super(connectionSource, Company.class);
+public enum Patterns {
+	
+	EMAIL("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"),
+	PERMISSION("^(\\*|\\w+(\\.\\w+)*(\\.\\*)?)$"),
+	FILEPATH("^(\\/?\\w(\\.?\\w+)*)*\\/?$");
+	
+	private final String regex;
+	
+	private Patterns(final String regex) {
+		this.regex = regex;
 	}
-
-	@Override
-	public Company getCompanyOf(Group group) throws SQLException {
-		return this.find(group.getCompany());
+	
+	public final String regex() {
+		return this.regex;
 	}
-
-	@Override
-	public Company getCompanyOf(User user) throws SQLException {
-		return this.find(user.getCompany());
+	
+	public final Pattern pattern() {
+		return Pattern.compile(regex);
+	}
+	
+	public static class Constants {
+		
+		public static final String URI = "(\\/?\\w(\\.?\\w+)*)*\\/?";
+		
 	}
 
 }

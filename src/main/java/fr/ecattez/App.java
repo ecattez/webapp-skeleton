@@ -22,9 +22,9 @@ import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import fr.ecattez.mvc.AuthenticationFilter;
-import fr.ecattez.mvc.CORSResponseFilter;
-import fr.ecattez.mvc.ThymeleafMvcFeature;
+import fr.ecattez.mvc.security.AuthenticationFilter;
+import fr.ecattez.mvc.standard.CORSResponseFilter;
+import fr.ecattez.mvc.standard.ThymeleafMvcFeature;
 import fr.ecattez.util.sql.ScriptRunner;
 
 /**
@@ -36,10 +36,10 @@ public class App extends ResourceConfig {
 		ScriptRunner.runDefaultScripts();
 		packages("fr.ecattez.resource");
 		register(LoggingFilter.class);
+		register(AuthenticationFilter.class);
+		register(CORSResponseFilter.class);
 		register(ThymeleafMvcFeature.class);
 		register(MultiPartFeature.class);
-		register(CORSResponseFilter.class);
-		register(AuthenticationFilter.class);
 	}
 
 }

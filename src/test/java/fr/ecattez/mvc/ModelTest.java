@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import fr.ecattez.mvc.Model;
+import fr.ecattez.mvc.standard.Model;
 
 public class ModelTest extends TestCase {
 	

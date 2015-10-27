@@ -16,34 +16,31 @@
  * 
  * @author Edouard CATTEZ <edouard.cattez@sfr.fr> (La 7 Production)
  */
-package fr.ecattez.dao.impl;
+package fr.ecattez.resource.standard;
 
-import java.sql.SQLException;
-
-import com.j256.ormlite.support.ConnectionSource;
-
-import fr.ecattez.dao.deprecated.CompanyDao;
-import fr.ecattez.entity.deprecated.Company;
-import fr.ecattez.entity.deprecated.Group;
-import fr.ecattez.entity.deprecated.User;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
- * Implémentation JDBC de l'interface CompanyDao.
+ * Un service qui étend PathAccessor permet d'associer un dossier de destination/récupération à ce service.
  */
-public class CompanyDaoImpl extends AbstractDaoImpl<Company, String> implements CompanyDao {
-
-	public CompanyDaoImpl(ConnectionSource connectionSource) throws SQLException {
-		super(connectionSource, Company.class);
+public abstract class PathAccessor {
+	
+	public final static String ROOT_FOLDER = "data";
+	public final static String TMP_FOLDER = ROOT_FOLDER + "/tmp";
+	
+	protected final String ROOT_PATH;
+	
+	public PathAccessor(final String ROOT_PATH) {
+		this.ROOT_PATH = ROOT_FOLDER + "/" + ROOT_PATH;
 	}
-
-	@Override
-	public Company getCompanyOf(Group group) throws SQLException {
-		return this.find(group.getCompany());
+	
+	public String root() {
+		return this.ROOT_PATH;
 	}
-
-	@Override
-	public Company getCompanyOf(User user) throws SQLException {
-		return this.find(user.getCompany());
+	
+	public Path rootPath() {
+		return Paths.get(ROOT_PATH);
 	}
 
 }
