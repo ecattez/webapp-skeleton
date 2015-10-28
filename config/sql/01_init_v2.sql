@@ -67,6 +67,30 @@ CREATE TABLE IF NOT EXISTS permission(
 	CONSTRAINT pk_permission PRIMARY KEY (pno)
 );
 
+-- Liaision Membre / Permission
+-- #mno
+-- #tno
+-- #pno
+CREATE TABLE IF NOT EXISTS member_permission(
+	mno INTEGER,
+	tno INTEGER,
+	pno INTEGER,
+	CONSTRAINT pk_member_permission PRIMARY KEY (mno, tno, pno),
+	CONSTRAINT fk_member FOREIGN KEY (mno, tno) REFERENCES member(mno, tno),
+	CONSTRAINT fk_permission FOREIGN KEY (pno) REFERENCES permission(pno)
+);
+
+-- Liaision Team / Permission
+-- #tno
+-- #pno
+CREATE TABLE IF NOT EXISTS team_permission(
+	tno INTEGER,
+	pno INTEGER,
+	CONSTRAINT pk_team_permission PRIMARY KEY (tno, pno),
+	CONSTRAINT fk_team FOREIGN KEY (tno) REFERENCES team(tno),
+	CONSTRAINT fk_permission FOREIGN KEY (pno) REFERENCES permission(pno)
+);
+
 -- Table des connexions authentifiées
 -- #sno : l'identifiant (mno) du membre connecté
 -- @token : l'identifiant unique (UUID) d'un membre connecté
