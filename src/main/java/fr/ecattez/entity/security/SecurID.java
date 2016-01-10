@@ -21,10 +21,19 @@ package fr.ecattez.entity.security;
 import java.util.Date;
 import java.util.UUID;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import fr.ecattez.dao.impl.SecurIDDaoImpl;
+
+@DatabaseTable(daoClass = SecurIDDaoImpl.class)
 public class SecurID {
 	
+	@DatabaseField(columnName = "sno", id = true)
 	private int id;
+	@DatabaseField(columnName = "token")
 	private UUID token;
+	@DatabaseField(columnName = "expiration_date")
 	private Date expirationDate;
 	
 	public SecurID() {}	

@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import fr.ecattez.util.standard.Numbers;
+import fr.ecattez.felict.lang.Numbers;
 
 public class NumberTestCase extends TestCase {
 	

@@ -29,18 +29,43 @@ public abstract class PathAccessor {
 	public final static String ROOT_FOLDER = "data";
 	public final static String TMP_FOLDER = ROOT_FOLDER + "/tmp";
 	
-	protected final String ROOT_PATH;
+	private final Path ROOT_PATH;
 	
 	public PathAccessor(final String ROOT_PATH) {
-		this.ROOT_PATH = ROOT_FOLDER + "/" + ROOT_PATH;
+		this.ROOT_PATH = Paths.get(ROOT_FOLDER, ROOT_PATH);
 	}
 	
-	public String root() {
-		return this.ROOT_PATH;
+	/**
+	 * Retourne le chemin racine d'une ressource persistante
+	 * 
+	 * @return le chemin racine d'une ressource persistante
+	 */
+	public Path root() {
+		return ROOT_PATH;
 	}
 	
-	public Path rootPath() {
-		return Paths.get(ROOT_PATH);
+	/**
+	 * Retourne le chemin d'accès à une ressource persistante depuis la racine
+	 * 
+	 * @param	path
+	 * 			le chemin d'accès à la ressource sans tenir compte de la racine
+	 * 
+	 * @return le chemin d'accès d'une ressource persistante depuis la racine
+	 */
+	public Path fromRoot(Path path) {
+		return root().resolve(path);
+	}
+	
+	/**
+	 * Retourne le chemin d'accès à une ressource persistante depuis la racine
+	 * 
+	 * @param	path
+	 * 			le chemin d'accès à la ressource sans tenir compte de la racine
+	 * 
+	 * @return le chemin d'accès d'une ressource persistante depuis la racine
+	 */
+	public Path fromRoot(String path) {
+		return root().resolve(path);
 	}
 
 }

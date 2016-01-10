@@ -105,6 +105,15 @@
 			<artifactId>ormlite-jdbc</artifactId>
 			<version>${ormlite.version}</version>
 		</dependency>
+		
+		<!-- Personal FeliCT JAR -->
+		<dependency>
+			<groupId>fr.ecattez</groupId>
+			<artifactId>felict</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/FeliCT.jar</systemPath>
+		</dependency>
 	</dependencies>
 	
 	<properties>

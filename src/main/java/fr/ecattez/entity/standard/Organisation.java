@@ -1,10 +1,16 @@
 package fr.ecattez.entity.standard;
 
+import com.j256.ormlite.field.DatabaseField;
+
 public class Organisation {
 	
+	@DatabaseField(columnName = "ono", id = true)
 	private int id;
+	@DatabaseField(columnName = "name")
 	private String name;
+	@DatabaseField(columnName = "address")
 	private String address;
+	@DatabaseField(columnName = "zip_code")
 	private int zipcode;
 	
 	public Organisation() {}

@@ -26,7 +26,7 @@ import fr.ecattez.entity.security.SecurID;
 /**
  * DAO lié à l'objet @{link SecurID}.
  */
-public interface SecurIDDao extends AbstractDao<SecurID, UUID> {
+public interface SecurIDDao extends AbstractDao<SecurID, Integer> {
 	
 	/**
 	 * Trouve la clé de sécurité via le token client
@@ -38,6 +38,6 @@ public interface SecurIDDao extends AbstractDao<SecurID, UUID> {
 	 * 
 	 * @throws SQLException
 	 */
-	public SecurID findByToken(UUID tokenId) throws SQLException;
+	public SecurID findByToken(UUID token) throws SQLException;
 
 }

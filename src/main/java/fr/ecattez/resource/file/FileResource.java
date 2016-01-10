@@ -36,11 +36,11 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 
+import fr.ecattez.felict.io.IO;
+import fr.ecattez.felict.lang.Patterns;
+import fr.ecattez.felict.lang.Strings;
 import fr.ecattez.mvc.standard.Model;
 import fr.ecattez.resource.standard.PathAccessor;
-import fr.ecattez.util.file.FileManager;
-import fr.ecattez.util.standard.Patterns;
-import fr.ecattez.util.standard.Strings;
 
 /**
 * Service associé à la persistence des données sous forme de fichiers.
@@ -65,18 +65,18 @@ public class FileResource extends PathAccessor {
 	 * @return la réponse avec la liste des fichiers et leur état succès ou échec de téléchargement
 	 */
 	@POST
-	@Path("{path:" + Patterns.Constants.URI + "}")
+	@Path("{path:" + Patterns.URI + "}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createFile(@PathParam("path") String path, FormDataMultiPart multiPart) {
-		java.nio.file.Path dest = Paths.get(ROOT_PATH, path);
+		java.nio.file.Path dest = fromRoot(path);
 		Model model = new Model();
 		multiPart.getFields().values().forEach(
 			fields -> fields.stream().forEach(
 				field -> {
 					String filename = field.getFormDataContentDisposition().getFileName();
 					if (!Strings.isEmpty(filename)) {
-						boolean result = FileManager.copy(field.getValueAs(File.class).toPath(), dest.resolve(filename));
+						boolean result = IO.copy(field.getValueAs(File.class).toPath(), dest.resolve(filename));
 						model.put(filename, result);
 					}
 				}
@@ -95,12 +95,12 @@ public class FileResource extends PathAccessor {
 	 * @return la réponse avec le fichier dans l'entête ou NOT FOUND
 	 */
 	@GET
-	@Path("{path:" + Patterns.Constants.URI + "}")
+	@Path("{path:" + Patterns.URI + "}")
 	public Response getFile(@PathParam("path") String path) {
-		java.nio.file.Path src = Paths.get(ROOT_PATH, path);
+		java.nio.file.Path src = fromRoot(path);
 		if (Files.exists(src)) {
 			if (Files.isDirectory(src)) {
-				src = FileManager.mkzip(src, Paths.get(TMP_FOLDER).resolve(src.getFileName() + ".zip"));
+				src = IO.mkzip(src, Paths.get(TMP_FOLDER).resolve(src.getFileName() + ".zip"));
 			}
 			return Response.ok(src.toFile()).header("Content-Disposition", "attachment; filename=\"" + src.getFileName() + "\"").build();
 		}
@@ -116,11 +116,11 @@ public class FileResource extends PathAccessor {
 	 * @return la réponse de suppression du fichier
 	 */
 	@DELETE
-	@Path("{path:" + Patterns.Constants.URI + "}")
+	@Path("{path:" + Patterns.URI + "}")
 	public Response deleteFile(@PathParam("path") String path) {
-		java.nio.file.Path src = Paths.get(ROOT_PATH, path);
+		java.nio.file.Path src = fromRoot(path);
 		if (Files.exists(src)) {
-			return Response.ok(FileManager.delete(src).toString()).build();
+			return Response.ok(IO.delete(src).toString()).build();
 		}
 		throw new NotFoundException();
 	}

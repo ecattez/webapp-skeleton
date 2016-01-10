@@ -29,15 +29,15 @@ import fr.ecattez.entity.security.SecurID;
 /**
  * Implémentation JDBC de l'interface SecurIDDao.
  */
-public class SecurIDDaoImpl extends AbstractDaoImpl<SecurID, UUID> implements SecurIDDao {
+public class SecurIDDaoImpl extends AbstractDaoImpl<SecurID, Integer> implements SecurIDDao {
 
 	public SecurIDDaoImpl(ConnectionSource connectionSource) throws SQLException {
 		super(connectionSource, SecurID.class);
 	}
 
 	@Override
-	public SecurID findByToken(UUID tokenId) throws SQLException {
-		return this.queryBuilder().where().eq("token_id", tokenId).queryForFirst();
+	public SecurID findByToken(UUID token) throws SQLException {
+		return this.queryBuilder().where().eq("token", token).queryForFirst();
 	}
 	
 }

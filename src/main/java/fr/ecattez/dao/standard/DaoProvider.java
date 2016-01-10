@@ -25,7 +25,10 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 
-import fr.ecattez.util.sql.DbProperties;
+import fr.ecattez.App;
+import fr.ecattez.AppConfiguration;
+import fr.ecattez.felict.sql.Database;
+import fr.ecattez.felict.sql.Databases;
 
 /**
  * Implémente un accès simple au système de DAO de ORMLite.
@@ -47,8 +50,11 @@ public final class DaoProvider {
 	private static ConnectionSource getConnectionSource() {
 		if (conSource == null) {
 			try {
-				Class.forName(DbProperties.DB_DRIVER.val());
-				conSource = new JdbcConnectionSource(DbProperties.DB_URI.val(), DbProperties.DB_USERNAME.val(), DbProperties.DB_PASSWORD.val());
+				AppConfiguration config = App.getConfigProperties();
+				String uri = config.getDatabaseUri();
+				Database db = Databases.getDatabase(uri);
+				Class.forName(db.getDriver());
+				conSource = new JdbcConnectionSource(db.getURI(), db.getUserName(), db.getPassword());
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}

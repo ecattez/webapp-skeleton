@@ -1,11 +1,18 @@
 package fr.ecattez.entity.security;
 
+import com.j256.ormlite.field.DatabaseField;
+
 public class Permission {
 	
+	@DatabaseField(columnName = "pno", id = true)
 	private int id;
+	@DatabaseField(columnName = "module_name")
 	private String moduleName;
+	@DatabaseField(columnName = "resource_name")
 	private String resourceName;
+	@DatabaseField(columnName = "recursive_path")
 	private boolean recursivePath;
+	@DatabaseField(columnName = "http_method")
 	private String httpMethod;
 	
 	public Permission() {}

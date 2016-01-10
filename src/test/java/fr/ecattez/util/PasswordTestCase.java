@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import fr.ecattez.util.security.Passwords;
+import fr.ecattez.felict.security.Passwords;
 
 public class PasswordTestCase extends TestCase {
 	

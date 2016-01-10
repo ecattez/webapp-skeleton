@@ -18,11 +18,17 @@
  */
 package fr.ecattez.entity.security;
 
+import com.j256.ormlite.field.DatabaseField;
+
 public class Authentication {
 	
+	@DatabaseField(columnName = "ano", id = true)
 	private int id;
+	@DatabaseField(columnName = "member_name")
 	private String memberName;
+	@DatabaseField(columnName = "password_salt")
 	private String passwordSalt;
+	@DatabaseField(columnName = "password_hash")
 	private String passwordHash;
 	
 	public Authentication() {}

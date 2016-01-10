@@ -18,23 +18,74 @@
  */
 package fr.ecattez;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import fr.ecattez.felict.sql.Databases;
+import fr.ecattez.felict.sql.Scripts;
 import fr.ecattez.mvc.security.AuthenticationFilter;
 import fr.ecattez.mvc.standard.CORSResponseFilter;
 import fr.ecattez.mvc.standard.ThymeleafMvcFeature;
-import fr.ecattez.util.sql.ScriptRunner;
 
 /**
  * {@link javax.ws.rs.core.Application} charge toutes les ressources de l'application.
  */
 public class App extends ResourceConfig {
 	
+	public final static Path CONFIGURATION = Paths.get("config", "config.properties");
+	
+	private static AppConfiguration configProperties;
+	
 	public App() {
-		ScriptRunner.runDefaultScripts();
-		packages("fr.ecattez.resource");
+		AppConfiguration config = getConfigProperties();
+		String sqlFolder = config.getSQLFolder();
+		String resourcePackage = config.getResourcePackage();
+		Connection con = Databases.connect(config.getProperties());
+		
+		this.runScripts(con, sqlFolder);
+		this.packages(resourcePackage);
+		this.registerAll();
+	}
+	
+	/**
+	 * Retourne les propriétés de configuration de l'application
+	 * 
+	 * @return	la configuration de l'application sous forme de clés/valeurs
+	 */
+	public static AppConfiguration getConfigProperties() {
+		if (configProperties == null) {
+			configProperties = new AppConfiguration(CONFIGURATION);
+		}
+		return configProperties;
+	}
+	
+	/**
+	 * Exécute tous les scripts SQL
+	 * 
+	 * @param	con
+	 * 			la connexion à la base de données
+	 * @param	sqlFolder
+	 * 			le dossier contenant les scripts SQL
+	 */
+	private void runScripts(Connection con, String sqlFolder) {
+		try {
+			Scripts.runScript(con, Paths.get(sqlFolder));
+		} catch (IOException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Enregistre les classes nécessaires au bon fonctionnement de l'application
+	 */
+	private void registerAll() {
 		register(LoggingFilter.class);
 		register(AuthenticationFilter.class);
 		register(CORSResponseFilter.class);

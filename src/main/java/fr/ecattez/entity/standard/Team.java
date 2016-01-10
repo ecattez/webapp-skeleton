@@ -1,9 +1,14 @@
 package fr.ecattez.entity.standard;
 
+import com.j256.ormlite.field.DatabaseField;
+
 public class Team {
 	
+	@DatabaseField(columnName = "tno", id = true)
 	private int id;
+	@DatabaseField(columnName = "ono", foreign = true)
 	private int organisationId;
+	@DatabaseField(columnName = "team_name")
 	private String teamName;
 	
 	public Team() {}
